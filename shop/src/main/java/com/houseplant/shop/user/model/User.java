@@ -18,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +40,7 @@ public class User {
     @Column(name = "NICKNAME")
     private String nickname;
 
-    @Column(name = "PASSWORD",length = 64)
+    @Column(name = "PASSWORD")
     @JsonIgnore
     private String password;
 

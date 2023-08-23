@@ -1,4 +1,4 @@
-package com.houseplant.shop.accessories.model;
+package com.houseplant.shop.accessories.category.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Accessory {
+public class AccessoryCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCESSORY_ID")
     private long id;
+
+    @Column(name = "NAME", nullable = false)
+    private String name;
 }
