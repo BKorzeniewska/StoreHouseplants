@@ -1,2 +1,2 @@
-# StoreForHouseplants
+# StoreWithHouseplants
 Praca inżynierska
