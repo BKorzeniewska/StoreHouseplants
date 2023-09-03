@@ -1,16 +1,21 @@
 package com.houseplant.shop.accessories.accessory.controller;
 
 import com.houseplant.shop.accessories.accessory.model.Accessory;
+import com.houseplant.shop.accessories.accessory.model.AccessoryResponse;
+import com.houseplant.shop.accessories.accessory.model.CreateAccessoryRequest;
 import com.houseplant.shop.accessories.accessory.service.AccessoryService;
 import com.houseplant.shop.accessories.category.model.AccessoryCategory;
+import com.houseplant.shop.accessories.category.model.AccessoryCategoryResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/accessories")
+@RequestMapping("/api/v1/accessories")
 public class AccessoryController {
 
     private final AccessoryService accessoryService;
@@ -45,9 +50,10 @@ public class AccessoryController {
         return accessoryService.getAllAccessories();
     }
 
-    @PostMapping("/")
-    public Accessory saveAccessory(@RequestBody Accessory accessory) {
-        return accessoryService.saveAccessory(accessory);
+    @PostMapping("/create")
+    @Operation(summary = "Create a new challenge")
+    public ResponseEntity<AccessoryResponse> createAccessoryCategory(@RequestBody final CreateAccessoryRequest createAccessoryRequest) {
+        return ResponseEntity.ok(accessoryService.createAccessory(createAccessoryRequest));
     }
 
     @DeleteMapping("/{id}")
