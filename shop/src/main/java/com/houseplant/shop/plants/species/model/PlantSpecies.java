@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PlantSepcies {
+public class PlantSpecies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PALNT_SPECIES_ID")
