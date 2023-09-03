@@ -1,5 +1,6 @@
-package com.houseplant.shop.plants.model;
+package com.houseplant.shop.plants.plant.model;
 
+import com.houseplant.shop.plants.species.model.PlantSepcies;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,4 +17,7 @@ public class Plant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PLANT_ID")
     private long id;
+    @ManyToOne
+    @JoinColumn(name="PLANT_SPECIES_ID", nullable = false)
+    private PlantSepcies plantSepcies;
 }
