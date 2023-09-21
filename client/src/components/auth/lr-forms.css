@@ -1,0 +1,29 @@
+
+.form-container{
+    margin-top: 3rem;
+    border-style:hidden;
+    border-radius: 15px;
+    max-width: 55rem;
+    margin-left: auto;
+    margin-right: auto ;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+}
+
+[data-theme="light"] .form-container{
+    background-color: #e2e2e2;
+}
+
+[data-theme="dark"] .form-container{
+    background-color: #333;
+}
+
+.forgot-password-text {
+    color: rgb(100, 100, 100);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .forgot-password-text:hover {
+    color: darkblue;
+  }

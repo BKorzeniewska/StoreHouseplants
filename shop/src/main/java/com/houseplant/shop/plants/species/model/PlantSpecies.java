@@ -23,6 +23,6 @@ public class PlantSpecies {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "plantSepcies", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "plantSpecies", cascade = CascadeType.ALL)
     private List<Plant> plant;
 }
