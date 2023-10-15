@@ -10,6 +10,6 @@ public class CreateAccessoryRequest {
     private String description;
     private double price;
     private int stockQuantity;
-    private Long categoryId;
+    private Category category;
     private String imageUrl;
 }

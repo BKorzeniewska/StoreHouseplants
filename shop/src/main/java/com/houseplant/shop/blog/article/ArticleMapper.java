@@ -14,6 +14,5 @@ import org.mapstruct.Mapper;
 public interface ArticleMapper {
     Article toArticle(final CreateArticleRequest createArticleRequest);
 
-
     ArticleResponse toArticleResponse(Article article);
 }

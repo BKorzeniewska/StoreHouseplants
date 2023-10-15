@@ -17,17 +17,16 @@ public class Ground {
     @Column(name = "GROUND_ID")
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name; // Nazwa podłoża
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "TYPE", nullable = false)
     private GroundType type; // Typ podłoża (np. ziemia ogrodowa, torf, hydrożel, itp.)
 
-    @Column(name = "nutrientContent")
-    private String nutrientContent; // Zawartość składników odżywczych (np. bogate w azot, fosfor, potas)
 
-
-    @Column(name = "moistureRetention")
+    @Column(name = "MOISURE_RETENTION")
     private String moistureRetention; // Zdolność do zatrzymywania wilgoci
 
+    @Column(name = "IMAGE_URL")
+    private String imageUrl;
 }

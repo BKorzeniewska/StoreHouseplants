@@ -10,9 +10,6 @@ import java.util.List;
 
 public interface ArticleService {
 
-
-
-
     ArticleResponse getArticleById(Long articleId);
 
     List<ArticleResponse> getArticlesByTitleContaining(String titleFragment);
