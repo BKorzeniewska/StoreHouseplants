@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface AccessoryAdminService {
 
-    Accessory saveAccessory(Accessory accessory);
+
     AccessoryResponse createAccessory(CreateAccessoryRequest createAccessoryRequest);
 
     void deleteAccessory(long id);

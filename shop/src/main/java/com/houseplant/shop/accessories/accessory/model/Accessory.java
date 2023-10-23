@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Accessory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ACCESSORY_ID")
+    @Column(name = "ID")
     private long id;
     @Column(name = "NAME", nullable = false)
     private String name;

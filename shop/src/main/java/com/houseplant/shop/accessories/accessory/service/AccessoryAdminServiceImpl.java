@@ -20,10 +20,7 @@ public class AccessoryAdminServiceImpl implements AccessoryAdminService {
     private final AccessoryRepository accessoryRepository;
     private final AccessoryMapper accessoryMapper;
 
-    @Override
-    public Accessory saveAccessory(Accessory accessory) {
-        return accessoryRepository.save(accessory);
-    }
+
 
     @Override
     public AccessoryResponse createAccessory(CreateAccessoryRequest createAccessoryRequest) {
@@ -31,9 +28,14 @@ public class AccessoryAdminServiceImpl implements AccessoryAdminService {
                 .name(createAccessoryRequest.getName())
                 .description(createAccessoryRequest.getDescription())
                 .price(createAccessoryRequest.getPrice())
+                .stockQuantity(createAccessoryRequest.getStockQuantity())
                 .imageUrl(createAccessoryRequest.getImageUrl())
                 .category(createAccessoryRequest.getCategory())
                 .build();
+        accessoryRepository.save(accessory);
+
+        log.info("accessory: {}", accessory.getName());
+
         return accessoryMapper.toAccessoryResponse(accessory);
     }
 
