@@ -26,6 +26,9 @@ public class Ground {
 
     @Column(name = "MOISURE_RETENTION")
     private String moistureRetention; // Zdolność do zatrzymywania wilgoci
+    @Column(name = "STOCK_QUANTITY", nullable = false)
+    private int stockQuantity;
+
 
     @Column(name = "IMAGE_URL")
     private String imageUrl;

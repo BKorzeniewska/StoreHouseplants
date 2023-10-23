@@ -2,16 +2,17 @@ package com.houseplant.shop.ground;
 
 
 
-import com.houseplant.shop.accessories.accessory.model.Accessory;
-import com.houseplant.shop.accessories.accessory.model.AccessoryResponse;
-import com.houseplant.shop.accessories.accessory.model.CreateAccessoryRequest;
+
+import com.houseplant.shop.ground.model.CreateGroundRequest;
+import com.houseplant.shop.ground.model.Ground;
+import com.houseplant.shop.ground.model.GroundResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface GroundMapper {
-    Accessory toAccessory(final CreateAccessoryRequest createAccessoryRequest);
+    Ground toGround(final CreateGroundRequest createGroundRequest);
 
 
-    AccessoryResponse toAccessoryResponse( Accessory accessory);
+    GroundResponse toGroundResponse(Ground ground);
 }

@@ -10,7 +10,8 @@ public class GroundResponse {
     private long id;
     private String name;
     private GroundType type;
-    private String nutrientContent;
 
+    private int stockQuantity;
     private String moistureRetention;
+    private String imageUrl;
 }

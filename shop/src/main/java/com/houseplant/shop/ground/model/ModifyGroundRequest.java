@@ -10,6 +10,8 @@ public class ModifyGroundRequest {
     private String name;
     private GroundType type;
     private String nutrientContent;
+    private int stockQuantity;
 
     private String moistureRetention;
+    private String imageUrl;
 }

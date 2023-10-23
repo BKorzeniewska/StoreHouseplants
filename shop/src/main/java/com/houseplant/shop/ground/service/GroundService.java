@@ -8,16 +8,14 @@ import com.houseplant.shop.ground.model.ModifyGroundRequest;
 import java.util.List;
 
 public interface GroundService {
-    List<Ground> getAllGrounds();
+    List<GroundResponse> getAllGrounds();
 
-    Ground getGroundById(long id);
+    GroundResponse getGroundById(long id);
 
-    Ground createGround(Ground ground);
-
-    Ground updateGround(long id, Ground ground);
-
-    void deleteGround(long id);
     GroundResponse createGround(final CreateGroundRequest request);
-    GroundResponse modifyGround(final ModifyGroundRequest request);
+
+    GroundResponse updateGround(final ModifyGroundRequest request);
+
+    void deleteGround(final long id);
 
 }
