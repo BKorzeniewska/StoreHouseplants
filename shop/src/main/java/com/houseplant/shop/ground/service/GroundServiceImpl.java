@@ -69,9 +69,8 @@ public class GroundServiceImpl implements GroundService {
 
     @Override
     public GroundResponse updateGround(ModifyGroundRequest request) {
-//        if (request.getId() == null) {
-//            throw new GroundNotFoundException("Ground ID cannot be null", "GROUND_ID_NULL");
-//        }
+        if (request.getId() == null) {
+            throw new GroundNotFoundException("Ground ID cannot be null", "GROUND_ID_NULL");}
 
         final Ground ground = groundRepository.findById(request.getId())
                 .orElseThrow(() -> new GroundNotFoundException("Article with provided ID not found", "ARTICLE_NOT_FOUND"));
@@ -84,9 +83,9 @@ public class GroundServiceImpl implements GroundService {
         if (request.getType() != null) {
             ground.setType(request.getType());
         }
-//        if (request.getStockQuantity() == null) {
-//            ground.setStockQuantity(request.getStockQuantity());
-//        }
+        if (request.getStockQuantity() == null) {
+            ground.setStockQuantity(request.getStockQuantity());
+        }
         if (request.getMoistureRetention() != null) {
             ground.setMoistureRetention(request.getMoistureRetention());
         }

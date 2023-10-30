@@ -16,5 +16,5 @@ public interface PlantMapper {
     Plant toPlant(final CreatePlantRequest createPlantRequest);
 
 
-   PlantResponse toAccessoryResponse(Plant plant);
+   PlantResponse toPlantResponse(Plant plant);
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 public class ModifyPlantSpeciesRequest {
 
-    private long id;
+    private Long id;
 
     private String name;
 

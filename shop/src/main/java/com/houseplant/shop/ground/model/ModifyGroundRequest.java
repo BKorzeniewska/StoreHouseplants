@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 @Builder
 public class ModifyGroundRequest {
-    private long id;
+    private Long id;
     private String name;
     private GroundType type;
     private String nutrientContent;
-    private int stockQuantity;
+    private Integer stockQuantity;
 
     private String moistureRetention;
     private String imageUrl;
