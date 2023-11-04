@@ -9,7 +9,7 @@ import lombok.Data;
 public class ModifyPlantRequest {
 
     private Long id;
-    private PlantSpecies plantSpecies;
+    private Long plantSpeciesId;
 
     private String name; // Nazwa rośliny
 

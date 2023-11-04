@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 public class CreatePlantRequest {
 
-    private PlantSpecies plantSpecies;
+    private Long plantSpeciesId;
 
     private String name; // Nazwa rośliny
 

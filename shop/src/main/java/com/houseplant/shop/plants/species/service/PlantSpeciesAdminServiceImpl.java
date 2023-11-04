@@ -3,6 +3,7 @@ package com.houseplant.shop.plants.species.service;
 
 import com.houseplant.shop.plants.species.PlantSpeciesMapper;
 import com.houseplant.shop.plants.species.exception.PlantSpeciesNotFoundException;
+import com.houseplant.shop.plants.species.model.CreatePlantSpeciesRequest;
 import com.houseplant.shop.plants.species.model.ModifyPlantSpeciesRequest;
 import com.houseplant.shop.plants.species.model.PlantSpecies;
 import com.houseplant.shop.plants.species.model.PlantSpeciesResponse;
@@ -20,6 +21,11 @@ public class PlantSpeciesAdminServiceImpl implements PlantSpeciesAdminService {
     private final PlantSpeciesMapper plantSpeciesMapper;
 
     // ... (createPlantSpecies method if needed)
+
+    @Override
+    public PlantSpeciesResponse createPlantSpecies(CreatePlantSpeciesRequest request) {
+        return null;
+    }
 
     @Override
     public PlantSpeciesResponse modifyPlantSpecies(ModifyPlantSpeciesRequest request) {

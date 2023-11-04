@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Log4j2
 @RestController
-@RequestMapping("/api/admin/v1//plant-species")
+@RequestMapping("/api/v1/plant-species")
 public class PlantSpeciesController {
 
     private final PlantSpeciesService plantSpeciesService;

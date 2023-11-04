@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class PlantResponse {
 
     private long id;
-    private PlantSpecies plantSpecies;
+    private Long plantSpeciesId;
 
     private String name; // Nazwa rośliny
 
