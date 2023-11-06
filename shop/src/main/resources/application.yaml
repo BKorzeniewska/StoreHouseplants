@@ -34,7 +34,7 @@ spring:
           starttls:
             enable: true
 server:
-  port: 3000
+  port: 8080
   error:
     include-message: always
     include-binding-errors: always
