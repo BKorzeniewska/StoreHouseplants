@@ -9,13 +9,10 @@ import { ErrorProvider } from './components/common/ErrorContext';
 import { UserScreen } from './components/user/UserScreen';
 import { AdminArticlesScreen } from './components/admin/article/AdminArticlesScreen';
 import { ArticleEditionScreen } from './components/admin/article/ArticleEditionScreen';
-import { ChallengesScreen } from './components/challenges/ChallengesScreen';
-import { ChallengeScreen } from './components/challenges/ChallengeScreen';
 import { AdminUsersScreen } from './components/admin/users/AdminUsersScreen';
 import { AdminScreen } from './components/admin/AdminScreen';
 import { PasswordRecoveryScreen } from './components/auth/PasswordRecoveryScreen';
 import { PasswordRecoveryNextScreen } from './components/auth/PasswordRecoveryNextScreen';
-import { ChallengeEditionScreen } from './components/admin/challenges/ChallengeEditionScreen';
 import { UserEditScreen } from './components/user/UserEditScreen';
 import { AccessoryEditionScreen} from "./components/accessory/AccessoryScreen";
 
@@ -36,12 +33,9 @@ function App() {
             <Route path="/admin/articles" element={<AdminArticlesScreen />}></Route>
             <Route path="/admin/edit/:articleId?" element={<ArticleEditionScreen />}></Route>
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
-            <Route path="/challenges/:articleId" element={<ChallengesScreen />}></Route>
-            <Route path="/challenge" element={<ChallengeScreen />}></Route>
             <Route path="/admin" element={<AdminScreen />}></Route>
             <Route path="/password-recovery" element={<PasswordRecoveryScreen />}></Route>
             <Route path="/password-recovery-next" element={<PasswordRecoveryNextScreen />}></Route>
-            <Route path="/admin/challenge/edit/:challengeId?" element={<ChallengeEditionScreen />}></Route>
           </Routes>
         </BrowserRouter>
       </ErrorProvider>

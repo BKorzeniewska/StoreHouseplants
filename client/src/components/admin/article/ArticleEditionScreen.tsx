@@ -57,8 +57,6 @@ export const ArticleEditionScreen = () => {
                                     id: 0,
                                     title: "Nie udało się wczytać artykułu",
                                     content: "Coś poszło nie tak...",
-                                    chapterId: 0,
-                                    userId: 0,
                                     date: new Date().toISOString(),
                                     visible: false,
 
@@ -75,8 +73,6 @@ export const ArticleEditionScreen = () => {
                         id: 0,
                         title: "",
                         content: "",
-                        chapterId: 0,
-                        userId: 0,
                         date: new Date().toISOString(),
                         visible: false,
 
@@ -104,7 +100,6 @@ export const ArticleEditionScreen = () => {
                                 const request: CreateArticleRequest = {
                                     title: (event.target as any).elements.formTitle.value,
                                     content: (event.target as any).elements.formContent.value,
-                                    chapterId: parseInt((event.target as any).elements.formChapterId.value),
                                     visible: true,
                                 };
                                 console.log(request);
@@ -146,12 +141,7 @@ export const ArticleEditionScreen = () => {
                             </Form.Group>
                             {articleId === undefined &&
                                 <Form.Group className="mb-3" controlId="formChapterId">
-                                    <Form.Label>Rozdział:</Form.Label>
-                                    <Form.Select aria-label="Wybierz rozdział" defaultValue={article?.chapterId}>
-                                        {menu?.map((menu) => (
-                                            <option key={menu.name} value={menu.id}>{menu.name}</option>
-                                        ))}
-                                    </Form.Select>
+
                                 </Form.Group>}
 
                             <Form.Group className="mb-3" controlId="formContent">

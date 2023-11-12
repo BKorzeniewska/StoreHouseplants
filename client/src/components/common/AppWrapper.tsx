@@ -2,10 +2,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Alert } from 'react-bootstrap';
 import { ReactNode } from 'react';
 import { ThemeContext } from '../themes/ThemeProvider';
-import { MainNavbar } from './layout/MainNavbar';
 import { Sidebar } from './layout/Sidebar';
 import "./error.css";
 import Footer from './layout/Footer';
+import {Menu} from "./layout/Menu";
+import {Header} from "./layout/Header";
 
 export type AppProps = {
   children: ReactNode;
@@ -28,7 +29,7 @@ export const AppWrapper = (props: AppProps) => {
 
   return (
     <>
-      <MainNavbar toggleSidebar={toggleSidebar} />
+      <Header></Header>
       <Container fluid>
         <Row noGutters>
           <Col xs={12} md="auto" className="p-0">

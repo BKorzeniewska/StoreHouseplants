@@ -6,7 +6,6 @@ import { ArticleMenu, deleteArticle, loadArticleMenu } from '../../article/apis/
 import { useError } from '../../common/ErrorContext';
 import { ThemeContext } from '../../themes/ThemeProvider';
 import { AppWrapper } from '../../common/AppWrapper';
-import { AddChapter } from './AddChapter';
 
 type ChapterProps = {
   id: number;
@@ -89,7 +88,6 @@ export const AdminArticlesScreen = () => {
 
   return (
     <AppWrapper hideSidebar>
-      <AddChapter isShown={showModal} onClose={handleCloseModal} />
       <Container className="my-5">
         <div className="">
           <div className="d-flex justify-content-end mb-3">

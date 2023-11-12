@@ -7,8 +7,7 @@ export type Article = {
     id: number;
     title: string;
     content: string;
-    chapterId: number;
-    userId: number;
+
     date: string;
     visible: boolean;
 }
@@ -18,13 +17,7 @@ export type ArticleShort = {
     title: string;
 }
 
-export type ArticleExtended = {
-    article: Article;
-    previousArticleIndex: number | null;
-    nextArticleIndex: number | null;
-    currentArticle: number;
-    totalArticles: number;
-};
+
 
 
 export type ArticleMenu = {
@@ -36,8 +29,8 @@ export type ArticleMenu = {
 export type CreateArticleRequest = {
     title: string;
     content: string;
-    chapterId: number;
     visible: boolean;
+
 }
 
 export type ModifyArticleRequest = {
@@ -78,17 +71,7 @@ export const loadArticleMenu = async (): Promise<Result<ArticleMenu[], APIError<
     });
 }
 
-export const loadArticleByIdExtended = async (id: string): Promise<Result<ArticleExtended, APIError<ArticleErrors>>> => {
-    const response = Get<ArticleExtended, APIError<ArticleErrors>>(`${baseUrl}/api/v1/article/chapter/${id}`);
 
-    return response.then((data) => {
-        if (data.isOk) {
-            return { isOk: true, value: data.value } as Result<ArticleExtended, APIError<ArticleErrors>>;
-        } else {
-            return { isOk: false, error: data.error.response?.data } as Result<ArticleExtended, APIError<ArticleErrors>>;
-        }
-    });
-}
 
 export const loadLatestArticles = async (): Promise<Result<ArticleShort[], APIError<ArticleErrors>>> => {
     const response = Get<ArticleShort[], APIError<ArticleErrors>>(`${baseUrl}/api/v1/article/newest`);
