@@ -47,13 +47,6 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @Column(name = "LEVEL")
-    @Builder.Default
-    private Integer level = 0;
-
-    @Column(name = "EXP")
-    @Builder.Default
-    private Long exp = 0L;
 
     @Enumerated(EnumType.STRING)
     private Role role;

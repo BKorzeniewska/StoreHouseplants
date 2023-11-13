@@ -9,8 +9,7 @@ public record UserInfoResponse(
         String firstName,
         String lastName,
         String nickname,
-        Integer level,
-        Long exp,
+
         Integer challengesSolvedCount
 ) {
 }
