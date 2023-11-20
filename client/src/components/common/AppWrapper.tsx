@@ -5,8 +5,8 @@ import { ThemeContext } from '../themes/ThemeProvider';
 import { Sidebar } from './layout/Sidebar';
 import "./error.css";
 import Footer from './layout/Footer';
-import {Menu} from "./layout/Menu";
 import {Header} from "./layout/Header";
+import {MainNavbar} from "./layout/MainNavbar";
 
 export type AppProps = {
   children: ReactNode;
@@ -29,7 +29,8 @@ export const AppWrapper = (props: AppProps) => {
 
   return (
     <>
-      <Header></Header>
+
+      <MainNavbar toggleSidebar={toggleSidebar} />
       <Container fluid>
         <Row noGutters>
           <Col xs={12} md="auto" className="p-0">

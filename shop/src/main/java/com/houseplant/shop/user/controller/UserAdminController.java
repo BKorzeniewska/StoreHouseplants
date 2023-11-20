@@ -20,7 +20,7 @@ public class UserAdminController {
 
     private final UserService userService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/change/role")
     public ResponseEntity<?> changeRole(@RequestBody final ChangeRoleRequest changeRoleRequest,
                                         @RequestHeader("Authorization") final String bearerToken) {

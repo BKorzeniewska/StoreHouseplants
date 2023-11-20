@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom'
 import "./menuCss.css"
+
+
+
 export function Menu() {
 
     const menuItems = [
@@ -10,12 +13,10 @@ export function Menu() {
     ]
 
     // if user niezalogowany
-    menuItems.push({ name: 'Register', path: '/register' })
     // else  
     // profile
 
-    //if user niezalogowany 
-    menuItems.push({ name: 'Log In', path: '/login' })
+    //if user niezalogowany
     // else 
     // logout
 
