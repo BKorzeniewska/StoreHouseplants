@@ -4,9 +4,9 @@ import com.houseplant.shop.accessories.accessory.model.Accessory;
 import com.houseplant.shop.accessories.accessory.model.AccessoryResponse;
 import com.houseplant.shop.accessories.accessory.model.CreateAccessoryRequest;
 import com.houseplant.shop.accessories.accessory.service.AccessoryService;
-import com.houseplant.shop.accessories.category.model.AccessoryCategory;
-import com.houseplant.shop.accessories.category.model.AccessoryCategoryResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +16,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/accessories")
+@RequiredArgsConstructor
+@Log4j2
 public class AccessoryController {
 
     private final AccessoryService accessoryService;
 
-    @Autowired
-    public AccessoryController(AccessoryService accessoryService) {
-        this.accessoryService = accessoryService;
-    }
+
 
     @GetMapping("/{id}")
     public Optional<Accessory> getAccessoryById(@PathVariable long id) {
         return accessoryService.getAccessoryById(id);
     }
 
-    @GetMapping("/category/{category}")
-    public List<Accessory> getAccessoriesByCategory(@PathVariable AccessoryCategory category) {
-        return accessoryService.getAccessoriesByCategory(category);
-    }
 
     @GetMapping("/price/{maxPrice}")
     public List<Accessory> getAccessoriesByPriceLessThan(@PathVariable double maxPrice) {
@@ -50,14 +45,4 @@ public class AccessoryController {
         return accessoryService.getAllAccessories();
     }
 
-    @PostMapping("/create")
-    @Operation(summary = "Create a new challenge")
-    public ResponseEntity<AccessoryResponse> createAccessoryCategory(@RequestBody final CreateAccessoryRequest createAccessoryRequest) {
-        return ResponseEntity.ok(accessoryService.createAccessory(createAccessoryRequest));
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteAccessory(@PathVariable long id) {
-        accessoryService.deleteAccessory(id);
-    }
 }

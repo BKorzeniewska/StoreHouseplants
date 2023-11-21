@@ -1,7 +1,7 @@
 package com.houseplant.shop.blog.comments.model;
 
 import com.houseplant.shop.blog.article.model.Article;
-import com.houseplant.shop.user.model.User;
+import com.houseplant.shop.user.model.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

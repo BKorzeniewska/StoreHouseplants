@@ -1,6 +1,5 @@
 package com.houseplant.shop.accessories.accessory.model;
 
-import com.houseplant.shop.accessories.category.model.AccessoryCategory;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +11,6 @@ public class AccessoryResponse {
     private String description;
     private double price;
     private int stockQuantity;
-    private Long categoryId;
+    private Category category;
     private String imageUrl;
 }

@@ -15,6 +15,6 @@ import org.mapstruct.Mapping;
 public interface AccessoryMapper {
     Accessory toAccessory(final CreateAccessoryRequest createAccessoryRequest);
 
-   @Mapping(target="categoryId", source="accessory.category.id")
+
     AccessoryResponse toAccessoryResponse( Accessory accessory);
 }
