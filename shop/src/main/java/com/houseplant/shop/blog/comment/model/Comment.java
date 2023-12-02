@@ -1,4 +1,4 @@
-package com.houseplant.shop.blog.comments.model;
+package com.houseplant.shop.blog.comment.model;
 
 import com.houseplant.shop.blog.article.model.Article;
 import com.houseplant.shop.user.model.entity.User;
@@ -19,7 +19,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COMMENT_ID")
-    private long id;
+    private Long id;
 
     @Column(name = "CONTENT", columnDefinition="TEXT")
     private String content;
@@ -34,4 +34,5 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name="USER_ID")
     private User user;
+
 }

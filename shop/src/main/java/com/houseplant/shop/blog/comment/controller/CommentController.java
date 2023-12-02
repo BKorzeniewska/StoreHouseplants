@@ -1,7 +1,8 @@
-package com.houseplant.shop.blog.comments.controller;
+package com.houseplant.shop.blog.comment.controller;
 
-import com.houseplant.shop.blog.comments.model.CommentResponse;
-import com.houseplant.shop.blog.comments.service.CommentService;
+
+import com.houseplant.shop.blog.comment.model.CommentResponse;
+import com.houseplant.shop.blog.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

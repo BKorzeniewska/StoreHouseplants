@@ -1,4 +1,4 @@
-import { Menu } from "./Menu";
+import { Menu1 } from "./Menu1";
 
 export function Header() {
     return (
@@ -6,7 +6,7 @@ export function Header() {
             <header className='header'>
                 <h1 className='title'>Fern Flower</h1>
             </header>
-            <Menu />
+            <Menu1 />
         </div>
     )
 }

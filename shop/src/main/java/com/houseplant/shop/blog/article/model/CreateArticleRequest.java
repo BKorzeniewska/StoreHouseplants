@@ -9,4 +9,5 @@ public class CreateArticleRequest {
     private String title;
     private String content;
     private Boolean visible;
+    private Long chapterId;
 }

@@ -1,5 +1,6 @@
 package com.houseplant.shop.blog.article.exception;
 
+
 import com.houseplant.shop.exception.BaseServiceException;
 import org.springframework.http.HttpStatus;
 

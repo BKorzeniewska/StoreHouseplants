@@ -34,6 +34,7 @@ function App() {
             <Route path="/admin/edit/:articleId?" element={<ArticleEditionScreen />}></Route>
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
             <Route path="/admin" element={<AdminScreen />}></Route>
+            <Route path="/blog" element={<AdminScreen />}></Route>
             <Route path="/password-recovery" element={<PasswordRecoveryScreen />}></Route>
             <Route path="/password-recovery-next" element={<PasswordRecoveryNextScreen />}></Route>
           </Routes>

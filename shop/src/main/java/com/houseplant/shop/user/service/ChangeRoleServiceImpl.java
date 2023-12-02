@@ -1,7 +1,6 @@
 package com.houseplant.shop.user.service;
 
-
-import com.houseplant.shop.blog.comments.exception.CommentIllegalStateException;
+import com.houseplant.shop.blog.comment.exception.CommentIllegalStateException;
 import com.houseplant.shop.user.exception.UserNotFoundException;
 import com.houseplant.shop.user.exception.UserRequestException;
 import com.houseplant.shop.user.model.dto.ChangeRoleRequest;

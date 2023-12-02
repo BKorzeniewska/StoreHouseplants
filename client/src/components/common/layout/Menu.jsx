@@ -30,6 +30,15 @@ export function Menu() {
                     <li className='menu_item' key={item.name}>
                         <Link to={item.path}>{item.name}</Link>
                     </li>,
+                    <li>
+                        <span>Suspendisse vel <i className="arrow"></i></span>
+                        <ul className="dropdown">
+                            <li><a href="#">Etiam vestibulum</a></li>
+                            <li><a href="#">Integer efficitur</a></li>
+                            <li><a href="#">Finibus nibh</a></li>
+                        </ul>
+                    </li>
+
                 )}
             </ul>
         </div>

@@ -16,6 +16,13 @@ import java.util.stream.Stream;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
+    @Query("SELECT a FROM Article a JOIN Chapter c ON (a.chapter.id = c.id) WHERE c.id = ?1 ORDER BY a.id ASC")
+    Optional<List<Article>> findAllByChapterId(Long chapterId);
+
+    @Transactional
+    @Query("SELECT a FROM Article a JOIN Chapter c ON (a.chapter.id = c.id) WHERE c.id = ?1 ORDER BY a.id ASC")
+    Stream<Article> findStreamAllByChapterId(Long chapterId);
+
     @Query("SELECT a FROM Article a WHERE a.title LIKE %:titleFragment%")
     Optional<List<Article>> findByTitleContaining(String titleFragment);
 
@@ -38,5 +45,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a WHERE a.visible = true ORDER BY a.creationDate DESC LIMIT 6")
     List<Article> findTop5ByOrderByCreationDateDesc();
 
-
+    @Transactional
+    @Modifying
+    @Query("UPDATE Article a SET a.user = null WHERE a.user.id = :userId")
+    int updateUserToNull(final Long userId);
 }

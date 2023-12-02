@@ -1,4 +1,4 @@
-package com.houseplant.shop.blog.comments.model;
+package com.houseplant.shop.blog.comment.model;
 
 import lombok.Builder;
 import lombok.Data;

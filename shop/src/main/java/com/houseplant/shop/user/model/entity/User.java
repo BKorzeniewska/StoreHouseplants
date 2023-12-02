@@ -2,7 +2,8 @@ package com.houseplant.shop.user.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.houseplant.shop.blog.comments.model.Comment;
+import com.houseplant.shop.blog.article.model.Article;
+import com.houseplant.shop.blog.comment.model.Comment;
 import com.houseplant.shop.token.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -47,6 +48,13 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @Column(name = "LEVEL")
+    @Builder.Default
+    private Integer level = 0;
+
+    @Column(name = "EXP")
+    @Builder.Default
+    private Long exp = 0L;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -58,10 +66,12 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Token> tokens;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Article> articles;
+
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
-
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)

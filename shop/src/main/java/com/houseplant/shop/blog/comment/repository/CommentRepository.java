@@ -1,6 +1,7 @@
-package com.houseplant.shop.blog.comments.repository;
+package com.houseplant.shop.blog.comment.repository;
 
-import com.houseplant.shop.blog.comments.model.Comment;
+
+import com.houseplant.shop.blog.comment.model.Comment;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

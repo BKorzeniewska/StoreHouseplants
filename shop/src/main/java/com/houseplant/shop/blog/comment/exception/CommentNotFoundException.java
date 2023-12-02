@@ -1,6 +1,4 @@
-package com.houseplant.shop.blog.comments.exception;
-
-
+package com.houseplant.shop.blog.comment.exception;
 
 import com.houseplant.shop.exception.BaseServiceException;
 import org.springframework.http.HttpStatus;

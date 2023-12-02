@@ -1,13 +1,13 @@
-package com.houseplant.shop.blog.comments.service;
+package com.houseplant.shop.blog.comment.service;
 
-import com.houseplant.shop.blog.article.repository.ArticleRepository;
-import com.houseplant.shop.blog.comments.CommentMapper;
+
 import com.houseplant.shop.blog.article.model.Article;
-import com.houseplant.shop.blog.comments.exception.CommentIllegalStateException;
-import com.houseplant.shop.blog.comments.exception.CommentNotFoundException;
-import com.houseplant.shop.blog.comments.model.CommentResponse;
-import com.houseplant.shop.blog.comments.model.CreateCommentRequest;
-import com.houseplant.shop.blog.comments.repository.CommentRepository;
+import com.houseplant.shop.blog.article.repository.ArticleRepository;
+import com.houseplant.shop.blog.comment.CommentMapper;
+import com.houseplant.shop.blog.comment.exception.*;
+import com.houseplant.shop.blog.comment.model.*;
+import com.houseplant.shop.blog.comment.repository.CommentRepository;
+import com.houseplant.shop.user.model.entity.User;
 import com.houseplant.shop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,16 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
     private final CommentMapper commentMapper;
     @Override
-    public CommentResponse createComment(final CreateCommentRequest commentRequest) {
+    public CommentResponse createComment(final CreateCommentRequest commentRequest, final String bearerToken) {
+
+        if (bearerToken == null || bearerToken.isBlank()) {
+            throw new CommentIllegalStateException("Bearer token cannot be blank", "BEARER_TOKEN_BLANK");
+        }
+
+        //validate userId
+        final String token = bearerToken.substring(7);
+        final User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new CommentNotFoundException("User not found", "USER_NOT_FOUND"));
 
         //validate articleId
         final Article article = articleRepository.findById(commentRequest.getArticleId())
@@ -37,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
         var comment = commentMapper.toComment(commentRequest);
         comment.setCreatedAt(LocalDateTime.now());
         comment.setArticle(article);
+        comment.setUser(user);
 
         commentRepository.save(comment);
         return commentMapper.toCommentResponse(comment);
@@ -55,5 +65,6 @@ public class CommentServiceImpl implements CommentService {
                 .findByUserId(userId)
                 .orElseThrow(() -> new CommentNotFoundException("Comments not found", "COMMENTS_NOT_FOUND"));
         return comments.stream().map(commentMapper::toCommentResponse).toList();
+
     }
 }
