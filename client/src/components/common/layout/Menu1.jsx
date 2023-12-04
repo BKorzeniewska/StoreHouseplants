@@ -20,17 +20,17 @@ export function Menu1() {
                         <span>Plants </span>
                         <div className="dropdown">
                             <div className="clm">
-                                <h3>Integer</h3>
-                                <a href="#">Lacus iaculis</a>
-                                <a href="#">Eu tortor</a>
-                                <a href="#">Luctus varius</a>
+                                <h3>Position</h3>
+                                <a href="#">Light</a>
+                                <a href="#">Penumbra</a>
+                                <a href="#">Dark</a>
+                                <h3>Collectible Plants</h3>
                             </div>
                             <div className="clm">
-                                <h3>Efficitur Viverra</h3>
-                                <a href="#">Praesent</a>
-                                <h3>At Eros</h3>
-                                <a href="#">Pellentesque </a>
-                                <a href="#">Dignissim pulvinar</a>
+                                <h3>Ease of cultivation</h3>
+                                <a href="#">For beginners </a>
+                                <a href="#">For advanced </a>
+                                <h3>Species</h3>
                             </div>
                             <div className="clm">
                             </div>
@@ -40,17 +40,16 @@ export function Menu1() {
                         <span>Accessories </span>
                         <div className="dropdown">
                             <div className="clm">
-                                <h3>Integer</h3>
-                                <a href="#">Lacus iaculis</a>
-                                <a href="#">Eu tortor</a>
-                                <a href="#">Luctus varius</a>
+                                <h3>Pots</h3>
+                                <h3>Flowerbed</h3>
+                                <h3>Supports</h3>
+                                <h3>Humidity indicator</h3>
                             </div>
                             <div className="clm">
-                                <h3>Efficitur Viverra</h3>
-                                <a href="#">Praesent</a>
-                                <h3>At Eros</h3>
-                                <a href="#">Pellentesque </a>
-                                <a href="#">Dignissim pulvinar</a>
+                                <h3>Watering cans</h3>
+                                <h3>Tools</h3>
+                                <h3>Lamps</h3>
+                                <h3>Fertilizer</h3>
                             </div>
                             <div className="clm">
                             </div>
@@ -59,23 +58,28 @@ export function Menu1() {
                     <span>Grounds </span>
                     <div className="dropdown">
                         <div className="clm">
-                            <h3>Integer</h3>
-                            <a href="#">Lacus iaculis</a>
-                            <a href="#">Eu tortor</a>
-                            <a href="#">Luctus varius</a>
+                            <h3>Basic</h3>
+                            <a href="#">Sandy</a>
+                            <a href="#">For citrus</a>
+                            <a href="#">Peat</a>
+                            <a href="#">For orchids</a>
+                            <a href="#">For palm trees</a>
+                            <a href="#">Peat</a>
                         </div>
                         <div className="clm">
-                            <h3>Efficitur Viverra</h3>
-                            <a href="#">Praesent</a>
-                            <h3>At Eros</h3>
-                            <a href="#">Pellentesque </a>
-                            <a href="#">Dignissim pulvinar</a>
+                            <h3>Addition</h3>
+                            <a href="#">Cortex</a>
+                            <a href="#">Perlite </a>
+                            <a href="#">Leca</a>
+                            <a href="#">Seramis</a>
+                            <a href="#">Horticultural pumice</a>
+                            <a href="#">Other</a>
                         </div>
                         <div className="clm">
                         </div>
                     </div>
                 </li>
-                    <li><a href="#">Blog</a></li>
+                    <li><Link to='/blog'>Blog</Link></li>
                 </ul>
             </div>
         </div>

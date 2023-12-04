@@ -15,6 +15,7 @@ import { PasswordRecoveryScreen } from './components/auth/PasswordRecoveryScreen
 import { PasswordRecoveryNextScreen } from './components/auth/PasswordRecoveryNextScreen';
 import { UserEditScreen } from './components/user/UserEditScreen';
 import { AccessoryEditionScreen} from "./components/accessory/AccessoryScreen";
+import {ChapterItemList} from "./components/blog/chapter/ChapterItem";
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
             <Route path="/admin/edit/:articleId?" element={<ArticleEditionScreen />}></Route>
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
             <Route path="/admin" element={<AdminScreen />}></Route>
-            <Route path="/blog" element={<AdminScreen />}></Route>
+            <Route path="/blog" element={<ChapterItemList />}></Route>
             <Route path="/password-recovery" element={<PasswordRecoveryScreen />}></Route>
             <Route path="/password-recovery-next" element={<PasswordRecoveryNextScreen />}></Route>
           </Routes>

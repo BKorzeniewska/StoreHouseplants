@@ -1,16 +1,13 @@
-package com.houseplant.shop.accessories.accessory.service;
+package com.houseplant.shop.accessory.service;
 
-import com.houseplant.shop.accessories.accessory.AccessoryMapper;
-import com.houseplant.shop.accessories.accessory.model.Accessory;
-import com.houseplant.shop.accessories.accessory.model.AccessoryResponse;
-import com.houseplant.shop.accessories.accessory.model.CreateAccessoryRequest;
-import com.houseplant.shop.accessories.accessory.repository.AccessoryRepository;
+import com.houseplant.shop.accessory.AccessoryMapper;
+import com.houseplant.shop.accessory.model.Accessory;
+import com.houseplant.shop.accessory.model.AccessoryResponse;
+import com.houseplant.shop.accessory.model.CreateAccessoryRequest;
+import com.houseplant.shop.accessory.repository.AccessoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @Service

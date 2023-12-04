@@ -1,4 +1,4 @@
-package com.houseplant.shop.accessories.accessory.model;
+package com.houseplant.shop.accessory.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.houseplant.shop.accessories.accessory.exception;
+package com.houseplant.shop.accessory.exception;
 
 
 import com.houseplant.shop.exception.BaseServiceException;

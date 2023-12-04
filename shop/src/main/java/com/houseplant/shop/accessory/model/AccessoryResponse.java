@@ -1,11 +1,12 @@
-package com.houseplant.shop.accessories.accessory.model;
+package com.houseplant.shop.accessory.model;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class CreateAccessoryRequest {
+public class AccessoryResponse {
+    private Long id;
     private String name;
     private String description;
     private double price;
