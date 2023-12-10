@@ -121,6 +121,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(article -> MenuArticleResponse.builder()
                         .id(article.getId())
                         .title(article.getTitle())
+                        .image(article.getImage())
                         .build())
                 .toList();
     }

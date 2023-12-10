@@ -30,6 +30,9 @@ public class Article {
     @Column(name = "CONTENT", columnDefinition="TEXT")
     private String content;
 
+    @Column(name = "IMAGE")
+    private String image;
+
     @Column(name = "CREATION_DATE")
     private LocalDate creationDate;
 

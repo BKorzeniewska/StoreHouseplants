@@ -8,4 +8,5 @@ import lombok.Data;
 public class MenuArticleResponse {
     private long id;
     private String title;
+    private String image;
 }

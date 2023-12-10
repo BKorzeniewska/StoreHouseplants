@@ -54,6 +54,7 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
                 .chapter(chapter)
                 .creationDate(LocalDate.now())
                 .user(user)
+                .image(request.getImage())
                 .visible(false)
                 .build();
 
@@ -86,6 +87,9 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
         }
         if (request.getVisible() != null) {
             article.setVisible(request.getVisible());
+        }
+        if (request.getImage() != null) {
+            article.setImage(request.getImage());
         }
 
         articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getVisible(), article.getId());
