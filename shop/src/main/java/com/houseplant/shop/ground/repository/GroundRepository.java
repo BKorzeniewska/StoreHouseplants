@@ -23,8 +23,8 @@ public interface GroundRepository extends JpaRepository<Ground, Long> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Article a WHERE a.id = :articleId")
-    void deleteArticleById(final Long articleId);
+    @Query("DELETE FROM Ground g WHERE g.id = :gorundeId")
+    void deleteGroundById(final Long gorundeId);
 
 
 }

@@ -1,14 +1,15 @@
 package com.houseplant.shop.plants.species.service;
 
 import com.houseplant.shop.plants.species.model.PlantSpecies;
+import com.houseplant.shop.plants.species.model.PlantSpeciesResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PlantSpeciesService {
-    Optional<PlantSpecies> getPlantSpeciesById(long id);
+    PlantSpeciesResponse getPlantSpeciesById(long id);
 
-    List<PlantSpecies> getAllPlantSpecies();
+    List<PlantSpeciesResponse> getAllPlantSpecies();
 
-    List<PlantSpecies> getPlantSpeciesByName(String name);
+    List<PlantSpeciesResponse> getPlantSpeciesByName(String name);
 }

@@ -3,7 +3,7 @@ import { Nav, NavDropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './side-bar.css'
 import { ThemeContext } from '../../themes/ThemeProvider';
-import { ArticleMenu, loadArticleMenu } from '../../article/apis/article';
+import { ArticleMenu, loadArticleMenu } from '../../blog/article/apis/article';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useError } from '../ErrorContext';
 import { FaPen, FaPlus, FaTrash } from 'react-icons/fa';

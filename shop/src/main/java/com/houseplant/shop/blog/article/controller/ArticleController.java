@@ -26,9 +26,15 @@ public class ArticleController {
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
-    @GetMapping("/chapter/{articleId}")
-    public ResponseEntity<?> getArticlesByChapter(@PathVariable(name = "articleId") Long articleId) {
-        var articles = articleService.getArticlePageByChapter(articleId);
+    @GetMapping("/chapter/page/{chapterId}")
+    public ResponseEntity<?> getArticlesByChapter(@PathVariable(name = "chapterId") Long chapterId) {
+        var articles = articleService.getArticlePageByChapter(chapterId);
+        return new ResponseEntity<>(articles, HttpStatus.OK);
+    }
+
+    @GetMapping("/chapter/{chapterId}")
+    public ResponseEntity<?> getArticlesByChapterID(@PathVariable(name = "chapterId") Long chapterId) {
+        var articles = articleService.getArticlesByChapter(chapterId);
         return new ResponseEntity<>(articles, HttpStatus.OK);
     }
 

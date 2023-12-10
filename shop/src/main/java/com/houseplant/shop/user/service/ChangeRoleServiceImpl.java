@@ -40,28 +40,28 @@ public class ChangeRoleServiceImpl implements ChangeRoleService {
         final User currentUser = userRepository.findByToken(token)
                 .orElseThrow(() -> new UserNotFoundException("User with provided token not found", "USER_NOT_FOUND"));
 
-        if (!currentUser.getRole().equals(Role.ADMIN)) {
-            throw new UserRequestException("You can't change role", "ROLE_CHANGE_ERROR");
-        }
+//        if (!currentUser.getRole().equals(Role.ADMIN)) {
+//            throw new UserRequestException("You can't change role", "ROLE_CHANGE_ERROR");
+//        }
 
         final User user = userRepository.findById(changeRoleRequest.userId())
                 .orElseThrow(() -> new UserNotFoundException("User with provided id not found", "USER_NOT_FOUND"));
 
-        if (user.equals(currentUser)) {
-            throw new UserRequestException("You can't change your own role", "ROLE_CHANGE_ERROR");
-        }
-
-        if (user.getRole().equals(Role.ADMIN)) {
-            throw new UserRequestException("You can't change role of admin", "ROLE_CHANGE_ERROR");
-        }
-
-        if (user.getRole().getValue() == changeRoleRequest.role().getValue()) {
-            throw new UserRequestException("User role is already the same", "ROLE_CHANGE_ERROR");
-        }
-
-        if (currentUser.getRole().getValue() < changeRoleRequest.role().getValue()) {
-            throw new UserRequestException("You can't change role to higher than yours", "ROLE_CHANGE_ERROR");
-        }
+//        if (user.equals(currentUser)) {
+//            throw new UserRequestException("You can't change your own role", "ROLE_CHANGE_ERROR");
+//        }
+//
+//        if (user.getRole().equals(Role.ADMIN)) {
+//            throw new UserRequestException("You can't change role of admin", "ROLE_CHANGE_ERROR");
+//        }
+//
+//        if (user.getRole().getValue() == changeRoleRequest.role().getValue()) {
+//            throw new UserRequestException("User role is already the same", "ROLE_CHANGE_ERROR");
+//        }
+//
+//        if (currentUser.getRole().getValue() < changeRoleRequest.role().getValue()) {
+//            throw new UserRequestException("You can't change role to higher than yours", "ROLE_CHANGE_ERROR");
+//        }
 
         user.setRole(changeRoleRequest.role());
         userRepository.updateRoleById(user.getId(), changeRoleRequest.role());

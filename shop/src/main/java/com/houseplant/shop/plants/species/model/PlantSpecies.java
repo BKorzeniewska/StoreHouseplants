@@ -22,6 +22,8 @@ public class PlantSpecies {
 
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "image")
+    private String image;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "plantSpecies", cascade = CascadeType.ALL)
     private List<Plant> plant;

@@ -6,7 +6,7 @@ import "./home.css"
 
 import { AppWrapper } from "../common/AppWrapper";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArticleShort, loadLatestArticles } from "../article/apis/article";
+import { ArticleShort, loadLatestArticles } from "../blog/article/apis/article";
 import { useError } from "../common/ErrorContext";
 
 type Props = {};

@@ -31,6 +31,7 @@ export function Menu1() {
                                 <a href="#">For beginners </a>
                                 <a href="#">For advanced </a>
                                 <h3>Species</h3>
+                                <h3>All</h3>
                             </div>
                             <div className="clm">
                             </div>
@@ -50,6 +51,7 @@ export function Menu1() {
                                 <h3>Tools</h3>
                                 <h3>Lamps</h3>
                                 <h3>Fertilizer</h3>
+                                <h3>All</h3>
                             </div>
                             <div className="clm">
                             </div>
@@ -58,13 +60,14 @@ export function Menu1() {
                     <span>Grounds </span>
                     <div className="dropdown">
                         <div className="clm">
-                            <h3>Basic</h3>
+                            <h3>Grounds</h3>
                             <a href="#">Sandy</a>
                             <a href="#">For citrus</a>
                             <a href="#">Peat</a>
                             <a href="#">For orchids</a>
                             <a href="#">For palm trees</a>
                             <a href="#">Peat</a>
+                            <h3>All grounds</h3>
                         </div>
                         <div className="clm">
                             <h3>Addition</h3>
@@ -74,6 +77,7 @@ export function Menu1() {
                             <a href="#">Seramis</a>
                             <a href="#">Horticultural pumice</a>
                             <a href="#">Other</a>
+                            <h3>All Addition</h3>
                         </div>
                         <div className="clm">
                         </div>

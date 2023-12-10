@@ -1,6 +1,6 @@
-import { APIError, CheckToken, Delete, Get, Post, Put } from "../../common/axiosFetch";
-import { Result } from "../../common/poliTypes";
-import { baseUrl } from "../../common/apis/common";
+import { APIError, CheckToken, Delete, Get, Post, Put } from "../../../common/axiosFetch";
+import { Result } from "../../../common/poliTypes";
+import { baseUrl } from "../../../common/apis/common";
 
 
 export type Article = {
@@ -55,6 +55,18 @@ export const loadArticleById = async (id: string): Promise<Result<Article, APIEr
             return { isOk: true, value: data.value } as Result<Article, APIError<ArticleErrors>>;
         } else {
             return { isOk: false, error: data.error.response?.data } as Result<Article, APIError<ArticleErrors>>;
+        }
+    });
+}
+
+export const loadArticleByChaptersId = async (id: string): Promise<Result<Article[], APIError<ArticleErrors>>> => {
+    const response = Get<Article[], APIError<ArticleErrors>>(`${baseUrl}/api/v1/article/chapter/${id}`);
+
+    return response.then((data) => {
+        if (data.isOk) {
+            return { isOk: true, value: data.value } as Result<Article[], APIError<ArticleErrors>>;
+        } else {
+            return { isOk: false, error: data.error.response?.data } as Result<Article[], APIError<ArticleErrors>>;
         }
     });
 }

@@ -6,15 +6,15 @@ import {
     changeVisibility,
     loadArticleById
 } from "./apis/article";
-import { AppWrapper } from "../common/AppWrapper";
+import { AppWrapper } from "../../common/AppWrapper";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { LoadingSpinner } from "../common/Spinner";
-import "../../App.css";
+import { LoadingSpinner } from "../../common/Spinner";
+import "../../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { MarkDownRenderer } from "../common/markdown/MarkDownRenderer";
-import { CommentSection } from "../comments/CommentSection";
-import { AuthContext } from "../auth/AuthContext";
-import { useError } from "../common/ErrorContext";
+import { MarkDownRenderer } from "../../common/markdown/MarkDownRenderer";
+import { CommentSection } from "../../comments/CommentSection";
+import { AuthContext } from "../../auth/AuthContext";
+import { useError } from "../../common/ErrorContext";
 
 export const AcrticleScreen = () => {
     const { articleId } = useParams();

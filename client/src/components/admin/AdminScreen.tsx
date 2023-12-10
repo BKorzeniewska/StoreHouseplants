@@ -21,7 +21,7 @@ export const AdminScreen = () => {
             <Link to="/admin/articles" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaNewspaper className="mr-2" />
-                Artykuły
+                 Article and Chapters
               </Button>
             </Link>
           </Col>
@@ -31,7 +31,47 @@ export const AdminScreen = () => {
             <Link to="/admin/users" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaUserCog className="mr-2" />
-                Użytkownicy
+                Users
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/users" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaUserCog className="mr-2" />
+                Plant and Plant Species
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/users" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaUserCog className="mr-2" />
+                Accessory
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/users" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaUserCog className="mr-2" />
+                Grounds
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/users" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaUserCog className="mr-2" />
+                Delivery
               </Button>
             </Link>
           </Col>
