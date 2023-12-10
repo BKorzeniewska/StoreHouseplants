@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
 import { useError} from "../common/ErrorContext";
-import {Ground, loadGrounds} from "./apis/ground";
+import {Plant, loadPlantBySpeciesId} from "./apis/plant";
 import { AppWrapper} from "../common/AppWrapper";
 import "./GroundItemList.css";
 

@@ -17,6 +17,7 @@ import { UserEditScreen } from './components/user/UserEditScreen';
 import { AccessoryEditionScreen} from "./components/accessory/AccessoryScreen";
 import {ChapterItemList} from "./components/blog/chapter/ChaptersPage";
 import ChapterArticles from "./components/blog/article/ArticleByChapterScreen";
+import {GroundsItemList} from "./components/ground/GroundItemList";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             {/*Plant*/}
             {/*Plant Species*/}
             {/*Grounds*/}
+            <Route path="/grounds" element={<GroundsItemList/>}></Route>
             {/*Blog - Chapters*/}
             <Route path="/blog" element={<ChapterItemList />}></Route>
             {/*Blog - Article*/}

@@ -27,6 +27,18 @@ export const loadPlantBySpeciesId = async (id: string): Promise<Result<Plant[], 
     });
 }
 
+export const loadPlants= async ():Promise<Result<Plant[], APIError<PlantErrors>>>  => {
+    const response = Get<Plant[], APIError<PlantErrors>>(`${baseUrl}/api/v1/grounds/all`);
+    return response.then((data) => {
+        if (data.isOk) {
+            return { isOk: true, value: data.value } as Result<Plant[], APIError<PlantErrors>>;
+        } else {
+            return { isOk: false, error: data.error.response?.data } as Result<Plant[], APIError<PlantErrors>>;
+        }
+    });
+}
+
+
 
 
 
