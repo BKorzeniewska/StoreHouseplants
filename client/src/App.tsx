@@ -18,6 +18,7 @@ import { AccessoryEditionScreen} from "./components/accessory/AccessoryScreen";
 import {ChapterItemList} from "./components/blog/chapter/ChaptersPage";
 import ChapterArticles from "./components/blog/article/ArticleByChapterScreen";
 import {GroundsItemList} from "./components/ground/GroundItemList";
+import {PlantItemList} from "./components/plant/PlantAllListScreen";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             {/*Accessory*/}
             <Route path="/accessory/:accessoryId" element={<AccessoryEditionScreen />}></Route>
             {/*Plant*/}
+            <Route path="/plants/all" element={<PlantItemList/>}></Route>
             {/*Plant Species*/}
             {/*Grounds*/}
             <Route path="/grounds" element={<GroundsItemList/>}></Route>

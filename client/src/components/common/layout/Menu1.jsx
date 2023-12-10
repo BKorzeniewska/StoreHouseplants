@@ -31,7 +31,7 @@ export function Menu1() {
                                 <a href="#">For beginners </a>
                                 <a href="#">For advanced </a>
                                 <h3>Species</h3>
-                                <li><Link to='/grounds'>All</Link></li>
+                                <li><Link to="/plants/all">All</Link></li>
                             </div>
                             <div className="clm">
                             </div>
