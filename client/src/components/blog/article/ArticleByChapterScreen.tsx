@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useError } from "../../common/ErrorContext";
-import { Chapter, loadChapters} from "../chapter/chapter";
 import { AppWrapper } from "../../common/AppWrapper";
 import { Result } from "../../common/poliTypes";
-import {ArticleErrors} from "./apis/article";
-import {APIError} from "../../common/axiosFetch";
+import {Article, ArticleErrors, loadArticleByChaptersId} from "./apis/article";// Adjust import paths as necessary
+import { APIError } from "../../common/axiosFetch";
 
-export const ChapterItemList = () => {
+export const ArticleItemList = () => {
+    const { chapterId } = useParams();
     const navigate = useNavigate();
     const { setError } = useError();
-    const [chapters, setChapters] = useState<Chapter[]>([]);
+    const [articles, setArticles] = useState<Article[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        loadChapters().then((result: Result<Chapter[], APIError<ArticleErrors>>) => {
-            if (result.isOk) {
-                setChapters(result.value);
-            } else {
-                setError("Nie udało się wczytać rozdziałów");
-            }
-            setIsLoading(false);
-        });
-    }, [setError]);
+        if (chapterId) {
+            loadArticleByChaptersId(chapterId).then((result: Result<Article[], APIError<ArticleErrors>>) => {
+                if (result.isOk) {
+                    setArticles(result.value);
+                } else {
+                    setError("Nie udało się wczytać artykułów z rozdziału");
+                }
+                setIsLoading(false);
+            });
+        }
+    }, [chapterId, setError]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -33,13 +35,13 @@ export const ChapterItemList = () => {
     return (
         <AppWrapper hideSidebar>
             <Container className="my-5">
-                <h2>Rozdziały</h2>
+                <h2>Artykuły</h2>
                 <div>
-                    {chapters.map(chapter => (
-                        <div key={chapter.id} onClick={() => navigate(`/chapter/${chapter.id}`)}>
-                            <h3>{chapter.name}</h3>
-                            {/* Zakładając, że istnieje pole image w Chapter */}
-                            <img src={chapter.image || 'default-placeholder.png'} alt={chapter.name} />
+                    {articles.map(article => (
+                        <div key={article.id} onClick={() => navigate(`/article/${article.id}`)}>
+                            <h3>{article.title}</h3>
+                            {/* Zakładając, że istnieje pole image w Article */}
+                            <img src={article.image || 'default-placeholder.png'} alt={article.title} />
                         </div>
                     ))}
                 </div>
@@ -48,4 +50,4 @@ export const ChapterItemList = () => {
     );
 };
 
-export default ChapterItemList;
+export default ArticleItemList;

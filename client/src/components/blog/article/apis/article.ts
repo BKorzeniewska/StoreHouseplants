@@ -10,6 +10,7 @@ export type Article = {
 
     date: string;
     visible: boolean;
+    image: string | null;
 }
 
 export type ArticleShort = {
