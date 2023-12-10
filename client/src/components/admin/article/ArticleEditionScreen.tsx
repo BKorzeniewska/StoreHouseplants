@@ -58,6 +58,7 @@ export const ArticleEditionScreen = () => {
                                     title: "Nie udało się wczytać artykułu",
                                     content: "Coś poszło nie tak...",
                                     date: new Date().toISOString(),
+                                    image: "",
                                     visible: false,
 
                                 });
@@ -74,6 +75,7 @@ export const ArticleEditionScreen = () => {
                         title: "",
                         content: "",
                         date: new Date().toISOString(),
+                        image: "",
                         visible: false,
 
                     });
@@ -100,6 +102,7 @@ export const ArticleEditionScreen = () => {
                                 const request: CreateArticleRequest = {
                                     title: (event.target as any).elements.formTitle.value,
                                     content: (event.target as any).elements.formContent.value,
+                                    image: "",
                                     visible: true,
                                 };
                                 console.log(request);
@@ -118,6 +121,7 @@ export const ArticleEditionScreen = () => {
                                     title: (event.target as any).elements.formTitle.value,
                                     content: (event.target as any).elements.formContent.value,
                                     id: parseInt(articleId),
+                                    image: "",
                                     visible: true,
                                 };
                                 console.log(request);

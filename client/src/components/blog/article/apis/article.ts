@@ -31,6 +31,7 @@ export type CreateArticleRequest = {
     title: string;
     content: string;
     visible: boolean;
+    image: string;
 
 }
 
@@ -39,6 +40,7 @@ export type ModifyArticleRequest = {
     content: string;
     id: number;
     visible: boolean;
+    image: string;
 }
 
 export type ChangeVisibilityRequest = {
