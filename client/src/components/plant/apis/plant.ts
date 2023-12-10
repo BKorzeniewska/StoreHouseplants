@@ -3,28 +3,26 @@ import { APIError, Get } from "../../common/axiosFetch";
 import { Result } from "../../common/poliTypes";
 
 
-export type Chapter = {
+export type Plant = {
     id: number;
     name: string;
-    type: string;
-    moistureRetention: string;
+    description: string;
+    price: number;
     stockQuantity: number;
     image: string | null;
 };
 
 
-export type ChapterErrors = string;
-
-
-export const loadChapters = async (): Promise<Result<Chapter[], APIError<ChapterErrors>>> => {
-    const response = Get<Chapter[], APIError<ChapterErrors>>(`${baseUrl}/api/v1/chapters`);
-
+export type PlantErrors = string;
+//TODO
+export const loadPlantBySpeciesId = async (id: string): Promise<Result<Plant[], APIError<PlantErrors>>> => {
+    const response = Get<Plant[], APIError<PlantErrors>>(`${baseUrl}/api/v1/article/chapter/${id}`);
 
     return response.then((data) => {
         if (data.isOk) {
-            return { isOk: true, value: data.value } as Result<Chapter[], APIError<ChapterErrors>>;
+            return { isOk: true, value: data.value } as Result<Plant[], APIError<PlantErrors>>;
         } else {
-            return { isOk: false, error: data.error.response?.data } as Result<Chapter[], APIError<ChapterErrors>>;
+            return { isOk: false, error: data.error.response?.data } as Result<Plant[], APIError<PlantErrors>>;
         }
     });
 }
