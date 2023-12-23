@@ -1,5 +1,6 @@
 package com.houseplant.shop.plants.species.model;
 
+import com.houseplant.shop.ground.model.GroundType;
 import com.houseplant.shop.plants.plant.model.Plant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,9 +23,14 @@ public class PlantSpecies {
 
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "image")
-    private String image;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "plantSpecies", cascade = CascadeType.ALL)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image")
+    private byte[] image;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "plantSpecies", cascade = CascadeType.ALL)
     private List<Plant> plant;
+
+
 }

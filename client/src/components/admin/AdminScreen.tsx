@@ -3,7 +3,7 @@ import { Container, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AppWrapper } from '../common/AppWrapper';
 import { useError } from '../common/ErrorContext';
-import { FaNewspaper, FaUserCog } from 'react-icons/fa';
+import { FaNewspaper, FaUserCog, FaPagelines, FaSeedling, FaSquare ,FaFolder, FaTruck } from 'react-icons/fa';
 
 export const AdminScreen = () => {
   const { setError } = useError();
@@ -21,7 +21,7 @@ export const AdminScreen = () => {
             <Link to="/admin/articles" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaNewspaper className="mr-2" />
-                 Article and Chapters
+                 Artykuły i rozdziały
               </Button>
             </Link>
           </Col>
@@ -31,7 +31,27 @@ export const AdminScreen = () => {
             <Link to="/admin/users" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaUserCog className="mr-2" />
-                Users
+                Użytkownicy
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/plants" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaPagelines className="mr-2" />
+                Rośliny
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/plants" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaFolder className="mr-2" />
+                Gatunki
               </Button>
             </Link>
           </Col>
@@ -40,8 +60,8 @@ export const AdminScreen = () => {
           <Col>
             <Link to="/admin/users" className="admin-link">
               <Button variant="primary" size="lg">
-                <FaUserCog className="mr-2" />
-                Plant and Plant Species
+                <FaSquare className="mr-2" />
+                Akcesoria
               </Button>
             </Link>
           </Col>
@@ -50,8 +70,8 @@ export const AdminScreen = () => {
           <Col>
             <Link to="/admin/users" className="admin-link">
               <Button variant="primary" size="lg">
-                <FaUserCog className="mr-2" />
-                Accessory
+                <FaSeedling className="mr-2" />
+                Podłoża
               </Button>
             </Link>
           </Col>
@@ -60,18 +80,8 @@ export const AdminScreen = () => {
           <Col>
             <Link to="/admin/users" className="admin-link">
               <Button variant="primary" size="lg">
-                <FaUserCog className="mr-2" />
-                Grounds
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col>
-            <Link to="/admin/users" className="admin-link">
-              <Button variant="primary" size="lg">
-                <FaUserCog className="mr-2" />
-                Delivery
+                <FaTruck className="mr-2" />
+                Dostawa
               </Button>
             </Link>
           </Col>

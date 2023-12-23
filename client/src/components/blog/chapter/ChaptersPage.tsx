@@ -36,7 +36,10 @@ export const ChapterItemList = () => {
                     {chapters.map(chapter => (
                         <div key={chapter.id} className="chapter-tile" onClick={() => navigate(`/chapter/${chapter.id}`)}>
                             <h3>{chapter.name}</h3>
-                            <img src={chapter.image || 'default-placeholder.png'} alt={chapter.name} className="chapter-image" />
+                            <img
+                                src={`data:image/jpeg;base64,${chapter?.image}`}
+                                alt={chapter?.name} className="chapter-image" // css is brutal, use conditional margin
+                            />
                         </div>
                     ))}
                 </div>

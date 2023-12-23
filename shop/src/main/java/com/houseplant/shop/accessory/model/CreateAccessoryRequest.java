@@ -3,6 +3,8 @@ package com.houseplant.shop.accessory.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Blob;
+
 @Data
 @Builder
 public class CreateAccessoryRequest {
@@ -11,5 +13,5 @@ public class CreateAccessoryRequest {
     private double price;
     private int stockQuantity;
     private Category category;
-    private String imageUrl;
+    private byte[] imageUrl;
 }

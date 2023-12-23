@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin/v1/plant/species")
+@RequestMapping("/api/admin/v1/species")
 @RequiredArgsConstructor
 @Log4j2
 public class PlantSpeciesAdminController {

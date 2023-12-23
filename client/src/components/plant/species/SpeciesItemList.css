@@ -1,10 +1,10 @@
-.chapter-grid {
+.species-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: 1rem;
 }
 
-.chapter-tile {
+.species-tile {
     cursor: pointer;
     border: 1px solid #ddd;
     padding: 1rem;
@@ -12,11 +12,11 @@
     transition: transform 0.3s ease;
 }
 
-.chapter-tile:hover {
+.species-tile:hover {
     transform: scale(1.05);
 }
 
-.chapter-image {
+.species-image {
     max-width: 100%;
     height: auto;
     margin-bottom: 1rem;

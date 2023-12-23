@@ -16,6 +16,7 @@ public class Accessory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private long id;
+
     @Column(name = "NAME", nullable = false)
     private String name;
 
@@ -31,7 +32,7 @@ public class Accessory {
     @Column(name = "CATEGORY", nullable = false)
     private Category category;
 
-    @Column(name = "IMAGE_URL")
-    private String imageUrl;
-
+    @Lob  // Indicates a Large Object, suitable for storing binary data
+    @Column(name = "IMAGE_DATA")
+    private byte[] imageUrl;
 }

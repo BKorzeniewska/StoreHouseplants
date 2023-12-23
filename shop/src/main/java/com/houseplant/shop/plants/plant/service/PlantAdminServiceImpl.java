@@ -34,8 +34,12 @@ public class PlantAdminServiceImpl implements PlantAdminService {
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
+                .groundType(request.getGroundType())
+                .position(request.getPosition())
+                .collectible(request.getCollectible())
+                .beginners(request.getBeginners())
                 .plantSpecies(plantSpecies) // Assuming you have a relationship with PlantSpecies
-                .imageUrl(request.getImageUrl())
+                .image(request.getImage())
                 .build();
 
         plantRepository.save(plant);
@@ -94,9 +98,19 @@ public class PlantAdminServiceImpl implements PlantAdminService {
         if (request.getStockQuantity() != null) {
             plant.setStockQuantity(request.getStockQuantity());
         }
-        if (request.getImageUrl() != null) {
-            plant.setImageUrl(request.getImageUrl());
+        if (request.getImage() != null) {
+            plant.setImage(request.getImage());
         }
+        if (request.getGroundType() != null)
+            plant.setGroundType(request.getGroundType());
+
+        if (request.getPosition() != null)
+            plant.setPosition(request.getPosition());
+
+        if (request.getCollectible() != null)
+            plant.setCollectible(request.getCollectible());
+        if (request.getBeginners() != null)
+            plant.setBeginners(request.getBeginners());
         // Add other field updates as required
     }
 }

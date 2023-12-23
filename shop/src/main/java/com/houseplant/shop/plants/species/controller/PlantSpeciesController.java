@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 @RestController
-@RequestMapping("/api/v1/plant/species")
+@RequestMapping("/api/v1/species")
 public class PlantSpeciesController {
 
     private final PlantSpeciesService plantSpeciesService;

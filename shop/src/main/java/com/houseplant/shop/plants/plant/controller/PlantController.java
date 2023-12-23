@@ -1,6 +1,7 @@
 package com.houseplant.shop.plants.plant.controller;
 
 import com.houseplant.shop.plants.plant.model.PlantResponse;
+import com.houseplant.shop.plants.plant.model.Position;
 import com.houseplant.shop.plants.plant.service.PlantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +39,25 @@ public class PlantController {
         var plants = plantService.getPlantBySpecies(speciesId);
         return new ResponseEntity<>(plants, HttpStatus.OK);
     }
+    @GetMapping("/position/{position}")
+    public ResponseEntity<List<PlantResponse>> getPlantsByPosition(@PathVariable("position") Position position) {
+        log.info("getPlantsByPosition - start, position: {}", position);
+        var plants = plantService.getPlantsByPosition(position);
+        return new ResponseEntity<>(plants, HttpStatus.OK);
+    }
 
-    // Add other endpoints as needed
+    @GetMapping("/beginners/{isForBeginners}")
+    public ResponseEntity<List<PlantResponse>> getPlantsForBeginners(@PathVariable("isForBeginners") boolean isForBeginners) {
+        log.info("getPlantsForBeginners - start, isForBeginners: {}", isForBeginners);
+        var plants = plantService.getPlantsForBeginners(isForBeginners);
+        return new ResponseEntity<>(plants, HttpStatus.OK);
+    }
+
+    @GetMapping("/collectible/{isCollectible}")
+    public ResponseEntity<List<PlantResponse>> getCollectiblePlants(@PathVariable("isCollectible") boolean isCollectible) {
+        log.info("getCollectiblePlants - start, isCollectible: {}", isCollectible);
+        var plants = plantService.getCollectiblePlants(isCollectible);
+        return new ResponseEntity<>(plants, HttpStatus.OK);
+    }
 
 }

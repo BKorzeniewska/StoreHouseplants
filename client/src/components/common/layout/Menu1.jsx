@@ -1,14 +1,12 @@
 import { Link } from 'react-router-dom'
 import "./menuCss1.css"
 
-
-
 export function Menu1() {
 
     const menuItems = [
-        { name: 'Plants', path: '/' },
-        { name: 'Accessories', path: '/accessory/2' },
-        { name: 'Grounds', path: '/' },
+        { name: 'Rośliny', path: '/' },
+        { name: 'Akcesoria', path: '/accessory/2' },
+        { name: 'Podłoża', path: '/' },
         { name: 'Blog', path: '/' }
     ]
     return (
@@ -17,72 +15,67 @@ export function Menu1() {
             <div id="cssmenu">
                 <ul>
                     <li className="full-width">
-                        <span>Plants </span>
+                        <span>Rośliny </span>
                         <div className="dropdown">
                             <div className="clm">
-                                <h3>Position</h3>
-                                <a href="#">Light</a>
-                                <a href="#">Penumbra</a>
-                                <a href="#">Dark</a>
-                                <h3>Collectible Plants</h3>
+                                <h3>Stanowisko</h3>
+                                <a href="/plants/position/LIGHT">Jasne</a>
+                                <a href="/plants/position/PENUMBRA">Półcień</a>
+                                <a href="/plants/position/DARK">Ciemne</a>
+                                <h3 href="/plants/collectible/true">Rośliny kolekcjonerskie</h3>
                             </div>
                             <div className="clm">
-                                <h3>Ease of cultivation</h3>
-                                <a href="#">For beginners </a>
-                                <a href="#">For advanced </a>
-                                <h3>Species</h3>
-                                <li><Link to="/plants/all">All</Link></li>
+                                <h3>Łatwość uprawy</h3>
+                                <a href="/plants/beginners/true">Dla początkujących </a>
+                                <a href="/plants/beginners/false">Dla zaawansowanych </a>
+                                <h3 href="/species" >Gatunki</h3>
+                                <h3 href="/plants/all">Wszystkie</h3>
                             </div>
                             <div className="clm">
                             </div>
                         </div>
                     </li>
                     <li className="full-width">
-                        <span>Accessories </span>
+                        <span>Akcesoria </span>
                         <div className="dropdown">
                             <div className="clm">
-                                <h3>Pots</h3>
-                                <h3>Flowerbed</h3>
-                                <h3>Supports</h3>
-                                <h3>Humidity indicator</h3>
+                                <h3>Doniczki</h3>
+                                <h3>Kwietniki</h3>
+                                <h3>Podpórki</h3>
+                                <h3>Wskaźniki wilgotności</h3>
                             </div>
                             <div className="clm">
-                                <h3>Watering cans</h3>
-                                <h3>Tools</h3>
-                                <h3>Lamps</h3>
-                                <h3>Fertilizer</h3>
-                                <h3>All</h3>
+                                <h3>Konewki</h3>
+                                <h3>Narzędzia</h3>
+                                <h3>Lampy</h3>
+                                <h3>Nawozy</h3>
+                                <h3 href="/accessories">Wszystkie akcesoria</h3>
                             </div>
                             <div className="clm">
                             </div>
                         </div>
-                    </li><li className="full-width">
-                    <span>Grounds </span>
-                    <div className="dropdown">
-                        <div className="clm">
-                            <h3>Grounds</h3>
-                            <a href="#">Sandy</a>
-                            <a href="#">For citrus</a>
-                            <a href="#">Peat</a>
-                            <a href="#">For orchids</a>
-                            <a href="#">For palm trees</a>
-                            <a href="#">Peat</a>
-                            <h3>All grounds</h3>
+                    </li>
+                    <li className="full-width">
+                        <span>Podłoża </span>
+                        <div className="dropdown">
+                            <div className="clm">
+                                <a href="#">Dla sukulentów i kaktusów</a>
+                                <a href="#">Dla cytrusów</a>
+                                <a href="#">Dla storczyków</a>
+                                <a href="#">Dla bonsai</a>
+                                <a href="#">Inne</a>
+                            </div>
+                            <div className="clm">
+                                <a href="#">Torfowe</a>
+                                <a href="#">Przepuszczalne</a>
+                                <a href="#">Uniwersalne</a>
+                                <h3 href="/grounds">Wszystkie podłoża</h3>
+                                <h3>Dodatki</h3>
+                            </div>
+                            <div className="clm">
+                            </div>
                         </div>
-                        <div className="clm">
-                            <h3>Addition</h3>
-                            <a href="#">Cortex</a>
-                            <a href="#">Perlite </a>
-                            <a href="#">Leca</a>
-                            <a href="#">Seramis</a>
-                            <a href="#">Horticultural pumice</a>
-                            <a href="#">Other</a>
-                            <h3>All Addition</h3>
-                        </div>
-                        <div className="clm">
-                        </div>
-                    </div>
-                </li>
+                    </li>
                     <li><Link to='/blog'>Blog</Link></li>
                 </ul>
             </div>

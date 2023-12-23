@@ -45,10 +45,33 @@ public class PlantServiceImpl implements PlantService {
     public List<PlantResponse> getPlantBySpecies(final Long speciesId) {
         log.info("getPlantBySpecies - start, speciesId: {}", speciesId);
 
-        var plants = plantRepository.findAllBySpeciesId(speciesId)
+        var plants = plantRepository.findBySpeciesId(speciesId)
                 .orElseThrow(() -> new PlantNotFoundException("Plants with provided SpeciesID not found", "PLANTS_NOT_FOUND"));
 
         return plants.stream()
+                .map(plantMapper::toPlantResponse)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<PlantResponse> getPlantsByPosition(Position position) {
+        log.info("getPlantsByPosition - start, position: {}", position);
+        return plantRepository.findByPosition(position).stream()
+                .map(plantMapper::toPlantResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlantResponse> getPlantsForBeginners(boolean isForBeginners) {
+        log.info("getPlantsForBeginners - start, isForBeginners: {}", isForBeginners);
+        return plantRepository.findByBeginners(isForBeginners).stream()
+                .map(plantMapper::toPlantResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlantResponse> getCollectiblePlants(boolean isCollectible) {
+        log.info("getCollectiblePlants - start, isCollectible: {}", isCollectible);
+        return plantRepository.findByCollectible(isCollectible).stream()
                 .map(plantMapper::toPlantResponse)
                 .collect(Collectors.toList());
     }

@@ -1,7 +1,9 @@
 package com.houseplant.shop.plants.plant.model;
 
+import com.houseplant.shop.ground.model.GroundType;
 import com.houseplant.shop.plants.species.model.PlantSpecies;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,8 +34,22 @@ public class Plant {
 
     @Column(name = "stock_quantity", nullable = false)
     private int stockQuantity; // Ilość roślin dostępnych w magazynie
+    @Column(name = "GROUND_TYPE")
+    private GroundType groundType;
+    @Column(name = "position")
+    private Position position;
+    @Column(name = "collectible")
+    private Boolean collectible;
+    @Column(name = "Beginners")
+    private Boolean beginners;
 
-    @Column(name = "image_url")
-    private String imageUrl; // URL obrazu rośliny
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image")
+    private byte[] image; // URL obrazu rośliny
 
+    @Transactional
+    public byte[] getImageData(Long id) {
+        return this.image;
+    }
 }

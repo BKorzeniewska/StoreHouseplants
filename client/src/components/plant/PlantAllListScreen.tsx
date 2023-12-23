@@ -10,15 +10,15 @@ import "./PlantItemList.css";
 export const PlantItemList = () => {
     const navigate = useNavigate();
     const { setError } = useError();
-    const [plants, setGrounds] = useState<Plant[]>([]);
+    const [plants, setPlants] = useState<Plant[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         loadPlants().then(result => {
             if (result.isOk) {
-                setGrounds(result.value);
+                setPlants(result.value);
             } else {
-                setError("Nie udało się wczytać rozdziałów");
+                setError("Nie udało się wczytać roślin");
             }
             setIsLoading(false);
         });
@@ -32,11 +32,14 @@ export const PlantItemList = () => {
         <AppWrapper hideSidebar>
             <Container className="my-5">
                 <h2>All plants</h2>
-                <div className="cground-grid">
+                <div className="plant-grid">
                     {plants.map(plant => (
-                        <div key={plant.id} className="ground-tile" onClick={() => navigate(`/plant/${plant.id}`)}>
+                        <div key={plant.id} className="plant-tile" onClick={() => navigate(`/plants/${plant.id}`)}>
                             <h3>{plant.name}</h3>
-                            <img src={plant.image || 'default-placeholder.png'} alt={plant.name} className="ground-image" />
+                            <img
+                                src={`data:image/jpeg;base64,${plant?.image}`}
+                                alt={plant?.name} className="product-card-image" // css is brutal, use conditional margin
+                            />
                         </div>
                     ))}
                 </div>

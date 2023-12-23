@@ -18,9 +18,6 @@ export type ArticleShort = {
     title: string;
 }
 
-
-
-
 export type ArticleMenu = {
     id: number;
     name: string;

@@ -1,7 +1,9 @@
 package com.houseplant.shop.plants.plant.repository;
 
 import com.houseplant.shop.plants.plant.model.Plant;
+import com.houseplant.shop.plants.plant.model.Position;
 import com.houseplant.shop.plants.species.model.PlantSpecies;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,12 +15,22 @@ import java.util.Optional;
 public interface PlantRepository extends JpaRepository<Plant, Long> {
     List<Plant> findByPlantSpecies(PlantSpecies plantSpecies);
 
-    @Query("SELECT p FROM Plant p WHERE p.plantSpecies.id = :speciesId")
-    Optional<List<Plant>> findAllBySpeciesId(Long speciesId);
+    @Transactional
+    @Query("SELECT p FROM Plant p join PlantSpecies ps ON (p.plantSpecies.id = ps.id) where ps.id =?1 order by ps.id asc")
+    Optional<List<Plant>> findBySpeciesId(Long speciesId);
 
     List<Plant> findByPriceLessThan(double maxPrice);
 
     List<Plant> findByStockQuantityGreaterThan(int minStockQuantity);
+    @Transactional
+    @Query("SELECT p FROM Plant p where p.position =?1 order by p.id asc")
+    List<Plant> findByPosition(Position position);
+    @Transactional
+    @Query("SELECT p FROM Plant p where p.beginners =?1 order by p.id asc")
+    List<Plant> findByBeginners(boolean isForBeginners);
+    @Transactional
+    @Query("SELECT p FROM Plant p where p.collectible =?1 order by p.id asc")
+    List<Plant> findByCollectible(boolean isCollectible);
 
     // Other custom query methods as needed
 }

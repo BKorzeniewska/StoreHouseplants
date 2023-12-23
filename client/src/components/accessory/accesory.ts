@@ -12,6 +12,27 @@ export type Accessory = {
     category: string;
     imageUrl: string;
 }
+
+
+export type CreateAccessoryRequest = {
+    name: string;
+    description: string;
+    price: number;
+    stockQuantity: number;
+    category: string;
+    imageUrl: string;
+
+}
+
+export type ModifyAccessoryRequest = {
+    name: string;
+    description: string;
+    price: number;
+    stockQuantity: number;
+    category: string;
+    imageUrl: string;
+}
+
 export type AccessoryErrors = string;
 export const loadAccessoryById = async (id: string): Promise<Result<Accessory, APIError<AccessoryErrors>>> => {
     const response = Get<Accessory, APIError<AccessoryErrors>>(`${baseUrl}/api/v1/accessories/${id}`);
@@ -27,8 +48,6 @@ export const loadAccessoryById = async (id: string): Promise<Result<Accessory, A
 
 export const loadAllAccessories= async (): Promise<Result<Accessory[], APIError<AccessoryErrors>>> => {
     const response = Get<Accessory[], APIError<AccessoryErrors>>(`${baseUrl}/api/v1/accessories/all`);
-
-
     return response.then((data) => {
         if (data.isOk) {
             return {isOk: true, value: data.value} as Result<Accessory[], APIError<AccessoryErrors>>;

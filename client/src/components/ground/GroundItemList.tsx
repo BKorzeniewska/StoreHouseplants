@@ -32,11 +32,14 @@ export const GroundsItemList = () => {
         <AppWrapper hideSidebar>
             <Container className="my-5">
                 <h2>Grounds</h2>
-                <div className="cground-grid">
+                <div className="product-card-grid">
                     {grounds.map(ground => (
-                        <div key={ground.id} className="ground-tile" onClick={() => navigate(`/ground/${ground.id}`)}>
+                        <div key={ground.id} className="product-card-tile" onClick={() => navigate(`/ground/${ground.id}`)}>
                             <h3>{ground.name}</h3>
-                            <img src={ground.image || 'default-placeholder.png'} alt={ground.name} className="ground-image" />
+                            <img
+                                src={`data:image/jpeg;base64,${ground?.imageUrl}`}
+                                alt={ground?.name} className="product-card-image" // css is brutal, use conditional margin
+                            />
                         </div>
                     ))}
                 </div>

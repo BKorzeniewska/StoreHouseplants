@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Blob;
+
 @Data
 @Builder
 public class GroundResponse {
@@ -13,5 +15,5 @@ public class GroundResponse {
 
     private int stockQuantity;
     private String moistureRetention;
-    private String imageUrl;
+    private byte[] imageUrl;
 }

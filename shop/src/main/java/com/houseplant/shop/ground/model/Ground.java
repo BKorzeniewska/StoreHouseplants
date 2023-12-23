@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Blob;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -29,7 +31,7 @@ public class Ground {
     @Column(name = "STOCK_QUANTITY", nullable = false)
     private int stockQuantity;
 
-
+    @Lob
     @Column(name = "IMAGE_URL")
-    private String imageUrl;
+    private byte[] imageUrl;
 }

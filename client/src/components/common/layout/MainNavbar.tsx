@@ -6,6 +6,7 @@ import { ThemeContext } from "../../themes/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth/AuthContext";
 import {Header} from "./Header";
+import {FaShoppingCart} from "react-icons/fa";
 
 
 type Props = {
@@ -37,23 +38,26 @@ export const MainNavbar = (props: Props) => {
 
         <Nav className="ml-auto text-center logged-in">
           {!isLoggedIn() ? <Nav.Link onClick={() => { navigate("/login") }}>Zaloguj</Nav.Link> :
+              <><Nav.Link onClick={() => navigate("/cart")}>
+                <FaShoppingCart className="mr-2" />
+              </Nav.Link>
+                <NavDropdown title={<span className="">{getUser()?.nickname}</span>} id="dropdown-basic"
+                                      drop="down-centered">
+                <NavDropdown.Item onClick={() => {
+                  toggleTheme();
+                }}>
+                  {theme === "light" ? <span className="material-symbols-outlined">dark_mode</span> :
+                      <span className="material-symbols-outlined">light_mode</span>}
 
-          <NavDropdown title={<span className="">{getUser()?.nickname}</span>} id="dropdown-basic" drop="down-centered">
-            <NavDropdown.Item onClick={() => { toggleTheme(); }}>
-              {
-                theme === "light" ? <span className="material-symbols-outlined">dark_mode</span> : <span className="material-symbols-outlined">light_mode</span>
-              }
-
-            </NavDropdown.Item>
-            <NavDropdown.Item onClick={() => navigate("/user/")}>Profil</NavDropdown.Item>
-            <NavDropdown.Item onClick={(event) => logout(event)}>Wyloguj</NavDropdown.Item>
-            {isAuthorized("ADMIN") &&
-            <>
-            <Dropdown.Divider />
-              <NavDropdown.Item onClick={() => navigate("/admin/")}>Panel administratora</NavDropdown.Item>
-              </>
-              }
-          </NavDropdown>
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={() => navigate("/user/")}>Profil</NavDropdown.Item>
+                <NavDropdown.Item onClick={(event) => logout(event)}>Wyloguj</NavDropdown.Item>
+                {isAuthorized("ADMIN") &&
+                    <>
+                      <Dropdown.Divider/>
+                      <NavDropdown.Item onClick={() => navigate("/admin/")}>Panel administratora</NavDropdown.Item>
+                    </>}
+              </NavDropdown></>
 }
         </Nav>
       </Container>

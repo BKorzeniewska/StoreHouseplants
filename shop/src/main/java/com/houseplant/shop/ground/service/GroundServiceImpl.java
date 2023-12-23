@@ -47,13 +47,13 @@ public class GroundServiceImpl implements GroundService {
 
     @Override
     public GroundResponse createGround( CreateGroundRequest request) {
-        if (request.getName() == null || request.getName().isEmpty()) {
-            throw new GroundNotFoundException("Article title cannot be null or empty", "ARTICLE_TITLE_EMPTY");
-        }
-
-        if (request.getType() == null ) {
-            throw new GroundNotFoundException("Article content cannot be null or empty", "ARTICLE_CONTENT_EMPTY");
-        }
+//        if (request.getName() == null || request.getName().isEmpty()) {
+//            throw new GroundNotFoundException("Article title cannot be null or empty", "ARTICLE_TITLE_EMPTY");
+//        }
+//
+//        if (request.getType() == null ) {
+//            throw new GroundNotFoundException("Article content cannot be null or empty", "ARTICLE_CONTENT_EMPTY");
+//        }
 
         var ground = Ground.builder()
                 .name(request.getName())

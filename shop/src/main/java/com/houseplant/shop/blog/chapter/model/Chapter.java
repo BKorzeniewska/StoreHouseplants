@@ -22,9 +22,11 @@ public class Chapter {
 
     @Column(name = "NAME")
     private String name;
+    @Lob
     @Column(name = "IMAGE")
-    private String image;
+    private byte[] image;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "chapter", cascade = CascadeType.ALL)
     private List<Article> articles;
+
 }

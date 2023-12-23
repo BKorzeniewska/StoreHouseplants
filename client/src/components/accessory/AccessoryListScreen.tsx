@@ -1,71 +1,48 @@
-import { ReactNode, useContext, useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Nav, NavDropdown, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Accessory, loadAccessoryById } from '../accessory/accesory';
-import { useError } from '../common/ErrorContext';
-import { ThemeContext } from '../themes/ThemeProvider';
-import { AppWrapper } from '../common/AppWrapper';
-import { MarkDownRenderer } from '../common/markdown/MarkDownRenderer';
-import { LoadingSpinner } from '../common/Spinner';
+import { useNavigate } from 'react-router-dom';
+import { useError} from "../common/ErrorContext";
+import { Accessory, loadAllAccessories} from "./accesory";
+import { AppWrapper} from "../common/AppWrapper";
+import "./AccessoryAllList.css";
 
-
-export const AccessoryEditionScreen = () => {
+export const AccessoryAllList = () => {
     const navigate = useNavigate();
-    const [currentArticle, setCurrentArticle] = useState<number | null>(null);
+    const { setError } = useError();
+    const [accessories, setAccessory] = useState<Accessory[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [currentText, setCurrentText] = useState<string>("");
-    const [accessory, setAccessory] = useState<Accessory>();
-    const { errorMessages, setError } = useError();
-
-    const [isLoading, setIsLoading] = useState(false);
-    const lineCount = currentText.split("\n").length;
-    const { accessoryId } = useParams();
-
-
-
-    useEffect(
-        () => {
-            if (accessoryId) {
-                loadAccessoryById(accessoryId || "0").then(
-                    (acc) => {
-                        if (acc.isOk) {
-                            setAccessory(acc.value);
-                            setCurrentText(acc.value.name);
-                        } else {
-                            setError("Nie udało się wczytać artykułu");
-                            setCurrentText("Coś poszło nie tak...");
-                            setAccessory(
-
-                                {
-                                    id: 0,
-                                    name: "Nie udało się wczytać artykułu",
-                                    description: "Coś poszło nie tak...",
-                                    price: 0,
-                                    category: "",
-                                    stockQuantity: 0,
-                                    imageUrl: "",
-
-                                });
-                        }
-
-                    }
-                )
+    useEffect(() => {
+        loadAllAccessories().then(result => {
+            if (result.isOk) {
+                setAccessory(result.value);
+            } else {
+                setError("Nie udało się wczytać akcesoriów");
             }
-            else {
+            setIsLoading(false);
+        });
+    }, [setError]);
 
-            }
-
-        },
-    );
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <AppWrapper hideSidebar>
             <Container className="my-5">
-                <h2>{accessory?.name}</h2>
-
-                <h2>{accessory?.description}</h2>
-
+                <h2>Wszystkie akcesoria</h2>
+                <div className="product-card-grid">
+                    {accessories.map(accessory => (
+                        <div key={accessory.id} className="product-card-tile" onClick={() => navigate(`/accessory/${accessory.id}`)}>
+                            <h3>{accessory.name}</h3>
+                            <img
+                                src={`data:image/jpeg;base64,${accessory?.imageUrl}`}
+                                alt={accessory?.name} className="product-card-image" // css is brutal, use conditional margin
+                            />
+                        </div>
+                    ))}
+                </div>
             </Container>
         </AppWrapper>
     );

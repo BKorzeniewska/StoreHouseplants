@@ -36,9 +36,19 @@ const HomeScreen = (props: Props) => {
         <Container className="pt-3">
           {/* Big Banner */}
           <div className="banner">
-          <img className="banner-img" src={require("../../assets/background.png")} />
+          <img className="banner-img" src={require("../../assets/background1.png")} />
           </div>
-          <p className="site-description">Witaj! Ta strona do nauki języka Python jest doskonałym źródłem wiedzy dla wszystkich, którzy chcą zdobyć umiejętności programowania w tym języku. Na stronie znajdziesz szeroki wybór artykułów, które pokrywają różnorodne tematy związane z Pythonem.</p>
+          <p className="site-description">Witaj! W naszym sklepie znajdziesz rośliny domowe oraz podłoża i akcesoria do ich pielęgnacji. Zpraszamy też serdecznie do części blogowej zawierajacej krótkie porady dotyczące hodowli.</p>
+          <h2>Polecane rośliny</h2>
+          <Row className="mt-3">
+            {articles.map((article) => (
+                <Col md={2} sm={4} key={article.id} onClick={() => navigate(`/article/${article.id}`)}>
+                  <div className="article-tile">
+                    <h3><strong>{article.title}</strong></h3>
+                  </div>
+                </Col>
+            ))}
+          </Row>
           <h2>Najnowsze artykuły</h2>
           <Row className="mt-3">
             {articles.map((article) => (

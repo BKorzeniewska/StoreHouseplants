@@ -13,7 +13,7 @@
     display:block;
     font-size:0;
     text-align:center;
-    color:#000000;
+
     border: transparent;
     margin:0;
     padding:0;
@@ -50,18 +50,33 @@
 }
 #cssmenu li:hover > span, #cssmenu li:hover > a
 {
-    background-color:#77A6F7;
+
 }
 
 /*Sub level items
 ---------------------------------------*/
-#cssmenu .dropdown
+[data-theme="light"] #cssmenu .dropdown
 {
     text-align:left;
     left:0;
     font-family:inherit;
     color: #222222;
     background-color: #e2e2e2;
+    border:none;
+    position:absolute;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display:none;
+    opacity:0;
+    cursor:default;
+}
+
+[data-theme="dark"] #cssmenu .dropdown
+{
+    text-align:left;
+    left:0;
+    font-family:inherit;
+    color: #e2e2e2;
+    background-color: #444;
     border:none;
     position:absolute;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
@@ -98,12 +113,11 @@
 #cssmenu .dropdown li:hover > span, #cssmenu .dropdown li:hover > a
 {
 
-    color:#000000;
 }
 
 #cssmenu .clm a:hover
 {
-    color:#000000;
+
     transition:color 0.2s;
 }
 
@@ -155,7 +169,6 @@
 
 #cssmenu .clm a:hover
 {
-    color:#000000;
     text-decoration:underline;
 }
 

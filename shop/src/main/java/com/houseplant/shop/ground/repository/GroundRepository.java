@@ -19,7 +19,7 @@ public interface GroundRepository extends JpaRepository<Ground, Long> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE ground SET name = :name, type = :type, moistureRetention = :moistureRetention, stockQuantity = :stockQuantity, imageUrl = :imageUrl WHERE id = :id", nativeQuery = true)
-    void updateGround(final String name, final GroundType type, final String moistureRetention,  final int stockQuantity,  final String imageUrl, final Long id);
+    void updateGround(final String name, final GroundType type, final String moistureRetention,  final int stockQuantity,  final byte[] imageUrl, final Long id);
 
     @Transactional
     @Modifying
