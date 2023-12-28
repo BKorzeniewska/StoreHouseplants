@@ -68,7 +68,7 @@ export const AdminScreen = () => {
         </Row>
         <Row className="mt-4">
           <Col>
-            <Link to="/admin/users" className="admin-link">
+            <Link to="/admin/grounds" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaSeedling className="mr-2" />
                 Podłoża

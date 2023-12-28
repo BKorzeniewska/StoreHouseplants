@@ -1,13 +1,14 @@
 package com.houseplant.shop.ground.service;
 
 
+import com.houseplant.shop.blog.article.exception.ArticleNotFoundException;
 import com.houseplant.shop.ground.GroundMapper;
 import com.houseplant.shop.ground.exception.GroundNotFoundException;
-import com.houseplant.shop.ground.model.CreateGroundRequest;
-import com.houseplant.shop.ground.model.Ground;
-import com.houseplant.shop.ground.model.GroundResponse;
-import com.houseplant.shop.ground.model.ModifyGroundRequest;
+import com.houseplant.shop.ground.model.*;
 import com.houseplant.shop.ground.repository.GroundRepository;
+import com.houseplant.shop.plants.plant.exception.PlantNotFoundException;
+import com.houseplant.shop.user.model.entity.User;
+import com.houseplant.shop.user.repository.UserRepository;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class GroundServiceImpl implements GroundService {
 
     private final GroundRepository groundRepository;
+    private final UserRepository userRepository;
     private final GroundMapper groundMapper;
 
     @Override
@@ -46,7 +48,18 @@ public class GroundServiceImpl implements GroundService {
     }
 
     @Override
+    public List<GroundResponse> getGroundByType(GroundType type) {
+        var grounds = groundRepository
+                .findByType(type);
+
+        return grounds.stream()
+                .map(groundMapper::toGroundResponse)
+                .toList();
+    }
+
+    @Override
     public GroundResponse createGround( CreateGroundRequest request) {
+
 //        if (request.getName() == null || request.getName().isEmpty()) {
 //            throw new GroundNotFoundException("Article title cannot be null or empty", "ARTICLE_TITLE_EMPTY");
 //        }
@@ -58,7 +71,8 @@ public class GroundServiceImpl implements GroundService {
         var ground = Ground.builder()
                 .name(request.getName())
                 .type(request.getType())
-                .moistureRetention(request.getMoistureRetention())
+                .description(request.getDescription())
+                .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
                 .imageUrl(request.getImageUrl())
                 .build();
@@ -68,7 +82,10 @@ public class GroundServiceImpl implements GroundService {
     }
 
     @Override
-    public GroundResponse updateGround(ModifyGroundRequest request) {
+    public GroundResponse updateGround(ModifyGroundRequest request, final String bearerToken) {
+        final String token = bearerToken.substring(7);
+        final User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new ArticleNotFoundException("User with provided token not found", "USER_NOT_FOUND"));
         if (request.getId() == null) {
             throw new GroundNotFoundException("Ground ID cannot be null", "GROUND_ID_NULL");}
 
@@ -86,14 +103,17 @@ public class GroundServiceImpl implements GroundService {
         if (request.getStockQuantity() == null) {
             ground.setStockQuantity(request.getStockQuantity());
         }
-        if (request.getMoistureRetention() != null) {
-            ground.setMoistureRetention(request.getMoistureRetention());
+        if (request.getPrice() != null) {
+            ground.setPrice(request.getPrice());
+        }
+        if (request.getDescription() != null) {
+            ground.setDescription(request.getDescription());
         }
         if (request.getImageUrl() != null) {
             ground.setImageUrl(request.getImageUrl());
         }
 
-        groundRepository.updateGround(ground.getName(), ground.getType(), ground.getMoistureRetention(), ground.getStockQuantity(), ground.getImageUrl(), ground.getId());
+        groundRepository.updateGround(ground.getName(), ground.getType(), ground.getPrice(), ground.getDescription(), ground.getStockQuantity(), ground.getImageUrl(), ground.getId());
 
         final Ground updatedGround = groundRepository.findById(request.getId())
                 .orElseThrow(() -> new GroundNotFoundException("Ground with provided ID not found", "GROUND_NOT_FOUND"));
@@ -102,8 +122,14 @@ public class GroundServiceImpl implements GroundService {
     }
 
     @Override
-    public void deleteGround(long id) {
+    public void deleteGround(Long id) {
+        if (id == null) {
+            throw new GroundNotFoundException("Ground ID cannot be null", "GROUND_ID_NULL");
+        }
+        groundRepository.findById(id)
+                        .orElseThrow(() -> new GroundNotFoundException("Ground with provided ID not found", "GROUND_NOT_FOUND"));
         groundRepository.deleteById(id);
+        log.info("Deleted ground with id: {}", id);
     }
 
 

@@ -9,6 +9,6 @@ public class CreateArticleRequest {
     private String title;
     private String content;
     private Boolean visible;
-    private String image;
+    private byte[] image;
     private Long chapterId;
 }

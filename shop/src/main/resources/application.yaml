@@ -10,10 +10,17 @@ spring:
     username: postgres
     password: ${DB_PASSWORD:admin}
     tomcat:
-      connection-properties: stringtype=unspecified
+      test-on-borrow: true
+      validation-query: SELECT 1
     hikari:
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      connection-timeout: 30000
+      max-lifetime: 600000
+      auto-commit: false
       data-source-properties:
         stringtype: unspecified
+        prepareThreshold: 0  # To avoid switching to auto-commit mode for prepared statements
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,6 +29,17 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true  # Required to avoid the use of PostgreSQL's LargeObject API
+        enable_lazy_load_no_trans: true
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
   mail:
     host: smtp.gmail.com
     port: 587
@@ -56,5 +74,3 @@ com:
         - "/api/admin/v1/**"
         - "/api/user/v1/**"
         - "/api/moderator/**"
-
-

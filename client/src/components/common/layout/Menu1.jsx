@@ -26,8 +26,8 @@ export function Menu1() {
                             </div>
                             <div className="clm">
                                 <h3>Łatwość uprawy</h3>
-                                <a href="/plants/beginners/true">Dla początkujących </a>
-                                <a href="/plants/beginners/false">Dla zaawansowanych </a>
+                                <a href="/plants/beginners/true">Rośliny łatwe w hodowli </a>
+                                <a href="/plants/beginners/false">Rośliny wymagające</a>
                                 <h3 href="/species" >Gatunki</h3>
                                 <h3 href="/plants/all">Wszystkie</h3>
                             </div>
@@ -39,16 +39,17 @@ export function Menu1() {
                         <span>Akcesoria </span>
                         <div className="dropdown">
                             <div className="clm">
-                                <h3>Doniczki</h3>
-                                <h3>Kwietniki</h3>
-                                <h3>Podpórki</h3>
-                                <h3>Wskaźniki wilgotności</h3>
+                                <h3>Kategorie</h3>
+                                <a href="/accessories/category/POTS">Doniczki</a>
+                                <a href="/accessories/category/FLOWERBEDS">Kwietniki</a>
+                                <a href="/accessories/category/SUPPORTS">Podpórki</a>
+                                <a href="/accessories/category/MOISTURE_INDICATORS">Wskaźniki wilgotności</a>
                             </div>
                             <div className="clm">
-                                <h3>Konewki</h3>
-                                <h3>Narzędzia</h3>
-                                <h3>Lampy</h3>
-                                <h3>Nawozy</h3>
+                                <a href="/accessories/category/WATERING_CANS">Konewki</a>
+                                <a href="/accessories/category/TOOLS">Narzędzia</a>
+                                <a href="/accessories/category/LAMPS">Lampy</a>
+                                <a href="/accessories/category/FERTILIZERS">Nawozy</a>
                                 <h3 href="/accessories">Wszystkie akcesoria</h3>
                             </div>
                             <div className="clm">
@@ -59,18 +60,18 @@ export function Menu1() {
                         <span>Podłoża </span>
                         <div className="dropdown">
                             <div className="clm">
-                                <a href="#">Dla sukulentów i kaktusów</a>
-                                <a href="#">Dla cytrusów</a>
-                                <a href="#">Dla storczyków</a>
-                                <a href="#">Dla bonsai</a>
-                                <a href="#">Inne</a>
+                                <a href="/grounds/type/DESRT">Dla sukulentów i kaktusów</a>
+                                <a href="/grounds/type/CIRTUS">Dla cytrusów</a>
+                                <a href="/grounds/type/ORCHID">Dla storczyków</a>
+                                <a href="/grounds/type/BONSAI">Dla bonsai</a>
+                                <a href="grounds/type/OTHER">Inne</a>
                             </div>
                             <div className="clm">
-                                <a href="#">Torfowe</a>
-                                <a href="#">Przepuszczalne</a>
-                                <a href="#">Uniwersalne</a>
+                                <a href="/grounds/type/PEAT">Torfowe</a>
+                                <a href="/grounds/type/PERMALE">Przepuszczalne</a>
+                                <a href="/grounds/type/UNIVERSAL">Uniwersalne</a>
                                 <h3 href="/grounds">Wszystkie podłoża</h3>
-                                <h3>Dodatki</h3>
+                                <h3 href="/grounds/type/ADDITION">Dodatki</h3>
                             </div>
                             <div className="clm">
                             </div>

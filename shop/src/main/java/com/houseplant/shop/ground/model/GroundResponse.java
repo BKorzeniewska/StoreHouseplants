@@ -12,8 +12,9 @@ public class GroundResponse {
     private long id;
     private String name;
     private GroundType type;
+    private String description;
+    private Integer stockQuantity;
 
-    private int stockQuantity;
-    private String moistureRetention;
+    private Float price;
     private byte[] imageUrl;
 }

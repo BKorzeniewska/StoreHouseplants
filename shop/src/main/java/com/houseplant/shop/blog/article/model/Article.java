@@ -30,8 +30,10 @@ public class Article {
     @Column(name = "CONTENT", columnDefinition="TEXT")
     private String content;
 
-    @Column(name = "IMAGE")
-    private String image;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image")
+    private byte[] image;
 
     @Column(name = "CREATION_DATE")
     private LocalDate creationDate;

@@ -51,12 +51,11 @@ public class ChapterServiceImpl implements ChapterService {
                 .map(chapter ->
                         MenuChapterResponse.builder()
                                 .id(chapter.getId())
-                                .image(chapter.getImage())
                                 .articles(chapter.getArticles().stream()
                                         .map(article -> MenuArticleResponse.builder()
-                                            .title(article.getTitle())
-                                            .id(article.getId())
-                                            .build())
+                                                .title(article.getTitle())
+                                                .id(article.getId())
+                                                .build())
                                         .sorted(Comparator.comparingLong(MenuArticleResponse::getId))
                                         .toList())
                                 .name(chapter.getName())
@@ -69,5 +68,23 @@ public class ChapterServiceImpl implements ChapterService {
     public List<ChapterResponse> getChapters() {
         var chapters = chapterRepository.findAll();
         return chapters.stream().map(chapterMapper::toChapterResponse).toList();
+    }
+
+    @Override
+    public void deleteChapter(final Long chapterId) {
+        if (chapterId == null) {
+            throw new ChapterIllegalStateException(
+                    "Chapter name cannot be blank", "CHAPTER_NAME_CANNOT_BE_BLANK", HttpStatus.BAD_REQUEST);
+        }
+
+        final Chapter chapter = chapterRepository.findById(chapterId)
+                .orElseThrow(() ->  new ChapterIllegalStateException(
+                "Chapter name cannot be blank", "CHAPTER_NAME_CANNOT_BE_BLANK", HttpStatus.BAD_REQUEST));
+        chapter.setArticles(null);
+
+//        int rows = commentRepository.updateArticleToNull(articleId);
+//        log.info("Updated {} rows", rows);
+
+        chapterRepository.deleteChapterById(chapterId);
     }
 }

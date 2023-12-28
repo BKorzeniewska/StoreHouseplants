@@ -24,7 +24,6 @@ public class PlantSpecies {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "image")
     private byte[] image;

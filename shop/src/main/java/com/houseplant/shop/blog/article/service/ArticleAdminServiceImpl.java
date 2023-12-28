@@ -27,6 +27,7 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
     private final ArticleMapper articleMapper;
     private final CommentRepository commentRepository;
 
+    @Transactional
     @Override
     public ArticleResponse createArticle(final CreateArticleRequest request, final String bearerToken) {
 
@@ -65,8 +66,8 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
         return articleMapper.toCreateArticleResponse(article);
     }
 
-    @Override
     @Transactional
+    @Override
     public ArticleResponse modifyArticle(final ModifyArticleRequest request) {
 
         if (request.getId() == null) {
@@ -92,7 +93,7 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
             article.setImage(request.getImage());
         }
 
-        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getVisible(), article.getId());
+        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getVisible(), article.getImage(), article.getId());
 
         final Article updatedArticle = articleRepository.findById(request.getId())
                 .orElseThrow(() -> new ArticleNotFoundException("Article with provided ID not found", "ARTICLE_NOT_FOUND"));
@@ -100,8 +101,8 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
         return articleMapper.toCreateArticleResponse(updatedArticle);
     }
 
-    @Override
     @Transactional
+    @Override
     public ArticleResponse changeVisibleArticle(final VisibleChangeRequest request) {
 
         if (request.getArticleId() == null) {
@@ -115,7 +116,7 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
             article.setVisible(request.getVisible());
         }
 
-        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getVisible(), article.getId());
+        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getVisible(), article.getImage(), article.getId());
 
         final Article updatedArticle = articleRepository.findById(request.getArticleId())
                 .orElseThrow(() -> new ArticleNotFoundException("Article with provided ID not found", "ARTICLE_NOT_FOUND"));
@@ -123,7 +124,7 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
         return articleMapper.toCreateArticleResponse(updatedArticle);
     }
 
-
+    @Transactional
     @Override
     public void deleteArticle(final Long articleId) {
         if (articleId == null) {

@@ -11,6 +11,7 @@ export enum Position {
 export type Plant = {
     id: number;
     name: string;
+    plantSpeciesId:string;
     description: string;
     price: number;
     stockQuantity: number;
@@ -21,14 +22,21 @@ export type Plant = {
     collectible: boolean;
 };
 
+export type PlantShort = {
+    id: number;
+    name: string;
+
+};
+
 export type CreatePlantRequest = {
     name: string;
+    plantSpeciesId?:number;
     description: string;
     price: number;
     groundType: GroundType;
-    position?: Position; // Assuming position is optional
-    isForBeginners?: boolean;
-    isCollectible?: boolean;
+    position: Position; // Assuming position is optional
+    beginners?: boolean;
+    collectible?: boolean;
     stockQuantity: number;
     image: string | null;
 
@@ -70,6 +78,17 @@ export const loadPlants= async ():Promise<Result<Plant[], APIError<PlantErrors>>
         }
     });
 }
+
+export const loadPlantsPopular= async ():Promise<Result<PlantShort[], APIError<PlantErrors>>>  => {
+    const response = Get<PlantShort[], APIError<PlantErrors>>(`${baseUrl}/api/v1/plant/popular`);
+    return response.then((data) => {
+        if (data.isOk) {
+            return { isOk: true, value: data.value } as Result<PlantShort[], APIError<PlantErrors>>;
+        } else {
+            return { isOk: false, error: data.error.response?.data } as Result<PlantShort[], APIError<PlantErrors>>;
+        }
+    });
+}
 export const loadPlantById = async (id: string): Promise<Result<Plant, APIError<PlantErrors>>> => {
     const response = Get<Plant, APIError<PlantErrors>>(`${baseUrl}/api/v1/plant/${id}`);
 
@@ -95,7 +114,7 @@ export const deletePlant = async (id: number): Promise<Result<Plant, APIError<Pl
 }
 
 export const createPlant = async (plant: CreatePlantRequest): Promise<Result<Plant, APIError<PlantErrors>>> => {
-    const response = Post<Plant, APIError<PlantErrors>>(`${baseUrl}/api/admin/v1/article/create`, plant);
+    const response = Post<Plant, APIError<PlantErrors>>(`${baseUrl}/api/admin/v1/plant/create`, plant);
 
     return response.then((data) => {
         if (data.isOk) {
@@ -117,6 +136,7 @@ export const loadPlantsByPosition = async (position: string): Promise<Result<Pla
         }
     });
 }
+
 
 export const loadPlantsForBeginners = async (isForBeginners: boolean): Promise<Result<Plant[], APIError<PlantErrors>>> => {
     const response =  Get<Plant[], APIError<PlantErrors>>(`${baseUrl}/api/v1/plant/beginners/${isForBeginners}`);

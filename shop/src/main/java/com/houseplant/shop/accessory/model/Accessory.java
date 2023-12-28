@@ -32,7 +32,7 @@ public class Accessory {
     @Column(name = "CATEGORY", nullable = false)
     private Category category;
 
-    @Lob  // Indicates a Large Object, suitable for storing binary data
+    @Basic(fetch = FetchType.LAZY)// Indicates a Large Object, suitable for storing binary data
     @Column(name = "IMAGE_DATA")
     private byte[] imageUrl;
 }

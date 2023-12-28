@@ -2,6 +2,7 @@ package com.houseplant.shop.ground.controller;
 
 import com.houseplant.shop.ground.model.CreateGroundRequest;
 import com.houseplant.shop.ground.model.GroundResponse;
+import com.houseplant.shop.ground.model.GroundType;
 import com.houseplant.shop.ground.model.ModifyGroundRequest;
 import com.houseplant.shop.ground.service.GroundService;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +32,10 @@ public class GroundController {
         return new ResponseEntity<>(grounds, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<GroundResponse> createGround(@RequestBody CreateGroundRequest request) {
-        var groundResponse = groundService.createGround(request);
-        return new ResponseEntity<>(groundResponse, HttpStatus.CREATED);
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<GroundResponse>> getGroundsByType(@PathVariable GroundType type) {
+        var grounds = groundService.getGroundByType(type);
+        return new ResponseEntity<>(grounds, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<GroundResponse> updateGround(@RequestBody ModifyGroundRequest request) {
-        var groundResponse = groundService.updateGround(request);
-        return new ResponseEntity<>(groundResponse, HttpStatus.OK);
-    }
 }

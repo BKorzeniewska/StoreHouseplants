@@ -11,7 +11,9 @@ public class CreateGroundRequest {
 
     private String name;
     private GroundType type;
-    private String moistureRetention;
-    private int stockQuantity;
+    private String description;
+    private Integer stockQuantity;
+
+    private Float price;
     private byte[] imageUrl;
 }

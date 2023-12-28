@@ -1,5 +1,7 @@
 package com.houseplant.shop.plants.plant.service;
 
+import com.houseplant.shop.blog.article.model.Article;
+import com.houseplant.shop.blog.article.model.MenuArticleResponse;
 import com.houseplant.shop.plants.plant.PlantMapper;
 import com.houseplant.shop.plants.plant.exception.PlantNotFoundException;
 import com.houseplant.shop.plants.plant.model.*;
@@ -74,6 +76,18 @@ public class PlantServiceImpl implements PlantService {
         return plantRepository.findByCollectible(isCollectible).stream()
                 .map(plantMapper::toPlantResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlantResponseMenu> getPopularPlant() {
+        List<Plant> plants = plantRepository.findTop5ByOrderByStockQuantityDesc();
+
+        return plants.stream()
+                .map(plant -> PlantResponseMenu.builder()
+                        .id(plant.getId())
+                        .name(plant.getName())
+                        .build())
+                .toList();
     }
 
 }

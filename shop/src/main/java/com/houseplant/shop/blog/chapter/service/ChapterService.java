@@ -12,4 +12,5 @@ public interface ChapterService {
     ChapterResponse createChapter( CreateChapterRequest chapterRequest);
     List<ChapterResponse> getChapters();
     List<MenuChapterResponse> getMenuChapters();
+    void deleteChapter(final Long chapterId);
 }

@@ -2,9 +2,11 @@ package com.houseplant.shop.plants.plant;
 
 
 
+
 import com.houseplant.shop.plants.plant.model.CreatePlantRequest;
 import com.houseplant.shop.plants.plant.model.Plant;
 import com.houseplant.shop.plants.plant.model.PlantResponse;
+import com.houseplant.shop.plants.plant.model.PlantResponseMenu;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,4 +18,5 @@ public interface PlantMapper {
 
     @Mapping(target="plantSpeciesId", source="plant.plantSpecies.id")
    PlantResponse toPlantResponse(Plant plant);
+    PlantResponseMenu toPlantResponseMenu(Plant plant);
 }

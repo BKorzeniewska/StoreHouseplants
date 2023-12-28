@@ -2,15 +2,12 @@ import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Nav, NavDropdown, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Article, ArticleMenu, CreateArticleRequest, ModifyArticleRequest, createArticle, loadArticleById, loadArticleMenu, modifyArticle } from '../../blog/article/apis/article';
-import { useError } from '../../common/ErrorContext';
+import { Article, ArticleMenu, CreateArticleRequest, ModifyArticleRequest, createArticle, loadArticleById, loadArticleMenu, modifyArticle} from "../../blog/article/apis/article";
+import { useError} from "../../common/ErrorContext";
 import { ThemeContext } from '../../themes/ThemeProvider';
-import { AppWrapper } from '../../common/AppWrapper';
+import { AppWrapper} from "../../common/AppWrapper";
 import { MarkDownRenderer } from '../../common/markdown/MarkDownRenderer';
-import { LoadingSpinner } from '../../common/Spinner';
-
-
-
+import { LoadingSpinner} from "../../common/Spinner";
 
 
 export const ArticleEditionScreen = () => {
@@ -57,13 +54,14 @@ export const ArticleEditionScreen = () => {
                                     id: 0,
                                     title: "Nie udało się wczytać artykułu",
                                     content: "Coś poszło nie tak...",
+                                    chapterId: 0,
+                                    userId: 0,
                                     date: new Date().toISOString(),
-                                    image: "",
-                                    visible: false,
+                                    image: null
 
                                 });
                         }
-                        
+
                     }
                 )
             }
@@ -74,14 +72,14 @@ export const ArticleEditionScreen = () => {
                         id: 0,
                         title: "",
                         content: "",
+                        chapterId: 0,
+                        userId: 0,
                         date: new Date().toISOString(),
-                        image: "",
-                        visible: false,
 
                     });
-                    setCurrentText(article?.content || "");
+                setCurrentText(article?.content || "");
             }
-            
+
         }, [articleId]
     );
 
@@ -102,8 +100,7 @@ export const ArticleEditionScreen = () => {
                                 const request: CreateArticleRequest = {
                                     title: (event.target as any).elements.formTitle.value,
                                     content: (event.target as any).elements.formContent.value,
-                                    image: "",
-                                    visible: true,
+                                    chapterId: parseInt((event.target as any).elements.formChapterId.value),
                                 };
                                 console.log(request);
                                 createArticle(request).then(
@@ -120,9 +117,8 @@ export const ArticleEditionScreen = () => {
                                 const request: ModifyArticleRequest = {
                                     title: (event.target as any).elements.formTitle.value,
                                     content: (event.target as any).elements.formContent.value,
+                                    image: null,
                                     id: parseInt(articleId),
-                                    image: "",
-                                    visible: true,
                                 };
                                 console.log(request);
                                 modifyArticle(request).then(
@@ -145,7 +141,12 @@ export const ArticleEditionScreen = () => {
                             </Form.Group>
                             {articleId === undefined &&
                                 <Form.Group className="mb-3" controlId="formChapterId">
-
+                                    <Form.Label>Rozdział:</Form.Label>
+                                    <Form.Select aria-label="Wybierz rozdział" defaultValue={article?.chapterId}>
+                                        {menu?.map((menu) => (
+                                            <option key={menu.name} value={menu.id}>{menu.name}</option>
+                                        ))}
+                                    </Form.Select>
                                 </Form.Group>}
 
                             <Form.Group className="mb-3" controlId="formContent">
@@ -170,4 +171,3 @@ export const ArticleEditionScreen = () => {
         </AppWrapper>
     );
 };
-

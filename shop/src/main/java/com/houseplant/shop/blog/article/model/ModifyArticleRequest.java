@@ -10,6 +10,6 @@ public class ModifyArticleRequest {
     private String title;
     private Boolean visible;
 
-    private String image;
+    private byte[] image;
     private String content;
 }

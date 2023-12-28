@@ -1,5 +1,6 @@
 package com.houseplant.shop.plants.plant.repository;
 
+import com.houseplant.shop.blog.article.model.Article;
 import com.houseplant.shop.plants.plant.model.Plant;
 import com.houseplant.shop.plants.plant.model.Position;
 import com.houseplant.shop.plants.species.model.PlantSpecies;
@@ -31,6 +32,10 @@ public interface PlantRepository extends JpaRepository<Plant, Long> {
     @Transactional
     @Query("SELECT p FROM Plant p where p.collectible =?1 order by p.id asc")
     List<Plant> findByCollectible(boolean isCollectible);
+
+    @Transactional
+    @Query("SELECT p FROM Plant p where p.stockQuantity > 20  ORDER BY p.stockQuantity DESC LIMIT 6")
+    List<Plant> findTop5ByOrderByStockQuantityDesc();
 
     // Other custom query methods as needed
 }

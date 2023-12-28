@@ -11,9 +11,9 @@ public class ModifyGroundRequest {
     private Long id;
     private String name;
     private GroundType type;
-    private String nutrientContent;
+    private String description;
     private Integer stockQuantity;
 
-    private String moistureRetention;
+    private Float price;
     private byte[] imageUrl;
 }

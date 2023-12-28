@@ -14,9 +14,12 @@
 }
 
 .btn:not(.btn-group>.btn) {
-    border-radius: 50vw !important;
+    border-radius: 50vw ;
 }
+ .btn-success {
 
+     border-radius: 5px !important;
+ }
 /* add rounded corners for last button in a button group */
 .btn-group>.btn:last-child:not(:first-child) {
     border-top-right-radius: 50vw !important;

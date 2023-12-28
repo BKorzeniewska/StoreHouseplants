@@ -43,7 +43,6 @@ public class Plant {
     @Column(name = "Beginners")
     private Boolean beginners;
 
-    @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "image")
     private byte[] image; // URL obrazu rośliny

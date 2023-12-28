@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import {Card, Col, Container, Row} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import {useNavigate, useParams} from 'react-router-dom';
 import { useError} from "../common/ErrorContext";
@@ -21,7 +21,10 @@ export const PlantListBySpecies = () => {
     const [plants, setPlants] = useState<Plant[]>([]);
     const [title, setTitle] = useState<string>();
     const [isLoading, setIsLoading] = useState(true);
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredPlants = plants.filter(plant =>
+        plant.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
     useEffect(() => {
         if (speciesId) {
             loadPlantBySpeciesId(speciesId).then(result => {
@@ -52,17 +55,28 @@ export const PlantListBySpecies = () => {
         <AppWrapper hideSidebar>
             <Container className="my-5">
                 <div className="page-tile">{title}</div>
-                <div className="plant-grid">
-                    {plants.map(plant => (
-                        <div key={plant.id} className="plant-tile" onClick={() => navigate(`/plants/${plant.id}`)}>
-                            <h3>{plant.name}</h3>
-                            <img
-                                src={`data:image/jpeg;base64,${plant?.image}`}
-                                alt={plant?.name} className="product-card-image" // css is brutal, use conditional margin
-                            />
-                        </div>
+                <hr/>
+                <input
+                    type="text"
+                    placeholder="Wyszukaj po nazwie"
+                    className="form-control mb-4"
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                />
+                <Row xs={1} md={2} lg={3} xl={4} className="g-4"> {/* Tutaj ustalamy ilość kolumn na różnych szerokościach ekranu */}
+                    {filteredPlants.map(plant => (
+                        <Col key={plant.id}>
+                            <Card onClick={() => navigate(`/plants/${plant.id}`)}>
+                                <Card.Img variant="top" src={`data:image/jpeg;base64,${plant?.image}`} alt={plant?.name} />
+                                <Card.Body>
+                                    <Card.Title>{plant.name}</Card.Title>
+                                    <Card.Text><strong>Cena:</strong> {plant.price} zł</Card.Text>
+                                    <button type="button" className="btn btn-success w-100">Dodaj do koszyka</button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
                     ))}
-                </div>
+                </Row>
             </Container>
         </AppWrapper>
     );
@@ -77,7 +91,10 @@ export const PlantsByPosition = () => {
         const [error, setError] = useState<string | null>(null);
         const [isLoading, setIsLoading] = useState(true);
         const [title, setTitle] = useState<string>();
-
+        const [searchTerm, setSearchTerm] = useState('');
+        const filteredPlants = plants.filter(plant =>
+            plant.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
         useEffect(() => {
             if (position) {
                 loadPlantsByPosition(position).then(result => {
@@ -111,18 +128,29 @@ export const PlantsByPosition = () => {
         return (
             <AppWrapper hideSidebar>
                 <Container className="my-5">
-                    <div className="page-tile">{title}</div>
-                    <div className="plant-grid">
-                        {plants.map(plant => (
-                            <div key={plant.id} className="plant-tile" onClick={() => navigate(`/plants/${plant.id}`)}>
-                                <h3>{plant.name}</h3>
-                                <img
-                                    src={`data:image/jpeg;base64,${plant?.image}`}
-                                    alt={plant?.name} className="product-card-image" // css is brutal, use conditional margin
-                                />
-                            </div>
+                    <h2 className="page-tile">{title}</h2>
+                    <hr/>
+                    <input
+                        type="text"
+                        placeholder="Wyszukaj po nazwie"
+                        className="form-control mb-4"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <Row xs={1} md={2} lg={3} xl={4} className="g-4"> {/* Tutaj ustalamy ilość kolumn na różnych szerokościach ekranu */}
+                        {filteredPlants.map(plant => (
+                            <Col key={plant.id}>
+                                <Card onClick={() => navigate(`/plants/${plant.id}`)}>
+                                    <Card.Img variant="top" src={`data:image/jpeg;base64,${plant?.image}`} alt={plant?.name} />
+                                    <Card.Body>
+                                        <Card.Title>{plant.name}</Card.Title>
+                                        <Card.Text><strong>Cena:</strong> {plant.price} zł</Card.Text>
+                                        <button type="button" className="btn btn-success w-100">Dodaj do koszyka</button>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         ))}
-                    </div>
+                    </Row>
                 </Container>
             </AppWrapper>
         );
@@ -136,28 +164,23 @@ export const PlantsByBegginers = () => {
         const navigate = useNavigate();
         const [error, setError] = useState<string | null>(null);
         const [isLoading, setIsLoading] = useState(true);
+        const [title, setTitle] = useState<string>();
+        const [searchTerm, setSearchTerm] = useState('');
+        const filteredPlants = plants.filter(plant =>
+            plant.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
         useEffect(() => {
             if (isForBegginers) {
-                if(isForBegginers ==='true') {
-                    loadPlantsForBeginners(true).then(result => {
-                        if (result.isOk) {
-                            setPlants(result.value);
-                        } else {
-                            setError("Nie udało się wczytać roślin");
-                        }
-                        setIsLoading(false);
-                    });
-                }
-                else {
-                    loadPlantsForBeginners(false).then(result => {
-                        if (result.isOk) {
-                            setPlants(result.value);
-                        } else {
-                            setError("Nie udało się wczytać roślin");
-                        }
-                        setIsLoading(false);
-                    });
-                }
+                loadPlantsForBeginners(isForBegginers ==='true').then(result => {
+                    if (result.isOk) {
+                        setPlants(result.value);
+                    } else {
+                        setError("Nie udało się wczytać roślin");
+                    }
+                    setIsLoading(false);
+                });
+                setTitle(isForBegginers ==='true'? "Rośliny łatwe w hodowli":"Rośliny wymagające");
             }
         }, [isForBegginers, setError]);
         if (isLoading) {
@@ -170,18 +193,29 @@ export const PlantsByBegginers = () => {
         return (
             <AppWrapper hideSidebar>
                 <Container className="my-5">
-                    <div className="page-tile">All plants</div>
-                    <div className="plant-grid">
-                        {plants.map(plant => (
-                            <div key={plant.id} className="plant-tile" onClick={() => navigate(`/plants/${plant.id}`)}>
-                                <h3>{plant.name}</h3>
-                                <img
-                                    src={`data:image/jpeg;base64,${plant?.image}`}
-                                    alt={plant?.name} className="product-card-image" // css is brutal, use conditional margin
-                                />
-                            </div>
+                    <div className="page-tile">{title}</div>
+                    <hr/>
+                    <input
+                        type="text"
+                        placeholder="Wyszukaj po nazwie"
+                        className="form-control mb-4"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <Row xs={1} md={2} lg={3} xl={4} className="g-4"> {/* Tutaj ustalamy ilość kolumn na różnych szerokościach ekranu */}
+                        {filteredPlants.map(plant => (
+                            <Col key={plant.id}>
+                                <Card onClick={() => navigate(`/plants/${plant.id}`)}>
+                                    <Card.Img variant="top" src={`data:image/jpeg;base64,${plant?.image}`} alt={plant?.name} />
+                                    <Card.Body>
+                                        <Card.Title>{plant.name}</Card.Title>
+                                        <Card.Text><strong>Cena:</strong> {plant.price} zł</Card.Text>
+                                        <button type="button" className="btn btn-success w-100">Dodaj do koszyka</button>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         ))}
-                    </div>
+                    </Row>
                 </Container>
             </AppWrapper>
         );
@@ -196,6 +230,10 @@ export const PlantsByCollectible= () => {
         const navigate = useNavigate();
         const [error, setError] = useState<string | null>(null);
         const [isLoading, setIsLoading] = useState(true);
+        const [searchTerm, setSearchTerm] = useState('');
+        const filteredPlants = plants.filter(plant =>
+            plant.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
         useEffect(() => {
 
             if (isCollectible) {
@@ -216,21 +254,34 @@ export const PlantsByCollectible= () => {
             return <div>Error: {error}</div>;
         }
 
+
+
         return (
             <AppWrapper hideSidebar>
                 <Container className="my-5">
-                    <div className="page-tile">All plants</div>
-                    <div className="plant-grid">
-                        {plants.map(plant => (
-                            <div key={plant.id} className="plant-tile" onClick={() => navigate(`/plants/${plant.id}`)}>
-                                <h3>{plant.name}</h3>
-                                <img
-                                    src={`data:image/jpeg;base64,${plant?.image}`}
-                                    alt={plant?.name} className="plant-image" // css is brutal, use conditional margin
-                                />
-                            </div>
+                    <h2 className="page-tile">Rośliny kolekcjonerskie</h2>
+                    <hr/>
+                    <input
+                        type="text"
+                        placeholder="Wyszukaj po nazwie"
+                        className="form-control mb-4"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <Row xs={1} md={2} lg={3} xl={4} className="g-4"> {/* Tutaj ustalamy ilość kolumn na różnych szerokościach ekranu */}
+                        {filteredPlants.map(plant => (
+                            <Col key={plant.id}>
+                                <Card onClick={() => navigate(`/plants/${plant.id}`)}>
+                                    <Card.Img variant="top" src={`data:image/jpeg;base64,${plant?.image}`} alt={plant?.name} />
+                                    <Card.Body>
+                                        <Card.Title>{plant.name}</Card.Title>
+                                        <Card.Text><strong>Cena:</strong> {plant.price} zł</Card.Text>
+                                        <button type="button" className="btn btn-success w-100">Dodaj do koszyka</button>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         ))}
-                    </div>
+                    </Row>
                 </Container>
             </AppWrapper>
         );

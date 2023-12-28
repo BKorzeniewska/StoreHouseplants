@@ -26,12 +26,13 @@ public class Ground {
     private GroundType type; // Typ podłoża (np. ziemia ogrodowa, torf, hydrożel, itp.)
 
 
-    @Column(name = "MOISURE_RETENTION")
-    private String moistureRetention; // Zdolność do zatrzymywania wilgoci
+    @Column(name = "description")
+    private String description; // Zdolność do zatrzymywania wilgoci
     @Column(name = "STOCK_QUANTITY", nullable = false)
     private int stockQuantity;
+    @Column(name = "price")
+    private Float price;
 
-    @Lob
     @Column(name = "IMAGE_URL")
     private byte[] imageUrl;
 }

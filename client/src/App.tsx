@@ -14,15 +14,14 @@ import { AdminScreen } from './components/admin/AdminScreen';
 import { PasswordRecoveryScreen } from './components/auth/PasswordRecoveryScreen';
 import { PasswordRecoveryNextScreen } from './components/auth/PasswordRecoveryNextScreen';
 import { UserEditScreen } from './components/user/UserEditScreen';
-import { AccessoryEditionScreen} from "./components/accessory/AccessoryScreen";
 import {ChapterItemList} from "./components/blog/chapter/ChaptersPage";
 import ChapterArticles from "./components/blog/article/ArticleByChapterScreen";
-import {GroundsItemList} from "./components/ground/GroundItemList";
+import {GroundsIByTypeList, GroundsItemList} from "./components/ground/GroundItemList";
 import {PlantItemList} from "./components/plant/PlantAllListScreen";
 import {SpeciesItemList} from "./components/plant/species/SpeciesListScreen";
 import {PlantScreen} from "./components/plant/PlantScreen";
 import {AdminPlantsScreen} from "./components/admin/plant/AdminPlantScreen";
-import {AccessoryAllList} from "./components/accessory/AccessoryListScreen";
+import {AccessoryAllList, AccessoryByCategoryList} from "./components/accessory/AccessoryListScreen";
 import {
   PlantListBySpecies,
   PlantsByBegginers,
@@ -30,6 +29,8 @@ import {
   PlantsByPosition
 } from "./components/plant/PlantsLists";
 import ShoppingCart from "./components/cart/ShoppingCart";
+import {AccessoryScreen} from "./components/accessory/AccessoryScreen";
+import {AdminGroundsScreen} from "./components/admin/ground/AdminGroundScreen";
 
 
 function App(props: any) {
@@ -52,7 +53,8 @@ function App(props: any) {
             <Route path="/" element={<HomeScreen />}></Route>
             {/*Accessory*/}
             <Route path="/accessories" element={<AccessoryAllList />}></Route>
-            <Route path="/accessory/:accessoryId" element={<AccessoryEditionScreen />}></Route>
+            <Route path="/accessories/category/:category" element={<AccessoryByCategoryList />}></Route>
+            <Route path="/accessory/:accessoryId" element={<AccessoryScreen />}></Route>
             {/*Plant*/}
             <Route path="/plants/all" element={<PlantItemList/>}></Route>
             <Route path="/plants/:plantId" element={<PlantScreen/>}></Route>
@@ -64,6 +66,7 @@ function App(props: any) {
             <Route path="/species" element={<SpeciesItemList/>}></Route>
             {/*Grounds*/}
             <Route path="/grounds" element={<GroundsItemList/>}></Route>
+            <Route path="/grounds/type/:type" element={<GroundsIByTypeList/>}></Route>
             {/*Blog - Chapters*/}
             <Route path="/blog" element={<ChapterItemList />}></Route>
             {/*Blog - Article*/}
@@ -86,6 +89,7 @@ function App(props: any) {
             <Route path="/admin/plants" element={<AdminPlantsScreen />}></Route>
             <Route path="/admin/edit/:articleId?" element={<ArticleEditionScreen />}></Route>
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
+            <Route path="/admin/grounds" element={<AdminGroundsScreen />}></Route>
             <Route path="/admin" element={<AdminScreen />}></Route>
           </Routes>
         </BrowserRouter>

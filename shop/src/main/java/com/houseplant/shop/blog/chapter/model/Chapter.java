@@ -22,8 +22,9 @@ public class Chapter {
 
     @Column(name = "NAME")
     private String name;
-    @Lob
-    @Column(name = "IMAGE")
+
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image")
     private byte[] image;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "chapter", cascade = CascadeType.ALL)

@@ -1,9 +1,6 @@
 package com.houseplant.shop.plants.plant.service;
 
-import com.houseplant.shop.plants.plant.model.CreatePlantRequest;
-import com.houseplant.shop.plants.plant.model.ModifyPlantRequest;
-import com.houseplant.shop.plants.plant.model.PlantResponse;
-import com.houseplant.shop.plants.plant.model.Position;
+import com.houseplant.shop.plants.plant.model.*;
 
 import java.util.List;
 
@@ -14,4 +11,5 @@ public interface PlantService {
     List<PlantResponse> getPlantsByPosition(Position position);
     List<PlantResponse> getPlantsForBeginners(boolean isForBeginners);
     List<PlantResponse> getCollectiblePlants(boolean isCollectible);
+    List<PlantResponseMenu> getPopularPlant();
 }

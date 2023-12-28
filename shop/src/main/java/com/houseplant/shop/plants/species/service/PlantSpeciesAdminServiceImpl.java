@@ -9,6 +9,7 @@ import com.houseplant.shop.plants.species.model.ModifyPlantSpeciesRequest;
 import com.houseplant.shop.plants.species.model.PlantSpecies;
 import com.houseplant.shop.plants.species.model.PlantSpeciesResponse;
 import com.houseplant.shop.plants.species.repository.PlantSpeciesRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class PlantSpeciesAdminServiceImpl implements PlantSpeciesAdminService {
     private final PlantSpeciesRepository plantSpeciesRepository;
     private final PlantSpeciesMapper plantSpeciesMapper;
 
+    @Transactional
     @Override
     public PlantSpeciesResponse createPlantSpecies(CreatePlantSpeciesRequest request) {
         if (request.getName() == null || request.getName().isEmpty()) {
@@ -37,6 +39,7 @@ public class PlantSpeciesAdminServiceImpl implements PlantSpeciesAdminService {
 
         return plantSpeciesMapper.toPlantSpeciesResponse(plantSpecies);
     }
+    @Transactional
 
     @Override
     public PlantSpeciesResponse modifyPlantSpecies(ModifyPlantSpeciesRequest request) {
@@ -58,6 +61,7 @@ public class PlantSpeciesAdminServiceImpl implements PlantSpeciesAdminService {
         return plantSpeciesMapper.toPlantSpeciesResponse(plantSpecies);
     }
 
+    @Transactional
     @Override
     public void deletePlantSpecies(Long id) {
         PlantSpecies plantSpecies = plantSpeciesRepository.findById(id)

@@ -7,10 +7,11 @@ export type Article = {
     id: number;
     title: string;
     content: string;
+    chapterId: number;
+    userId: number;
 
     date: string;
-    visible: boolean;
-    image?: string;
+    image?: string|null;
 }
 
 export type ArticleShort = {
@@ -27,8 +28,8 @@ export type ArticleMenu = {
 export type CreateArticleRequest = {
     title: string;
     content: string;
-    visible: boolean;
-    image: string;
+    chapterId: number;
+    image?: string|null;
 
 }
 
@@ -36,8 +37,8 @@ export type ModifyArticleRequest = {
     title: string;
     content: string;
     id: number;
-    visible: boolean;
-    image: string;
+
+    image?: string|null;
 }
 
 export type ChangeVisibilityRequest = {

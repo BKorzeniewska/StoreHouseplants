@@ -13,7 +13,7 @@ public class ArticleResponse {
     private String content;
     private Long chapterId;
     private Boolean visible;
-    private String image;
+    private byte[] image;
     private Long userId;
     private LocalDate date;
 }

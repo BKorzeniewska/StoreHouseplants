@@ -1,6 +1,8 @@
 package com.houseplant.shop.plants.plant.controller;
 
+import com.houseplant.shop.blog.article.model.MenuArticleResponse;
 import com.houseplant.shop.plants.plant.model.PlantResponse;
+import com.houseplant.shop.plants.plant.model.PlantResponseMenu;
 import com.houseplant.shop.plants.plant.model.Position;
 import com.houseplant.shop.plants.plant.service.PlantService;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +59,12 @@ public class PlantController {
     public ResponseEntity<List<PlantResponse>> getCollectiblePlants(@PathVariable("isCollectible") boolean isCollectible) {
         log.info("getCollectiblePlants - start, isCollectible: {}", isCollectible);
         var plants = plantService.getCollectiblePlants(isCollectible);
+        return new ResponseEntity<>(plants, HttpStatus.OK);
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<List<PlantResponseMenu>> getPopularPlant() {
+        var plants = plantService.getPopularPlant();
         return new ResponseEntity<>(plants, HttpStatus.OK);
     }
 
