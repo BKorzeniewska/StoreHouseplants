@@ -37,7 +37,7 @@ export const GroundsItemList = () => {
                         <div key={ground.id} className="plant-tile" onClick={() => navigate(`/ground/${ground.id}`)}>
                             <h3>{ground.name}</h3>
                             <img
-                                src={`data:image/jpeg;base64,${ground?.imageUrl}`}
+                                src={`data:image/jpeg;base64,${ground?.image}`}
                                 alt={ground?.name} className="product-card-image" // css is brutal, use conditional margin
                             />
                         </div>
@@ -113,7 +113,7 @@ export const GroundsIByTypeList = () => {
                         <div key={ground.id} className="plant-tile" onClick={() => navigate(`/ground/${ground.id}`)}>
                             <h3>{ground.name}</h3>
                             <img
-                                src={`data:image/jpeg;base64,${ground?.imageUrl}`}
+                                src={`data:image/jpeg;base64,${ground?.image}`}
                                 alt={ground?.name} className="product-card-image" // css is brutal, use conditional margin
                             />
                         </div>

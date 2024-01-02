@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { Article, loadArticleById} from "./apis/article";
-import { AppWrapper} from "../../common/AppWrapper";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { LoadingSpinner} from "../../common/Spinner";
-import "../../../App.css"
+import "../../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MarkDownRenderer} from "../../common/markdown/MarkDownRenderer";
-import { Comment} from "../../comments/Comment";
-import { CommentSection} from "../../comments/CommentSection";
+import {AppWrapper} from "../../common/AppWrapper";
 
 export const AcrticleScreen = () => {
     const { articleId } = useParams();
@@ -27,14 +25,15 @@ export const AcrticleScreen = () => {
                         setArticle(article.value);
                     } else {
                         setArticle(
+
                             {
 
-                                    id: 0,
-                                    title: "Nie udało się wczytać strony",
-                                    content: `# Ups! Coś poszło nie tak\n\`\`\`py\n# TODO fix this... \nraise Exception("Nie udało się wczytać strony")\n\`\`\` \n ## Ale nie martw się \n Wszystko będzie dobrze`,
-                                    chapterId: 0,
-                                    userId: 0,
-                                    date: new Date().toISOString(),
+                                id: 0,
+                                title: "Nie udało się wczytać strony",
+                                content: `# Ups! Coś poszło nie tak\n\`\`\`py\n# TODO fix this... \nraise Exception("Nie udało się wczytać strony")\n\`\`\` \n ## Ale nie martw się \n Wszystko będzie dobrze`,
+                                chapterId: 0,
+                                userId: 0,
+                                date: new Date().toISOString(),
 
                             });
                     }
@@ -63,18 +62,6 @@ export const AcrticleScreen = () => {
                                     <div className="m-auto my-3">
                                         <MarkDownRenderer content={article?.content!!} />
                                     </div>
-                                </Row>
-                                <Row className="my-3 justify-content-between">
-
-                                    <Col className="col-3" style={{ textAlign: "center" }}>
-
-                                    </Col>
-
-
-                                </Row>
-                                <Row>
-                                    <CommentSection articleId={article?.id!!}></CommentSection>
-                                    {/* <Comment userId={1} content="chuju jebany kurwa" date="12 marca skurwysyny"></Comment> */}
                                 </Row>
                             </LoadingSpinner>
                         </div>

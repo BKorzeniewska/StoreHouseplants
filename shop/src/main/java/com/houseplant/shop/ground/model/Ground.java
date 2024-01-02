@@ -30,9 +30,9 @@ public class Ground {
     private String description; // Zdolność do zatrzymywania wilgoci
     @Column(name = "STOCK_QUANTITY", nullable = false)
     private int stockQuantity;
-    @Column(name = "price")
-    private Float price;
+    @Column(name = "PRICE")
+    private double price;
 
-    @Column(name = "IMAGE_URL")
-    private byte[] imageUrl;
+    @Column(name = "IMAGE")
+    private byte[] image;
 }

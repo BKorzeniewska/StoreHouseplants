@@ -5,7 +5,7 @@ export function Header() {
         <div className="pageHeader">
             <header className='header'>
                 <h1 className='title'>Roślinny bazarek</h1>
-            </header>
+                </header>
             <Menu1 />
         </div>
     )

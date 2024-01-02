@@ -10,7 +10,7 @@ export type Accessory = {
     price: number;
     stockQuantity: number;
     category: Category;
-    imageUrl: string;
+    image: string;
 }
 
 export enum Category {
@@ -31,7 +31,7 @@ export type CreateAccessoryRequest = {
     price: number;
     stockQuantity: number;
     category: Category;
-    imageUrl: string;
+    image: string;
 
 }
 
@@ -41,7 +41,7 @@ export type ModifyAccessoryRequest = {
     price: number;
     stockQuantity: number;
     category: Category;
-    imageUrl: string;
+    image: string;
 }
 
 export type AccessoryErrors = string;

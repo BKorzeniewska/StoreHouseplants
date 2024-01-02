@@ -20,9 +20,6 @@ public interface PlantRepository extends JpaRepository<Plant, Long> {
     @Query("SELECT p FROM Plant p join PlantSpecies ps ON (p.plantSpecies.id = ps.id) where ps.id =?1 order by ps.id asc")
     Optional<List<Plant>> findBySpeciesId(Long speciesId);
 
-    List<Plant> findByPriceLessThan(double maxPrice);
-
-    List<Plant> findByStockQuantityGreaterThan(int minStockQuantity);
     @Transactional
     @Query("SELECT p FROM Plant p where p.position =?1 order by p.id asc")
     List<Plant> findByPosition(Position position);

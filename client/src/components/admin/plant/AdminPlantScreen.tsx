@@ -128,8 +128,8 @@ export const AdminPlantsScreen = () => {
               <Button variant="secondary" onClick={() => setShowModal(false)}>
                 Nie
               </Button>
-              <Button variant="danger" onClick={() => {/* Logika usunięcia rośliny */
-              }}>
+              <Button variant="danger" onClick={() => {}
+              }>
                 Tak
               </Button>
             </Modal.Footer>
@@ -181,22 +181,24 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const request: CreatePlantRequest = {
-      name: plantName,
+      name: "plantName",
       plantSpeciesId: 1,
-      description: plantDescription,
-      price: plantPrice,
-      groundType: plantGroundType as GroundType,
-      position: plantPosition as Position,
-      beginners: plantBeginners,
-      collectible: plantCollectible,
-      stockQuantity: plantStockQuantity,
+      description: "plantDescription",
+      price: 45,
+      groundType: GroundType.DESERT,
+      position: Position.LIGHT,
+      beginners: true,
+      collectible: true,
+      stockQuantity: 500,
       image: plantImage
     };
     createPlant(request).then((response) => {
       if (response.isOk) {
         window.location.reload();
       } else {
+        console.log(request);
         console.log(response);
+
         setError("Nie udało się dodać rośliny");
       }
     });

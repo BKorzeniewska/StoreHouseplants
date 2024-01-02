@@ -11,8 +11,6 @@ import { AdminArticlesScreen } from './components/admin/article/AdminArticlesScr
 import { ArticleEditionScreen } from './components/admin/article/ArticleEditionScreen';
 import { AdminUsersScreen } from './components/admin/users/AdminUsersScreen';
 import { AdminScreen } from './components/admin/AdminScreen';
-import { PasswordRecoveryScreen } from './components/auth/PasswordRecoveryScreen';
-import { PasswordRecoveryNextScreen } from './components/auth/PasswordRecoveryNextScreen';
 import { UserEditScreen } from './components/user/UserEditScreen';
 import {ChapterItemList} from "./components/blog/chapter/ChaptersPage";
 import ChapterArticles from "./components/blog/article/ArticleByChapterScreen";
@@ -31,6 +29,7 @@ import {
 import ShoppingCart from "./components/cart/ShoppingCart";
 import {AccessoryScreen} from "./components/accessory/AccessoryScreen";
 import {AdminGroundsScreen} from "./components/admin/ground/AdminGroundScreen";
+import {AdminSpeciesScreen} from "./components/admin/species/AdminSpeciesScreen";
 
 
 function App(props: any) {
@@ -75,8 +74,6 @@ function App(props: any) {
             {/*Auth*/}
             <Route path="/login" element={<LoginScreen />}></Route>
             <Route path="/register" element={<RegisterScreen />}></Route>
-            <Route path="/password-recovery" element={<PasswordRecoveryScreen />}></Route>
-            <Route path="/password-recovery-next" element={<PasswordRecoveryNextScreen />}></Route>
             {/*Cart*/}
             <Route path="/cart"
                    element={<ShoppingCart productsInCart={productsInCart} onQuantityChange={onQuantityChange}
@@ -87,6 +84,7 @@ function App(props: any) {
             {/*Admin*/}
             <Route path="/admin/articles" element={<AdminArticlesScreen />}></Route>
             <Route path="/admin/plants" element={<AdminPlantsScreen />}></Route>
+            <Route path="/admin/species" element={<AdminSpeciesScreen/>}></Route>
             <Route path="/admin/edit/:articleId?" element={<ArticleEditionScreen />}></Route>
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
             <Route path="/admin/grounds" element={<AdminGroundsScreen />}></Route>

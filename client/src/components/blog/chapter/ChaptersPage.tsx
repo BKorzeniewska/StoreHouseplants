@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
 import { useError } from "../../common/ErrorContext";
 import { Chapter, loadChapters } from "./chapter";
 import { AppWrapper } from "../../common/AppWrapper";
 import "./ChapterItemList.css"; // Załóżmy, że stworzyłeś plik CSS o tej nazwie
+import "../../../App.css"; // Załóżmy, że stworzyłeś plik CSS o tej nazwie
 
 export const ChapterItemList = () => {
     const navigate = useNavigate();
@@ -31,18 +32,28 @@ export const ChapterItemList = () => {
     return (
         <AppWrapper hideSidebar>
             <Container className="my-5">
-                <h2>Chapters</h2>
-                <div className="chapter-grid">
+                <div className="page-tile">Rozdziały</div>
+                <hr/>
+
+                <Row xs={1} md={2} lg={3} xl={4} className="g-4">
                     {chapters.map(chapter => (
-                        <div key={chapter.id} className="chapter-tile" onClick={() => navigate(`/chapter/${chapter.id}`)}>
-                            <h3>{chapter.name}</h3>
-                            <img
-                                src={`data:image/jpeg;base64,${chapter?.image}`}
-                                alt={chapter?.name} className="chapter-image" // css is brutal, use conditional margin
-                            />
-                        </div>
+                        <Col key={chapter.id}>
+                            <Card onClick={() => navigate(`/chapter/${chapter.id}`)}>
+                                <Card.Img
+                                    variant="top"
+                                    src={`data:image/jpeg;base64,${chapter?.image}`}
+                                    alt={chapter?.name}
+                                    className="chapter-img"
+                                />
+                                <Card.Body>
+                                    <Card.Title>{chapter.name}</Card.Title>
+                                </Card.Body>
+                            </Card>
+                        </Col>
                     ))}
-                </div>
+                </Row>
+
+
             </Container>
         </AppWrapper>
     );

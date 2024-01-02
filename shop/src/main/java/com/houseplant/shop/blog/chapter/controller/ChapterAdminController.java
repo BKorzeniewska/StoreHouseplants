@@ -21,7 +21,6 @@ public class ChapterAdminController {
 
     private final ChapterService chapterService;
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @Operation(summary = "Create a new chapter")
     @PostMapping("/create")
     public ResponseEntity<ChapterResponse> createChapter(@RequestBody final CreateChapterRequest chapterRequest) {

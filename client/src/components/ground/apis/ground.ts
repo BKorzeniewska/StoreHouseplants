@@ -23,7 +23,7 @@ export type Ground = {
     stockQuantity: number;
     price: number;
     description: string;
-    imageUrl: string; // Ustawienie typu na string | null, aby obsłużyć przypadki, gdy obrazek jest nullem
+    image: string; // Ustawienie typu na string | null, aby obsłużyć przypadki, gdy obrazek jest nullem
 };
 export type CreateGroundRequest = {
     name: string;
@@ -31,7 +31,7 @@ export type CreateGroundRequest = {
     stockQuantity: number;
     price: number;
     description: string;
-    imageUrl: string;
+    image: string;
     // Other fields required to create a ground
 };
 
@@ -41,7 +41,7 @@ export type ModifyGroundRequest = {
     stockQuantity: number;
     price: number;
     description: string;
-    imageUrl: string;
+    image: string;
     // Other fields required to update a ground
 };
 

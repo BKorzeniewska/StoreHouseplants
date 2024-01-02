@@ -9,6 +9,9 @@ public record UserInfoResponse(
         String firstName,
         String lastName,
         String nickname,
+        String city,
+        String street,
+        String postCode,
 
         Integer challengesSolvedCount
 ) {

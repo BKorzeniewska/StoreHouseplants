@@ -1,7 +1,6 @@
 package com.houseplant.shop.auth;
 
 import com.houseplant.shop.config.JwtService;
-import com.houseplant.shop.mail.EmailSenderService;
 import com.houseplant.shop.token.Token;
 import com.houseplant.shop.token.TokenRepository;
 import com.houseplant.shop.token.TokenType;
@@ -28,7 +27,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final EmailSenderService emailSenderService;
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
@@ -63,7 +61,6 @@ public class AuthenticationService {
         };
         new Thread(sendingEmail).start();*/
 
-        emailSenderService.sendRegisterEmail(request);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)

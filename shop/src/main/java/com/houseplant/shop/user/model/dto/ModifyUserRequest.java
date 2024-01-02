@@ -9,6 +9,9 @@ public class ModifyUserRequest {
         private String firstname;
         private String nickname;
         private String lastname;
+        private String city;
+        private String street;
+        private String postCode;
 
 
 }

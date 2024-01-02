@@ -6,7 +6,6 @@ import com.houseplant.shop.blog.article.exception.ArticleNotFoundException;
 import com.houseplant.shop.blog.article.model.*;
 import com.houseplant.shop.blog.article.repository.ArticleRepository;
 import com.houseplant.shop.blog.chapter.repository.ChapterRepository;
-import com.houseplant.shop.blog.comment.repository.CommentRepository;
 import com.houseplant.shop.user.model.entity.User;
 import com.houseplant.shop.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -25,7 +24,6 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
     private final ChapterRepository chapterRepository;
     private final UserRepository userRepository;
     private final ArticleMapper articleMapper;
-    private final CommentRepository commentRepository;
 
     @Transactional
     @Override
@@ -133,10 +131,8 @@ public class ArticleAdminServiceImpl implements ArticleAdminService {
 
         final Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException("Article with provided ID not found", "ARTICLE_NOT_FOUND"));
-        article.setComments(null);
 
-        int rows = commentRepository.updateArticleToNull(articleId);
-        log.info("Updated {} rows", rows);
+
 
         articleRepository.deleteArticleById(articleId);
     }

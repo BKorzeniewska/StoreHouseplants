@@ -26,7 +26,7 @@ public class AccessoryAdminServiceImpl implements AccessoryAdminService {
                 .description(createAccessoryRequest.getDescription())
                 .price(createAccessoryRequest.getPrice())
                 .stockQuantity(createAccessoryRequest.getStockQuantity())
-                .imageUrl(createAccessoryRequest.getImageUrl())
+                .image(createAccessoryRequest.getImage())
                 .category(createAccessoryRequest.getCategory())
                 .build();
         accessoryRepository.save(accessory);

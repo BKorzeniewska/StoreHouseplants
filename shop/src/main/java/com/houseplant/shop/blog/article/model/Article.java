@@ -2,7 +2,6 @@ package com.houseplant.shop.blog.article.model;
 
 
 import com.houseplant.shop.blog.chapter.model.Chapter;
-import com.houseplant.shop.blog.comment.model.Comment;
 import com.houseplant.shop.user.model.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,11 +48,6 @@ public class Article {
     @JoinColumn(name="USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "article")
-    private List<Comment> comments;
-
-//    @OneToMany
-//    private List<UserHistory> userHistories;
 
 
 }

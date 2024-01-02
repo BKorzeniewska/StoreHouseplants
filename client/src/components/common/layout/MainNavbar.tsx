@@ -33,6 +33,7 @@ export const MainNavbar = (props: Props) => {
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
       <Container>
         <Navbar.Brand>
+          <img alt="logo" width="90" height="90" className="d-inline-block align-center mx-2" src={require("../../../assets/logo512.png")} />
           <Header></Header>
         </Navbar.Brand>
 

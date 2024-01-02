@@ -30,7 +30,7 @@ export type PlantShort = {
 
 export type CreatePlantRequest = {
     name: string;
-    plantSpeciesId?:number;
+    plantSpeciesId:number;
     description: string;
     price: number;
     groundType: GroundType;

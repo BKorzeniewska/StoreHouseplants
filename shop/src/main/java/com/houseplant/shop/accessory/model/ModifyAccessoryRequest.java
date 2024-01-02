@@ -14,5 +14,5 @@ public class ModifyAccessoryRequest {
     private double price;
     private int stockQuantity;
     private Long categoryId;
-    private byte[] imageUrl;
+    private byte[] image;
 }

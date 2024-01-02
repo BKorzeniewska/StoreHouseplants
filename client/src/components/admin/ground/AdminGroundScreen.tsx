@@ -72,7 +72,7 @@ export const AddGround: React.FC<AddGroundProps> = ({ isShown, onClose }) => {
     const [groundType, setGroundType] = useState<string>(GroundType.DESERT);
     const [stockQuantity, setStockQuantity] = useState(0);
     const [description, setDescription] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [image, setImage] = useState('');
     const { setError } = useError();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -83,7 +83,7 @@ export const AddGround: React.FC<AddGroundProps> = ({ isShown, onClose }) => {
             stockQuantity: stockQuantity,
             description: description,
             price: 0,
-            imageUrl: imageUrl,
+            image: image,
             // Other fields if needed
         };
 
@@ -110,7 +110,7 @@ export const AddGround: React.FC<AddGroundProps> = ({ isShown, onClose }) => {
             reader.onloadend = () => {
                 if (reader.result) {
                     const base64String = reader.result.toString().split(',')[1];
-                    setImageUrl(base64String);
+                    setImage(base64String);
                 }
             };
             reader.readAsDataURL(file);
@@ -161,7 +161,7 @@ export const AddGround: React.FC<AddGroundProps> = ({ isShown, onClose }) => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Grafika</Form.Label>
-                        <img src={imageUrl ? `data:image/jpg;base64,${imageUrl}` : 'placeholder.jpg'}
+                        <img src={image ? `data:image/jpg;base64,${image}` : 'placeholder.jpg'}
                              alt='Grafika'
                              onClick={handleImageClick}
                              style={{ maxWidth: '100px', maxHeight: '100px' }} />

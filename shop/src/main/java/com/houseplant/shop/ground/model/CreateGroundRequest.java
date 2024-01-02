@@ -14,6 +14,6 @@ public class CreateGroundRequest {
     private String description;
     private Integer stockQuantity;
 
-    private Float price;
-    private byte[] imageUrl;
+    private double price;
+    private byte[] image;
 }

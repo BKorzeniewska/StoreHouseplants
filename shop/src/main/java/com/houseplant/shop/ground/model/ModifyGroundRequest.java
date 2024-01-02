@@ -14,6 +14,6 @@ public class ModifyGroundRequest {
     private String description;
     private Integer stockQuantity;
 
-    private Float price;
-    private byte[] imageUrl;
+    private Double price;
+    private byte[] image;
 }

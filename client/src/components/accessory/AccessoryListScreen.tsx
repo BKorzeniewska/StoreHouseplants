@@ -37,7 +37,7 @@ export const AccessoryAllList = () => {
                         <div key={accessory.id} className="product-card-tile" onClick={() => navigate(`/accessory/${accessory.id}`)}>
                             <h3>{accessory.name}</h3>
                             <img
-                                src={`data:image/jpeg;base64,${accessory?.imageUrl}`}
+                                src={`data:image/jpeg;base64,${accessory?.image}`}
                                 alt={accessory?.name} className="product-card-image" // css is brutal, use conditional margin
                             />
                         </div>
@@ -109,7 +109,7 @@ export const AccessoryByCategoryList = () => {
                     {accessories.map(accessory => (
                         <Col key={accessory.id}>
                             <Card onClick={() => navigate(`/accessories/${accessory.id}`)}>
-                                <Card.Img variant="top" src={`data:image/jpeg;base64,${accessory?.imageUrl}`} alt={accessory?.name} />
+                                <Card.Img variant="top" src={`data:image/jpeg;base64,${accessory?.image}`} alt={accessory?.name} />
                                 <Card.Body>
                                     <Card.Title>{accessory.name}</Card.Title>
                                     <Card.Text><strong>Cena:</strong> {accessory.price} zł</Card.Text>

@@ -1,13 +1,11 @@
 package com.houseplant.shop.user.service;
 
-import com.houseplant.shop.blog.comment.exception.CommentIllegalStateException;
+
 import com.houseplant.shop.user.exception.UserNotFoundException;
-import com.houseplant.shop.user.exception.UserRequestException;
 import com.houseplant.shop.user.model.dto.ChangeRoleRequest;
 import com.houseplant.shop.user.model.dto.GetUsersRequest;
 import com.houseplant.shop.user.model.dto.UserResponse;
 import com.houseplant.shop.user.model.dto.UsersDTO;
-import com.houseplant.shop.user.model.entity.Role;
 import com.houseplant.shop.user.model.entity.User;
 import com.houseplant.shop.user.repository.UserMapper;
 import com.houseplant.shop.user.repository.UserRepository;
@@ -32,9 +30,7 @@ public class ChangeRoleServiceImpl implements ChangeRoleService {
     public void changeRole(final ChangeRoleRequest changeRoleRequest, final String bearerToken) {
 
 
-        if (bearerToken == null || bearerToken.isBlank()) {
-            throw new CommentIllegalStateException("Bearer token cannot be blank", "BEARER_TOKEN_BLANK");
-        }
+
         final String token = bearerToken.substring(7);
 
         final User currentUser = userRepository.findByToken(token)

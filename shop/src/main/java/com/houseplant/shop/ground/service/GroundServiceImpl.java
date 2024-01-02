@@ -74,7 +74,7 @@ public class GroundServiceImpl implements GroundService {
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
-                .imageUrl(request.getImageUrl())
+                .image(request.getImage())
                 .build();
         groundRepository.save(ground);
 
@@ -109,11 +109,11 @@ public class GroundServiceImpl implements GroundService {
         if (request.getDescription() != null) {
             ground.setDescription(request.getDescription());
         }
-        if (request.getImageUrl() != null) {
-            ground.setImageUrl(request.getImageUrl());
+        if (request.getImage() != null) {
+            ground.setImage(request.getImage());
         }
 
-        groundRepository.updateGround(ground.getName(), ground.getType(), ground.getPrice(), ground.getDescription(), ground.getStockQuantity(), ground.getImageUrl(), ground.getId());
+        groundRepository.updateGround(ground.getName(), ground.getType(), ground.getPrice(), ground.getDescription(), ground.getStockQuantity(), ground.getImage(), ground.getId());
 
         final Ground updatedGround = groundRepository.findById(request.getId())
                 .orElseThrow(() -> new GroundNotFoundException("Ground with provided ID not found", "GROUND_NOT_FOUND"));

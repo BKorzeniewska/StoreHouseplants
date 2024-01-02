@@ -64,9 +64,9 @@ export function AccessoryScreen() {
                 <hr/>
                 <div className="product-page-place">
                     <div className="product-page-image-place">
-                        {accessory?.imageUrl ? (
+                        {accessory?.image ? (
                             <img className="product-page-image"
-                                 src={`data:image/jpeg;base64,${accessory?.imageUrl}`}
+                                 src={`data:image/jpeg;base64,${accessory?.image}`}
                                  alt={accessory?.name}
                             />
                         ) : (

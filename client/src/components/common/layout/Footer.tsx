@@ -15,9 +15,9 @@ const Footer = () => {
           <div className="container second_class_bdr">
             <div className="row">
               <div className="col-md-5 col-sm-6">
-
-                <div className="footer-logo"><img alt="logo" width="40" height="40" className="d-inline-block align-center mx-2" src={require("../../../assets/logo512.png")} />
-                </div>
+                  <div className="footer-logo"><img alt="logo" width="40" height="40" className="d-inline-block align-center mx-2" src={require("../../../assets/logo512.png")} />
+                    <h1 className='title'>Roślinny bazarek</h1>
+                  </div>
                 <p>Witaj na stronie internetowej poświęconej językowi programowania Python! Nasza witryna jest pełna zasobów, które pomogą Ci zgłębić tajniki tego wszechstronnego języka programowania. Bez względu na to, czy jesteś początkującym programistą, który dopiero zaczyna przygodę z Pythonem, czy doświadczonym specjalistą, szukającym zaawansowanych informacji, tutaj znajdziesz to, czego potrzebujesz.</p>
               </div>
               <div className="col-md-3 col-sm-6">

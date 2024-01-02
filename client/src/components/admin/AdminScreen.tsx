@@ -48,7 +48,7 @@ export const AdminScreen = () => {
         </Row>
         <Row className="mt-4">
           <Col>
-            <Link to="/admin/plants" className="admin-link">
+            <Link to="/admin/species" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaFolder className="mr-2" />
                 Gatunki

@@ -13,5 +13,5 @@ public class CreateAccessoryRequest {
     private double price;
     private int stockQuantity;
     private Category category;
-    private byte[] imageUrl;
+    private byte[] image;
 }
