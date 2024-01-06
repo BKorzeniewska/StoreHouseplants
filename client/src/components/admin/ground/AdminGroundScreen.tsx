@@ -1,21 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Modal, Form, Pagination } from 'react-bootstrap';
+import { Button, Container, Modal, Form, Pagination, Col, Card, Row } from 'react-bootstrap';
 import { useError } from "../../common/ErrorContext";
-import { loadGrounds, createGround, updateGround, deleteGround, Ground, GroundType, CreateGroundRequest, ModifyGroundRequest } from "../../ground/apis/ground";
+import {
+    loadGrounds,
+    createGround,
+    updateGround,
+    deleteGround,
+    Ground,
+    GroundType,
+    CreateGroundRequest
+} from "../../ground/apis/ground";
 import { AppWrapper } from "../../common/AppWrapper";
+import { FaSort } from "react-icons/fa";
 
 export const AdminGroundsScreen = () => {
     const { setError } = useError();
     const [allGrounds, setAllGrounds] = useState<Ground[]>([]);
+    const [groundId, setGroundId] = useState<number>(0);
+    const [displayGrounds, setDisplayGrounds] = useState<Ground[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [showModalAdd, setShowModalAdd] = useState(false);
     const [pageNumber, setPageNumber] = useState(1);
-    const itemsPerPage = 7;
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortAscending, setSortAscending] = useState(true);
+    const itemsPerPage = 12;
     const [totalPages, setTotalPages] = useState(0);
+    const [showModalA, setShowModalA] = useState(false);
+
+    const [showModalD, setShowModalD] = useState(false);
 
     useEffect(() => {
         fetchGrounds();
-    }, [pageNumber]);
+    }, []);
+
+    useEffect(() => {
+        const filteredGrounds = searchTerm
+            ? allGrounds.filter(ground => ground.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            : allGrounds;
+
+        setTotalPages(Math.ceil(filteredGrounds.length / itemsPerPage));
+        setDisplayGrounds(filteredGrounds.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage));
+    }, [allGrounds, pageNumber, searchTerm, sortAscending]);
 
     const fetchGrounds = async () => {
         setIsLoading(true);
@@ -23,7 +47,6 @@ export const AdminGroundsScreen = () => {
             const result = await loadGrounds();
             if (result.isOk) {
                 setAllGrounds(result.value);
-                setTotalPages(Math.ceil(result.value.length / itemsPerPage));
             } else {
                 setError("Failed to load grounds");
             }
@@ -33,8 +56,29 @@ export const AdminGroundsScreen = () => {
         setIsLoading(false);
     };
 
+    const sortGroundsByName = () => {
+        setSortAscending(!sortAscending);
+        setAllGrounds([...allGrounds].sort((a, b) => {
+            return sortAscending ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        }));
+    };
+
+    const handleOpenModalDel = async (groundId: number) => {
+        setShowModalD(true);
+        setGroundId(groundId);
+    };
+
     const handleDelete = async (groundId: number) => {
-        // Implement delete logic
+        try {
+            await deleteGround(groundId);
+            fetchGrounds();
+        } catch (err) {
+            setError("Błąd w usuwaniu podłoża");
+        }
+        finally {
+            setShowModalD(false);
+            setGroundId(0)
+        }
     };
 
     if (isLoading) {
@@ -43,58 +87,101 @@ export const AdminGroundsScreen = () => {
 
     return (
         <AppWrapper hideSidebar>
-            <AddGround isShown={showModalAdd} onClose={() => setShowModalAdd(false)} />
-            <Container className="my-5">
-                <h2>Grounds</h2>
-                <Button onClick={() => setShowModalAdd(true)}>Add Ground</Button>
-                <hr />
-                {allGrounds.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage).map(ground => (
-                    <div key={ground.id}>
-                        <p>{ground.name} - {ground.type}</p>
-                        <Button variant="danger" onClick={() => handleDelete(ground.id)}>Delete</Button>
-                    </div>
-                ))}
-                <Pagination>
+            <AddGround isShown={showModalA} onClose={() => setShowModalA(false)} id={groundId}/>
+            <Container className="my-2 w-200">
+                <div className="page-tile"> Grounds </div>
+                <hr className="h-10" />
+                <div className="title-admin">
+                    <input
+                        type="text"
+                        placeholder="Search by name"
+                        className="form-control"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <FaSort onClick={sortGroundsByName}>
+                        <i className={`bi ${sortAscending ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up'}`}></i>
+                    </FaSort>
+                    <button className="btn btn-success" onClick={() => setShowModalA(true)}>
+                        Add Ground
+                    </button>
+                </div>
+                <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+                    {displayGrounds.map(ground => (
+                        <Col key={ground.id}>
+                            <Card>
+                                <Card.Img variant="top" src={`data:image/jpeg;base64,${ground.image}`} alt={ground.name} />
+                                <Card.Body>
+                                    <Card.Title>{ground.name}</Card.Title>
+                                    {/* Add additional ground details */}
+                                    <Button variant="danger" onClick={() => handleOpenModalDel(ground.id)}>Delete</Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+                <Pagination className='d-flex justify-content-center mt-4'>
                     {/* Pagination logic */}
                 </Pagination>
+
+                <Modal show={showModalD} onHide={() => setShowModalD(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Usunąć Roślinę?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Czy jesteś pewny, że chcesz usunąć roślinę?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowModalD(false)}>
+                            Nie
+                        </Button>
+                        <Button variant="danger" onClick={() => handleDelete(groundId)}>
+                            Tak
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </AppWrapper>
     );
 };
-
-type AddGroundProps = {
+type Props = {
     isShown: boolean;
     onClose: () => void;
+
+    id:number
 };
 
-export const AddGround: React.FC<AddGroundProps> = ({ isShown, onClose }) => {
+export const AddGround: React.FC<Props> = ({ isShown, onClose, id}) => {
     const [groundName, setGroundName] = useState('');
     const [groundType, setGroundType] = useState<string>(GroundType.DESERT);
     const [stockQuantity, setStockQuantity] = useState(0);
+    const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
     const [image, setImage] = useState('');
     const { setError } = useError();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         const request: CreateGroundRequest = {
             name: groundName,
-            type: groundType  as GroundType,
+            type: groundType as GroundType,
             stockQuantity: stockQuantity,
+            price: price,
             description: description,
-            price: 0,
             image: image,
-            // Other fields if needed
         };
 
-        createGround(request).then((response) => {
+        try {
+            const response = await createGround(request);
             if (response.isOk) {
-                window.location.reload();
+                window.location.reload(); // Or use a more React-friendly method of updating the state/display
             } else {
-                console.log(response);
                 setError("Nie udało się dodać podłoża");
             }
-        });
+        } catch (error) {
+            setError("Error creating ground");
+        }
         onClose();
     };
 
@@ -129,11 +216,12 @@ export const AddGround: React.FC<AddGroundProps> = ({ isShown, onClose }) => {
                         <Form.Control
                             type="text"
                             placeholder="Enter ground name"
+                            value={groundName}
                             onChange={(e) => setGroundName(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formGroundType">
-                        <Form.Label>Typ Ziemi</Form.Label>
+                        <Form.Label>Ground Type</Form.Label>
                         <Form.Select
                             value={groundType}
                             onChange={(event) => setGroundType(event.target.value)}>
@@ -148,38 +236,49 @@ export const AddGround: React.FC<AddGroundProps> = ({ isShown, onClose }) => {
                         <Form.Control
                             type="number"
                             placeholder="Enter stock quantity"
+                            value={stockQuantity}
                             onChange={(e) => setStockQuantity(parseInt(e.target.value))} />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formMoistureRetention">
-                        <Form.Label>Opis</Form.Label>
+                    <Form.Group className="mb-3" controlId="formPrice">
+                        <Form.Label>Price</Form.Label>
+                        <Form.Control
+                            type="number"
+                            placeholder="Enter price"
+                            value={price}
+                            onChange={(e) => setPrice(parseFloat(e.target.value))} />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formDescription">
+                        <Form.Label>Description</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter moisture retention"
+                            placeholder="Enter description"
+                            value={description}
                             onChange={(e) => setDescription(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Grafika</Form.Label>
-                        <img src={image ? `data:image/jpg;base64,${image}` : 'placeholder.jpg'}
-                             alt='Grafika'
-                             onClick={handleImageClick}
-                             style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                        <Form.Label>Image</Form.Label>
+                        <div onClick={handleImageClick}>
+                            <img src={image ? `data:image/jpeg;base64,${image}` : 'placeholder.jpg'}
+                                 alt='Ground Image'
+                                 style={{ maxWidth: '100px', maxHeight: '100px', cursor: 'pointer' }} />
+                        </div>
                         <input
                             type='file'
                             id='image-file'
                             accept='image/*'
                             onChange={handleImageChange}
-                            style={{ display: 'none' }}
-                        />
+                            style={{ display: 'none' }} />
                     </Form.Group>
+
+                    <Button variant="primary" type="submit" className="w-100 mt-3">Add</Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onClose}>Close</Button>
-                <Button variant="primary" type="submit">Add</Button>
             </Modal.Footer>
         </Modal>
     );
-
 };

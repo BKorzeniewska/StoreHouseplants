@@ -1,9 +1,9 @@
 import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes, useLocation} from "react-router-dom";
 import HomeScreen from './components/home/HomeScreen';
 import { LoginScreen } from './components/auth/LoginScreen';
 import { RegisterScreen } from './components/auth/RegisterScreen';
-import { AuthProvider } from './components/auth/AuthContext';
+import {AuthContext, AuthProvider} from './components/auth/AuthContext';
 import { AcrticleScreen } from './components/blog/article/ArticleScreen';
 import { ErrorProvider } from './components/common/ErrorContext';
 import { UserScreen } from './components/user/UserScreen';
@@ -30,8 +30,104 @@ import ShoppingCart from "./components/cart/ShoppingCart";
 import {AccessoryScreen} from "./components/accessory/AccessoryScreen";
 import {AdminGroundsScreen} from "./components/admin/ground/AdminGroundScreen";
 import {AdminSpeciesScreen} from "./components/admin/species/AdminSpeciesScreen";
+import {useContext, useEffect, useState} from "react";
+import {Kind, Product} from "./components/cart/apis/product";
 
+function Cart() {
+  const [cartKey, setCartKey] = useState('shopping-cart-guest')
+  const [userId, setUserId] = useState(0)
+  const [showCartSuccessToast, setShowCartSuccessToast] = useState(false);
+  const [showCartWarningToast, setShowCartWarningToast] = useState(false);
+  const location = useLocation();
+  const {getUser, isAuthorized} = useContext(AuthContext);
+  const [productsInCart, setProductsInCart] = useState<Product[]>([]);
+  useEffect(() => {
+    const userData = getUser();
+    if (userData) {
+      setUserId(userData.userId)
+    } else {
+      setUserId(0)
+    }
+    setCartKey(`shopping-cart-${userId}`)
+  }, [location]);
 
+  useEffect(() => {
+    localStorage.setItem(cartKey, JSON.stringify(JSON.parse(localStorage.getItem(cartKey)!) || []));
+
+    setProductsInCart(JSON.parse(localStorage.getItem(cartKey)!) || []);
+    console.log(productsInCart);
+  }, [cartKey]);
+
+  useEffect(() => {
+    localStorage.setItem(cartKey, JSON.stringify(productsInCart));
+  }, [productsInCart]);
+
+  const addProductToCart = (product: Product) => {
+    const alreadyInCart = productsInCart.find(item => item.id === product.id && item.kind === product.kind);
+    if (alreadyInCart) {
+      const latestCartUpdate = productsInCart.map(item =>
+          item.id === product.id && item.kind === product.kind? {
+                ...item, count: item.count + 1
+              }
+              : item
+      );
+      setProductsInCart(latestCartUpdate);
+      setShowCartWarningToast(true);
+    } else {
+      const newProduct = {
+        ...product,
+        count: 1,
+      }
+      setProductsInCart([...productsInCart, newProduct,])
+      setShowCartSuccessToast(true);
+    }
+    setTimeout(() => {
+      setShowCartSuccessToast(false);
+      setShowCartWarningToast(false);
+    }, 3000);
+  }
+
+  const onQuantityChange = (productId: number, count: number, kind:Kind) => {
+    setProductsInCart((oldState) => {
+      const productsIndex = oldState.findIndex(
+          (item) =>
+              item.id === productId && item.kind === kind
+      );
+      if (productsIndex !== -1) {
+        oldState[productsIndex].count = count;
+      }
+      return [...oldState];
+    });
+  };
+
+  const onProductRemove = (product: Product) => {
+    setProductsInCart((oldState) => {
+      const productsIndex = oldState.findIndex(
+          (item) =>
+              item.id === product.id && item.kind === product.kind
+      );
+      if (productsIndex !== -1) {
+        oldState.splice(productsIndex, 1);
+      }
+      return [...oldState];
+    });
+  }
+
+  const clearCart = () => {
+    setProductsInCart([]);
+  }
+  return {
+    productsInCart,
+    addProductToCart,
+    onQuantityChange,
+    onProductRemove,
+    showCartSuccessToast,
+    setShowCartSuccessToast,
+    showCartWarningToast,
+    setShowCartWarningToast,
+    clearCart
+  }
+}
 function App(props: any) {
   const {
     productsInCart,
@@ -42,12 +138,10 @@ function App(props: any) {
     setShowCartSuccessToast,
     showCartWarningToast,
     showCartSuccessToast,
-    clearCart
-  } = props
+    clearCart,
+  } = Cart()
   return (
-    <AuthProvider>
-      <ErrorProvider>
-        <BrowserRouter>
+
           <Routes>
             <Route path="/" element={<HomeScreen />}></Route>
             {/*Accessory*/}
@@ -56,7 +150,12 @@ function App(props: any) {
             <Route path="/accessory/:accessoryId" element={<AccessoryScreen />}></Route>
             {/*Plant*/}
             <Route path="/plants/all" element={<PlantItemList/>}></Route>
-            <Route path="/plants/:plantId" element={<PlantScreen/>}></Route>
+            <Route path="/plants/:plantId" element={<PlantScreen  productsInCart={productsInCart}
+                                                                  addProductToCart={addProductToCart}
+                                                                  setShowCartWarningToast={setShowCartWarningToast}
+                                                                  setShowCartSuccessToast={setShowCartSuccessToast}
+                                                                  showCartWarningToast={showCartWarningToast}
+                                                                  showCartSuccessToast={showCartSuccessToast}/>}></Route>
             <Route path="/plants/species/:speciesId" element={<PlantListBySpecies/>}></Route>
             <Route path="/plants/position/:position" element={<PlantsByPosition/>}></Route>
             <Route path="/plants/beginners/:isForBegginers" element={<PlantsByBegginers/>}></Route>
@@ -89,10 +188,9 @@ function App(props: any) {
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
             <Route path="/admin/grounds" element={<AdminGroundsScreen />}></Route>
             <Route path="/admin" element={<AdminScreen />}></Route>
+
           </Routes>
-        </BrowserRouter>
-      </ErrorProvider>
-    </AuthProvider>
+
   );
 }
 

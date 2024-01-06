@@ -47,11 +47,11 @@ const HomeScreen = (props: Props) => {
           <div className="banner">
           <img className="banner-img" src={require("../../assets/background1.png")} />
           </div>
-          <p className="site-description">Witaj! W naszym sklepie znajdziesz rośliny domowe oraz podłoża i akcesoria do ich pielęgnacji. Zpraszamy też serdecznie do części blogowej zawierajacej krótkie porady dotyczące hodowli.</p>
+          <p className="site-description">Witaj! W naszym sklepie znajdziesz rośliny domowe oraz podłoża i akcesoria do ich pielęgnacji. Zapraszamy też serdecznie do części blogowej zawierajacej krótkie porady dotyczące hodowli.</p>
           <h2>Polecane rośliny</h2>
           <Row className="mt-3">
             {plants.map((plant) => (
-                <Col md={2} sm={4} key={plant.id} onClick={() => navigate(`/plant/${plant.id}`)}>
+                <Col md={2} sm={4} key={plant.id} onClick={() => navigate(`/plants/${plant.id}`)}>
                   <div className="article-tile">
                     <h3><strong>{plant.name}</strong></h3>
                   </div>

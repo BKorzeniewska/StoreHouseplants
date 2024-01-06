@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Pagination, Modal, Form } from 'react-bootstrap';
+import {Button, Container, Pagination, Modal, Form, Col, Card, Row} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useError } from "../../common/ErrorContext";
 import { AppWrapper } from "../../common/AppWrapper";
@@ -7,9 +7,11 @@ import {
   createSpecies,
   CreateSpeciesRequest,
   deleteSpecies,
-  loadSpecies,
+  loadSpecies, loadSpeciesById, modifySpecies, ModifySpeciesRequest,
   Species
 } from "../../plant/species/apis/species";
+import {FaSort} from "react-icons/fa";
+import {FaArrowDown91, FaArrowUpAZ} from "react-icons/fa6";
 
 
 
@@ -20,8 +22,10 @@ export const AdminSpeciesScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const itemsPerPage = 7;
+  const itemsPerPage = 12;
+  const [sortAscending, setSortAscending] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [speciesId, setSpeciesId] =  useState<number>(0);
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -54,11 +58,30 @@ export const AdminSpeciesScreen = () => {
   }
   setIsLoading(false);
 };
+
+  const sortSpeciesByName = () => {
+    setSortAscending(!sortAscending);
+    setDisplaySpecies([...displaySpecies].sort((a, b) => {
+      if (sortAscending) {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    }));
+  };
   const handleCloseModal = () => {
     setShowModalAdd(false);
   };
   const handleOpenModal = () => {
     setShowModalAdd(true);
+  };
+  const handleOpenModalDelete = async (speciesId: number) => {
+    setShowModal(true);
+    setSpeciesId(speciesId);
+  };
+  const handleOpenModalModify = async (speciesId: number) => {
+    setShowModalAdd(true);
+    setSpeciesId(speciesId);
   };
   const handleDelete = async (speciesId: number) => {
     try {
@@ -66,6 +89,10 @@ export const AdminSpeciesScreen = () => {
       fetchSpecies ();
     } catch (err) {
       setError("Nie udało się usunąć gatunku");
+    }
+    finally {
+      setShowModal(false);
+      setSpeciesId(0);
     }
   };
 
@@ -76,34 +103,42 @@ export const AdminSpeciesScreen = () => {
 
   return (
       <AppWrapper hideSidebar>
-        <AddSpecies isShown={showModalAdd} onClose={handleCloseModal}/>
-        <Container className="my-5">
-          <h2>Rośliny </h2>
-          <button className="btn btn-success" onClick={handleOpenModal}>
-            Dodaj rozdział
-          </button>
-          <hr />
+        <AddSpecies isShown={showModalAdd} onClose={handleCloseModal} id={speciesId}/>
+        <Container className="my-2 w-200">
+          <div className="page-tile"> Gatunki roślin</div>
+          <hr className="h-10" />
+        <div className="title-admin">
           <input
               type="text"
               placeholder="Wyszukaj po nazwie"
-              className="form-control mb-4"
+              className="form-control "
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
           />
+          <FaArrowUpAZ onClick={sortSpeciesByName}  style={{ fontSize: '30px' }}>
+            <i className={`bi ${sortAscending ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up'}`}></i>
+          </FaArrowUpAZ>
 
-          {displaySpecies.map(species => (
-              <div
-                  className="custom-list-item d-flex justify-content-between align-items-start"
-                  key={species.id}
-              >
-                <div className="ms-2 me-auto">
-                  <div className="fw-bold">{species.name}</div>
-                </div>
-                <div className='option-section'>
-                  <Button variant="danger" onClick={() => handleDelete(species.id)}>Delete</Button>
-                </div>
-              </div>
-          ))}
+          <button className="btn btn-success " onClick={handleOpenModal}>
+            Dodaj gatunek
+          </button>
+        </div>
+          <Row xs={6}   className="g-4">
+            {displaySpecies.map(species => (
+                <Col key={species.id}>
+                  <Card>
+                    <Card.Img variant="top" src={`data:image/jpeg;base64,${species?.image}`} alt={species?.name} />
+                    <Card.Body className="d-flex flex-column justify-content-between">
+                      <Card.Title className="text-center card-title-custom h-25">{species.name}</Card.Title>
+
+                        <Button className="btn btn-warning w-100 m-1 h-22 text-center " style={{ fontSize: '13px' }} onClick={() => handleOpenModalModify(species.id)}> Edytuj </Button>
+                        <Button className="btn btn-success w-100 m-1 h-22 text-center " style={{ fontSize: '13px' }}  onClick={() => handleOpenModalDelete(species.id)} > Usuń </Button>
+
+                    </Card.Body>
+                  </Card>
+                </Col>
+            ))}
+          </Row>
 
           <Pagination className='d-flex justify-content-center mt-4'>
             <Pagination.First onClick={() => setPageNumber(1)} disabled={pageNumber === 1} />
@@ -121,7 +156,7 @@ export const AdminSpeciesScreen = () => {
             <Pagination.Last onClick={() => setPageNumber(totalPages)} disabled={pageNumber === totalPages} />
           </Pagination>
 
-          <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal show={showModal} onHide={() => setShowModal(false) }>
             <Modal.Header closeButton>
               <Modal.Title>Usunąć gatunek?</Modal.Title>
             </Modal.Header>
@@ -132,30 +167,13 @@ export const AdminSpeciesScreen = () => {
               <Button variant="secondary" onClick={() => setShowModal(false)}>
                 Nie
               </Button>
-              <Button variant="danger" onClick={() => {/* Logika usunięcia rośliny */
-              }}>
+              <Button variant="danger" onClick={() => handleDelete(speciesId)}>
                 Tak
               </Button>
             </Modal.Footer>
           </Modal>
 
-          <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Usunąć Gatunek?</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Czy jesteś pewny, że chcesz usunąć gatunek?
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowModal(false)}>
-                Nie
-              </Button>
-              <Button variant="danger" onClick={() => {/* Logika usunięcia rośliny */
-              }}>
-                Tak
-              </Button>
-            </Modal.Footer>
-          </Modal>
+
 
         </Container>
       </AppWrapper>
@@ -163,31 +181,61 @@ export const AdminSpeciesScreen = () => {
 }
 type Props = {
   isShown: boolean;
+  id: number;
   onClose: () => void;
 };
 
 
 
-export const AddSpecies: React.FC<Props> = ({ isShown, onClose }) => {
+export const AddSpecies: React.FC<Props> = ({ isShown, onClose, id }) => {
   const [speciesName, setSpeciesName] = useState("");
   const [speciesImage, setSpeciesImage] = useState('');
   const { setError } = useError();
 
-
+  useEffect(() => {
+    if (id !== 0) {
+      loadSpeciesById(id.toString()).then(speciesResult => {
+        if (speciesResult.isOk) {
+          setSpeciesName(speciesResult.value.name);
+          setSpeciesImage(speciesResult.value.image || "");
+        } else {
+          setError('Failed to load species details');
+        }
+      });
+    }
+  }, [id, setError]);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const request: CreateSpeciesRequest = {
-      name: speciesName,
-      image: speciesImage
-    };
-    createSpecies(request).then((response) => {
-      if (response.isOk) {
-        window.location.reload();
-      } else {
-        console.log(response);
-        setError("Nie udało się dodać gatunku");
-      }
-    });
+
+    if( id != 0)    {
+      const request: ModifySpeciesRequest = {
+        id: id,
+        name: speciesName,
+        image: speciesImage
+      };
+      modifySpecies(request).then((response) => {
+        if (response.isOk) {
+          window.location.reload();
+        } else {
+          console.log(response);
+          setError("Nie udało się edytować gatunku");
+        }
+      });
+    }
+    else {
+      const request: CreateSpeciesRequest = {
+        name: speciesName,
+        image: speciesImage
+      };
+      createSpecies(request).then((response) => {
+        if (response.isOk) {
+          window.location.reload();
+        } else {
+          console.log(response);
+          setError("Nie udało się dodać gatunku");
+        }
+      });
+    }
     onClose();
   };
 
@@ -230,9 +278,11 @@ export const AddSpecies: React.FC<Props> = ({ isShown, onClose }) => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Grafika</Form.Label>
+                <div/>
                 <img src={speciesImage ? `data:image/jpg;base64,${speciesImage}` : 'placeholder.jpg'}
                      onClick={handleImageClick}
                      style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                <div/>
                 <input
                     type='file'
                     id='image-file'
@@ -241,17 +291,16 @@ export const AddSpecies: React.FC<Props> = ({ isShown, onClose }) => {
                     style={{ display: 'none' }}
                 />
               </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Dodaj
+              <hr/>
+              <Button variant="primary" type="submit" style={{ marginLeft: '15px', width: '93%' }}>
+              Dodaj
               </Button>
+              <Button variant="secondary" type="button" onClick={onClose} style={{ marginLeft: '15px', width: '93%', marginTop:'17px', color: 'white'}}>
+                Zamknij
+              </Button>
+
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>
-              Zamknij
-            </Button>
-          </Modal.Footer>
         </Modal>
       </>
   );

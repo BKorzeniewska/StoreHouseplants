@@ -7,6 +7,7 @@ import { useError } from '../../common/ErrorContext';
 import { ThemeContext } from '../../themes/ThemeProvider';
 import { AppWrapper } from '../../common/AppWrapper';
 import { AddChapter } from './AddChapter';
+import {deleteChapter} from "../../blog/chapter/chapter";
 
 type ChapterProps = {
   id: number;
@@ -35,11 +36,26 @@ const Chapter = ({ chapter }: { chapter: ChapterProps }) => {
       }
     });
   }
+  function removeChapter(id: number): void {
+    console.log(id)
+    deleteChapter(id).then((data) => {
+      if (data.isOk) {
+        navigate('/admin/articles');
+      }
+      else {
+        console.log(data.error);
+        setError('Nie udało się usunąć rozdziału');
+      }
+    });
+  }
 
   return (
       <div className={`border rounded p-3 mb-4`}>
         <button className={`btn btn-link p-0`} onClick={() => setIsOpen(!isOpen)}>
           <h2>{chapter.name}</h2>
+          <button className="btn btn-sm btn-danger" onClick={() => removeChapter(chapter.id)}>
+            Usuń Rozdział
+          </button>
         </button>
         <ul className={`list-unstyled ${isOpen ? '' : 'd-none'}`}>
           {chapter.articles.map((article) => (

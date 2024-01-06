@@ -1,6 +1,7 @@
 package com.houseplant.shop.plants.plant.controller;
 
 import com.houseplant.shop.plants.plant.model.CreatePlantRequest;
+import com.houseplant.shop.plants.plant.model.DeliveryPlantRequest;
 import com.houseplant.shop.plants.plant.model.ModifyPlantRequest;
 import com.houseplant.shop.plants.plant.model.PlantResponse;
 import com.houseplant.shop.plants.plant.service.PlantAdminService;
@@ -24,9 +25,14 @@ public class PlantAdminController {
         return new ResponseEntity<>(plantResponse, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/modify")
+    @PutMapping("/modify")
     public ResponseEntity<PlantResponse> modifyPlant(@RequestBody ModifyPlantRequest request) {
         PlantResponse plantResponse = plantAdminService.modifyPlant(request);
+        return new ResponseEntity<>(plantResponse, HttpStatus.OK);
+    }
+    @PutMapping("/delivery")
+    public ResponseEntity<PlantResponse> deliveryPlant(@RequestBody DeliveryPlantRequest request) {
+        PlantResponse plantResponse = plantAdminService.deliveryPlant(request);
         return new ResponseEntity<>(plantResponse, HttpStatus.OK);
     }
 

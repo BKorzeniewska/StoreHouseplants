@@ -105,3 +105,6 @@ button.add-button:hover {
         margin-bottom: 1rem;
     }
 }
+.card-title-custom {
+    font-size: larger; /* Adjust as needed */
+}

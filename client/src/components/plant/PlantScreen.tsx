@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Container, Spinner, Toast} from 'react-bootstrap';
-import {loadPlantById, Plant, Position} from "./apis/plant";
+import {loadPlantById, Plant} from "./apis/plant";
 import {AppWrapper} from "../common/AppWrapper";
 import "./PlantScreen.css";
 import {loadSpeciesById} from "./species/apis/species";
+import {Kind, Product} from "../cart/apis/product";
 
 
-export function PlantScreen() {
+export function PlantScreen(props:any) {
     const { plantId } = useParams();
     const [plant, setPlant] = useState<Plant | null>(null); // Explicitly define the type as `Plant | null`
     const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +20,14 @@ export function PlantScreen() {
     const [isForBeginners, setIsForBeginners] = useState<string>();
     const [availability, setAvailability] = useState<string>();
     const [quantity, setQuantity] = useState(1); // Stan przechowujący ilość produktów
-
+    const {
+        productsInCart,
+        addProductToCart,
+        setShowCartWarningToast,
+        setShowCartSuccessToast,
+        showCartWarningToast,
+        showCartSuccessToast
+    } = props
 
     useEffect(() => {
         if (plantId) {
@@ -35,27 +43,26 @@ export function PlantScreen() {
                         // Wywołanie loadSpeciesById wewnątrz bloku then
                         return loadSpeciesById(result.value.plantSpeciesId.toString());
                     } else {
-                        setError('Failed to load plant details');
+                        setError('Nie udało się załadować rośliny');
                         setIsLoading(false);
-                        throw new Error('Failed to load plant details');
+                        throw new Error('Nie udało się załadować rośliny');
                     }
                 })
                 .then(speciesResult => {
                     if (speciesResult.isOk) {
                         setSpecies(speciesResult.value.name);
                     } else {
-                        setError('Failed to load species details');
+                        setError('Nie udało się załadować gatunku');
                     }
                 })
                 .catch(() => {
-                    // Ten catch obejmuje błędy zarówno z loadPlantById, jak i loadSpeciesById
-                    setError('Failed to load plant or species details');
+                    setError('Nie udało się załadować gatunku lub rośliny');
                 })
                 .finally(() => {
                     setIsLoading(false);
                 });
         } else {
-            setError('No plant ID provided');
+            setError('Brak roliny o takim id');
             setIsLoading(false);
         }
     }, [plantId]);
@@ -73,11 +80,20 @@ export function PlantScreen() {
         setQuantity(newQuantity >= 1 ? newQuantity : 1);
     };
 
+    const handleAddToCartButton = () => {
+        const product: Product = {
+            id: Number(plantId),
+            name: plant?.name!,
+            price: plant?.price!,
+            kind: Kind.PLANT,
+            count: quantity,
+            image: plant?.image!
+        };
+        addProductToCart(product);
+    };
+
     return (
         <AppWrapper hideSidebar>
-
-
-
             <Container className="my-5">
                 <hr/>
                 <div className="product-page-tile">{plant?.name}</div>
@@ -136,7 +152,7 @@ export function PlantScreen() {
                                 onChange={handleQuantityChange}
                                 min="1"
                             />
-                            <button type="button" className="btn btn-success" onClick={() => navigate('/cart')}>dodaj do koszyka</button>
+                            <button type="button" className="btn btn-success" onClick={() => handleAddToCartButton()}>dodaj do koszyka</button>
                         </div>
 
                     </div>

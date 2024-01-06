@@ -61,13 +61,7 @@ export const RegisterScreen = () => {
                                         handleSubmit(formData);
                                     }}
                                 >
-                                    <Form.Group
-                                        className="mb-4"
-                                        controlId="nick"
-                                    >
-                                        <Form.Label>Nickname</Form.Label>
-                                        <Form.Control type="text" placeholder="Twój nickname" />
-                                    </Form.Group>
+
                                     <Form.Group
                                         className="mb-4"
                                         controlId="firstname"

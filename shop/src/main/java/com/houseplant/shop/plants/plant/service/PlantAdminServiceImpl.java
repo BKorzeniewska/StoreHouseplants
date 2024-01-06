@@ -2,10 +2,7 @@ package com.houseplant.shop.plants.plant.service;
 
 import com.houseplant.shop.plants.plant.PlantMapper;
 import com.houseplant.shop.plants.plant.exception.PlantNotFoundException;
-import com.houseplant.shop.plants.plant.model.CreatePlantRequest;
-import com.houseplant.shop.plants.plant.model.ModifyPlantRequest;
-import com.houseplant.shop.plants.plant.model.Plant;
-import com.houseplant.shop.plants.plant.model.PlantResponse;
+import com.houseplant.shop.plants.plant.model.*;
 import com.houseplant.shop.plants.plant.repository.PlantRepository;
 import com.houseplant.shop.plants.species.repository.PlantSpeciesRepository; // Assuming you have this
 import jakarta.transaction.Transactional;
@@ -60,6 +57,24 @@ public class PlantAdminServiceImpl implements PlantAdminService {
 
         updatePlantFields(plant, request);
         plantRepository.save(plant);  // Assuming save updates existing plants
+        log.info("Plant updated: {}", plant.getId());
+
+        return plantMapper.toPlantResponse(plant);
+    }
+    @Override
+    @Transactional
+    public PlantResponse deliveryPlant(DeliveryPlantRequest request) {
+        if (request.getId() == null) {
+            throw new PlantNotFoundException("Plant ID cannot be null", "PLANT_ID_NULL");
+        }
+
+        final Plant plant = plantRepository.findById(request.getId())
+                .orElseThrow(() -> new PlantNotFoundException("Plant with provided ID not found", "PLANT_NOT_FOUND"));
+
+        if (request.getStockQuantity() != null) {
+            plant.setStockQuantity(request.getStockQuantity());
+        }
+        plantRepository.save(plant);
         log.info("Plant updated: {}", plant.getId());
 
         return plantMapper.toPlantResponse(plant);

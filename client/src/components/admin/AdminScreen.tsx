@@ -18,26 +18,6 @@ export const AdminScreen = () => {
         </Row>
         <Row className="mt-4">
           <Col>
-            <Link to="/admin/articles" className="admin-link">
-              <Button variant="primary" size="lg">
-                <FaNewspaper className="mr-2" />
-                 Artykuły i rozdziały
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col>
-            <Link to="/admin/users" className="admin-link">
-              <Button variant="primary" size="lg">
-                <FaUserCog className="mr-2" />
-                Użytkownicy
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col>
             <Link to="/admin/plants" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaPagelines className="mr-2" />
@@ -72,6 +52,26 @@ export const AdminScreen = () => {
               <Button variant="primary" size="lg">
                 <FaSeedling className="mr-2" />
                 Podłoża
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/articles" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaNewspaper className="mr-2" />
+                Artykuły i rozdziały
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Link to="/admin/users" className="admin-link">
+              <Button variant="primary" size="lg">
+                <FaUserCog className="mr-2" />
+                Użytkownicy
               </Button>
             </Link>
           </Col>

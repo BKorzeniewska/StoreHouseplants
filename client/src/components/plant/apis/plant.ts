@@ -1,5 +1,5 @@
 import { baseUrl } from "../../common/apis/common";
-import {APIError, Delete, Get, Post} from "../../common/axiosFetch";
+import {APIError, Delete, Get, Post, Put} from "../../common/axiosFetch";
 import { Result } from "../../common/poliTypes";
 import {GroundType} from "../../ground/apis/ground";
 
@@ -28,6 +28,12 @@ export type PlantShort = {
 
 };
 
+export type PlantDelivery = {
+    id: number;
+    stockQuantity: number;
+
+};
+
 export type CreatePlantRequest = {
     name: string;
     plantSpeciesId:number;
@@ -43,8 +49,10 @@ export type CreatePlantRequest = {
 }
 
 export type ModifyPlantRequest = {
+    id: number;
     name: string;
     description: string;
+    plantSpeciesId:number;
     price: number;
     groundType: GroundType;
     position: Position; // Assuming position is optional
@@ -101,14 +109,14 @@ export const loadPlantById = async (id: string): Promise<Result<Plant, APIError<
     });
 }
 
-export const deletePlant = async (id: number): Promise<Result<Plant, APIError<PlantErrors>>> => {
-    const response = Delete<Plant, APIError<PlantErrors>>(`${baseUrl}/api/v1/plant/${id}`);
+export const deletePlant = async (plantId: number): Promise<Result<any, APIError<PlantErrors>>> => {
+    const response = Delete<any, APIError<PlantErrors>>(`${baseUrl}/api/admin/v1/plant/${plantId}`);
 
     return response.then((data) => {
         if (data.isOk) {
-            return { isOk: true, value: data.value } as Result<Plant, APIError<PlantErrors>>;
+            return { isOk: true, value: data.value } as Result<any, APIError<PlantErrors>>;
         } else {
-            return { isOk: false, error: data.error.response?.data } as Result<Plant, APIError<PlantErrors>>;
+            return { isOk: false, error: data.error.response?.data } as Result<any, APIError<PlantErrors>>;
         }
     });
 }
@@ -125,7 +133,29 @@ export const createPlant = async (plant: CreatePlantRequest): Promise<Result<Pla
     });
 }
 
+export const modifyPlant = async (plant: ModifyPlantRequest): Promise<Result<Plant, APIError<PlantErrors>>> => {
+    const response = Put<Plant, APIError<PlantErrors>>(`${baseUrl}/api/admin/v1/plant/modify`, plant);
 
+    return response.then((data) => {
+        if (data.isOk) {
+            return { isOk: true, value: data.value } as Result<Plant, APIError<PlantErrors>>;
+        } else {
+            return { isOk: false, error: data.error.response?.data } as Result<Plant, APIError<PlantErrors>>;
+        }
+    });
+}
+
+export const deliveryPlant = async (request: PlantDelivery): Promise<Result<any, APIError<PlantErrors>>> => {
+    const response = Put<any, APIError<PlantErrors>>(`${baseUrl}/api/admin/v1/plant/delivery`, request);
+
+    return response.then((data) => {
+        if (data.isOk) {
+            return { isOk: true, value: data.value } as Result<any, APIError<PlantErrors>>;
+        } else {
+            return { isOk: false, error: data.error.response?.data } as Result<any, APIError<PlantErrors>>;
+        }
+    });
+}
 export const loadPlantsByPosition = async (position: string): Promise<Result<Plant[], APIError<PlantErrors>>> => {
     const response =  Get<Plant[], APIError<PlantErrors>>(`${baseUrl}/api/v1/plant/position/${position}`);
     return response.then((data) => {

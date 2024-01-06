@@ -32,7 +32,7 @@ function DropdownLink({ children, name, dropdown }: DropdownLinkProps) {
   return (
     <Nav.Item>
       <Nav.Link onClick={handleDropdownToggle} className="sidebar-item">{name}
-        {isAuthorized("MODERATOR") &&
+        {isAuthorized("ADMIN") &&
           <span className="modify-button">
             <FaPlus onClick={(event) => { event.preventDefault(); event.stopPropagation(); navigate(`/admin/edit/`) }} />
 

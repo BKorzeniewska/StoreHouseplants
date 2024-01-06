@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Pagination, Modal, Form } from 'react-bootstrap';
+import {Button, Container, Pagination, Modal, Form, Col, Row, Card} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useError } from "../../common/ErrorContext";
-import {Plant, loadPlants, deletePlant, Position, CreatePlantRequest, createPlant} from "../../plant/apis/plant";
+import {
+  Plant,
+  loadPlants,
+  deletePlant,
+  Position,
+  CreatePlantRequest,
+  createPlant,
+  ModifyPlantRequest, modifyPlant, PlantDelivery, deliveryPlant, loadPlantById
+} from "../../plant/apis/plant";
 import { AppWrapper } from "../../common/AppWrapper";
 import {GroundType} from "../../ground/apis/ground";
+import {FaSort,  FaPen, FaTrash} from "react-icons/fa";
+import {FaArrowDown91, FaArrowUpAZ, FaPlusMinus} from "react-icons/fa6";
+import {
+  createSpecies,
+  CreateSpeciesRequest, loadSpecies,
+  modifySpecies,
+  ModifySpeciesRequest, Species
+} from "../../plant/species/apis/species";
 
 
 
@@ -14,13 +30,16 @@ export const AdminPlantsScreen = () => {
   const [displayPlants, setDisplayPlants] = useState<Plant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
+  const [oldStockQuantity, setOldStockQuantity] = useState(0);
+  const [stockQuantity, setStockQuantity] = useState(0);
+  const [plantId, setPlantId] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 7;
+  const [sortAscending, setSortAscending] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showModalStock, setShowModalStock] = useState(false);
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-
-  const [addPlant, setAddPlant] = useState(false);
 
   useEffect(() => {
     fetchPlants();
@@ -49,21 +68,68 @@ export const AdminPlantsScreen = () => {
     }
     setIsLoading(false);
   };
+  const sortSpeciesByName = () => {
+    setSortAscending(!sortAscending);
+    setDisplayPlants([...displayPlants].sort((a, b) => {
+      if (sortAscending) {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    }));
+  };
   const handleCloseModal = () => {
     setShowModalAdd(false);
+    setPlantId(0);
+    setOldStockQuantity(0);
   };
   const handleOpenModal = () => {
     setShowModalAdd(true);
+    console.log("idczek:"+plantId);
+  };
+  const handleOpenModalMod = async (plantId: number) => {
+    setShowModalAdd(true);
+    setPlantId(plantId);
+  };
+  const handleOpenModalMStock= async (plantId: number, count: number) => {
+    setShowModalStock(true);
+    setPlantId(plantId);
+    setOldStockQuantity(count);
+  };
+  const handleOpenModalDel = async (plantId: number) => {
+    setShowModal(true);
+    setPlantId(plantId);
   };
   const handleDelete = async (plantId: number) => {
     try {
       await deletePlant(plantId);
       fetchPlants();
     } catch (err) {
-      setError("Failed to delete plant");
+      setError("Błąd w usuwaniu rośliny");
+    }
+    finally {
+      setShowModal(false);
+      setPlantId(0)
     }
   };
 
+  const handleSubmitStock = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+      const request: PlantDelivery = {
+        id: plantId,
+        stockQuantity: stockQuantity
+      };
+      deliveryPlant(request).then((response) => {
+        if (response.isOk) {
+          window.location.reload();
+        } else {
+          console.log(response);
+          setError("Nie udało się zmienić ilości");
+        }
+      });
+      setShowModalStock(false);
+      setPlantId(0)
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -71,35 +137,46 @@ export const AdminPlantsScreen = () => {
 
   return (
       <AppWrapper hideSidebar>
-        <AddPlant isShown={showModalAdd} onClose={handleCloseModal}/>
-        <Container className="my-5">
-          <h2>Rośliny </h2>
-          <button className="btn btn-success" onClick={handleOpenModal}>
-            Dodaj rozdział
-          </button>
-          <hr />
-          <input
-              type="text"
-              placeholder="Wyszukaj po nazwie"
-              className="form-control mb-4"
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-          />
-
-          {displayPlants.map(plant => (
-              <div
-                  className="custom-list-item d-flex justify-content-between align-items-start"
-                  key={plant.id}
-              >
-                <div className="ms-2 me-auto">
-                  <div className="fw-bold">{plant.name}</div>
-                  {plant.description}
-                </div>
-                <div className='option-section'>
-                  <Button variant="danger" onClick={() => handleDelete(plant.id)}>Delete</Button>
-                </div>
-              </div>
-          ))}
+        <AddPlant isShown={showModalAdd} onClose={handleCloseModal} id={plantId}/>
+        <Container className="my-2 w-200">
+          <div className="page-tile"> Rośliny </div>
+          <hr className="h-10" />
+          <div className="title-admin">
+            <input
+                type="text"
+                placeholder="Wyszukaj po nazwie"
+                className="form-control"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+            />
+            <FaArrowUpAZ onClick={sortSpeciesByName}  style={{ fontSize: '30px' }}>
+              <i className={`bi ${sortAscending ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up'}`}></i>
+            </FaArrowUpAZ>
+            <FaArrowDown91 onClick={sortSpeciesByName}  style={{ fontSize: '30px' }}>
+              <i className={`bi ${sortAscending ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up'}`}></i>
+            </FaArrowDown91>
+            <button className="btn btn-success" onClick={handleOpenModal}>
+              Dodaj roślinę
+            </button>
+          </div>
+          <Row xs={1} md={1} lg={1} xl={6} className="g-4">
+            {displayPlants.map(plant => (
+                <Col key={plant.id}>
+                  <Card>
+                    <Card.Img variant="top" src={`data:image/jpeg;base64,${plant.image}`} alt={plant.name} />
+                    <Card.Body className="d-flex flex-column justify-content-between">
+                      <Card.Title className="text-center card-title-custom h-25">{plant.name}</Card.Title>
+                      <div>Ilość: {plant.stockQuantity}</div>
+                      <div className="icons">
+                        <FaPen style={{  fontSize: '25px',}} onClick={() =>   handleOpenModalMod(plant.id)}></FaPen>
+                        <FaPlusMinus style={{ fontSize: '25px', marginLeft:'38px', marginRight:'40px'}}onClick={() => handleOpenModalMStock(plant.id,plant.stockQuantity)}></FaPlusMinus>
+                        <FaTrash style={{ fontSize: '25px'}} onClick={() => handleOpenModalDel(plant.id)}></FaTrash>
+                      </div>
+                      </Card.Body>
+                  </Card>
+                </Col>
+            ))}
+          </Row>
 
           <Pagination className='d-flex justify-content-center mt-4'>
             <Pagination.First onClick={() => setPageNumber(1)} disabled={pageNumber === 1} />
@@ -128,46 +205,67 @@ export const AdminPlantsScreen = () => {
               <Button variant="secondary" onClick={() => setShowModal(false)}>
                 Nie
               </Button>
-              <Button variant="danger" onClick={() => {}
-              }>
+              <Button variant="danger" onClick={() => handleDelete(plantId)}>
                 Tak
               </Button>
             </Modal.Footer>
           </Modal>
 
-          <Modal show={showModal} onHide={() => setShowModal(false)}>
+
+          <Modal show={showModalStock} onHide={() => setShowModalStock(false)}>
             <Modal.Header closeButton>
-              <Modal.Title>Usunąć Roślinę?</Modal.Title>
+              <Modal.Title>Zmień ilość</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Czy jesteś pewny, że chcesz usunąć roślinę?
+              <Form onSubmit={handleSubmitStock}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Obecna ilość</Form.Label>
+                  <Form.Label>{oldStockQuantity}</Form.Label>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Nowa ilość</Form.Label>
+                  <Form.Control
+                      type="number"
+                      placeholder="00"
+                      value={stockQuantity}
+                      onChange={(event) => setStockQuantity(parseInt(event.target.value))}
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit" style={{ width: '200px' }}>
+                  Dodaj
+                </Button>
+              </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowModal(false)}>
-                Nie
-              </Button>
-              <Button variant="danger" onClick={() => {/* Logika usunięcia rośliny */
-              }}>
-                Tak
+
+              <Button variant="secondary" style={{ width: '200px' }} onClick={() => setShowModalStock(false)}>
+                Zamknij
               </Button>
             </Modal.Footer>
           </Modal>
 
         </Container>
       </AppWrapper>
+
   );
 }
+
 type Props = {
   isShown: boolean;
   onClose: () => void;
+
+  id:number
 };
 
 
 
-export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
+export const AddPlant: React.FC<Props> = ({ isShown, onClose, id }) => {
   const [plantName, setPlantName] = useState("");
+  const [title, setTitle] = useState("");
+  const [buttonName, setButtonName] = useState("");
   const [plantImage, setPlantImage] = useState('');
-  const [plantSpeciesId, setPlantSpeciesId] = useState<number | undefined>(undefined);
+  const [plantSpeciesId, setPlantSpeciesId] = useState<number>(0);
   const [plantDescription, setPlantDescription] = useState("");
   const [plantPrice, setPlantPrice] = useState(0);
   const [plantGroundType, setPlantGroundType] = useState<string>(GroundType.DESERT); // początkowa wartość jako string
@@ -175,33 +273,97 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
   const [plantBeginners, setPlantBeginners] = useState(false);
   const [plantCollectible, setPlantCollectible] = useState(false);
   const [plantStockQuantity, setPlantStockQuantity] = useState(0);
+  const [species, setSpecies] = useState<Species[]>([]);
   const { setError } = useError();
 
+  useEffect(() => {
+    setTitle(id != 0? "Edytuj rośline": "Dodaj rośline");
+    setButtonName(id != 0? "Zapisz zmiany": "Dodaj");
+    const fetchSpecies = async () => {
+      const result = await loadSpecies();
+      if (result.isOk) {
+        setSpecies(result.value);
+      } else {
+        setError("Nie udało się wczytać gatunków");
+      }
+    };
+    const fetchPlantDetails = async () => {
+      if (id !== 0) {
+        const result = await loadPlantById(id.toString());
+        if (result.isOk) {
+          const plant = result.value;
+          setPlantName(plant.name);
+          setPlantImage(plant.image||"");
+          setPlantSpeciesId(Number(plant.plantSpeciesId));
+          setPlantDescription(plant.description);
+          setPlantPrice(plant.price);
+          setPlantGroundType(plant.groundType);
+          setPlantPosition(plant.position);
+          setPlantBeginners(plant.beginners);
+          setPlantCollectible(plant.collectible);
+          setPlantStockQuantity(plant.stockQuantity);
+        } else {
+          setError("Nie udało się wczytać danych rośliny");
+        }
+      }
+    };
+    fetchSpecies();
+
+    fetchPlantDetails();
+  }, [setError]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const request: CreatePlantRequest = {
-      name: "plantName",
-      plantSpeciesId: 1,
-      description: "plantDescription",
-      price: 45,
-      groundType: GroundType.DESERT,
-      position: Position.LIGHT,
-      beginners: true,
-      collectible: true,
-      stockQuantity: 500,
-      image: plantImage
-    };
-    createPlant(request).then((response) => {
-      if (response.isOk) {
-        window.location.reload();
-      } else {
-        console.log(request);
-        console.log(response);
+    console.log("id:");
+    if( id != 0) {
+      const request: ModifyPlantRequest = {
+        id: Number(id),
+        name: plantName,
+        plantSpeciesId: plantSpeciesId,
+        description: plantDescription,
+        price: plantPrice,
+        groundType: plantGroundType as GroundType,
+        position: plantPosition as Position,
+        beginners: plantBeginners,
+        collectible: plantCollectible,
+        stockQuantity: plantStockQuantity,
+        image: plantImage
+      };
+      modifyPlant(request).then((response) => {
+        if (response.isOk) {
+          window.location.reload();
+        } else {
+          console.log(request);
+          console.log(response);
 
-        setError("Nie udało się dodać rośliny");
-      }
-    });
+          setError("Nie udało się dodać rośliny");
+        }
+      });
+    }
+    else{
+      const request: CreatePlantRequest = {
+        name: plantName,
+        plantSpeciesId: plantSpeciesId,
+        description: plantDescription,
+        price: plantPrice,
+        groundType: plantGroundType as GroundType,
+        position: plantPosition as Position,
+        beginners: plantBeginners,
+        collectible: plantCollectible,
+        stockQuantity: plantStockQuantity,
+        image: plantImage
+      };
+      createPlant(request).then((response) => {
+        if (response.isOk) {
+          window.location.reload();
+        } else {
+          console.log(request);
+          console.log(response);
+
+          setError("Nie udało się dodać rośliny");
+        }
+      });
+    }
     onClose();
   };
 
@@ -226,9 +388,9 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
 
   return (
       <>
-        <Modal show={isShown} onHide={onClose}>
+        <Modal show={isShown} onHide={onClose}   size="lg">
           <Modal.Header closeButton>
-            <Modal.Title>Dodaj Roślinę</Modal.Title>
+            <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={handleSubmit}>
@@ -244,12 +406,14 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Gatunek</Form.Label>
-                <Form.Control
-                    type="number"
-                    placeholder="ID Gatunku"
+                <Form.Select
                     value={plantSpeciesId}
-                    onChange={(event) => setPlantSpeciesId(parseInt(event.target.value))}
-                />
+                    onChange={(event) => setPlantSpeciesId(parseInt(event.target.value))}>
+                  <option value="">Wybierz gatunek</option>
+                  {species.map((specie) => (
+                      <option key={specie.id} value={specie.id}>{specie.name}</option>
+                  ))}
+                </Form.Select>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroundType">
                 <Form.Label>Typ Ziemi</Form.Label>
@@ -290,6 +454,16 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
                     onChange={(event) => setPlantBeginners(event.target.checked)}
                 />
               </Form.Group>
+              <Form.Group className="mb-3" controlId="formDescription">
+                <Form.Label>Opis Rośliny</Form.Label>
+                <Form.Control
+                    as="textarea"
+                    rows={3}
+                    placeholder="Wprowadź opis rośliny"
+                    value={plantDescription}
+                    onChange={(event) => setPlantDescription(event.target.value)}
+                />
+              </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Cena</Form.Label>
@@ -313,8 +487,9 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
 
               <Form.Group className="mb-3">
                 <Form.Label>Obraz Rośliny</Form.Label>
+                <div/>
                 <img src={plantImage ? `data:image/jpg;base64,${plantImage}` : 'placeholder.jpg'}
-                     alt='Obraz Rośliny'
+                     alt='Obraz'
                      onClick={handleImageClick}
                      style={{ maxWidth: '100px', maxHeight: '100px' }} />
                 <input
@@ -325,16 +500,18 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose }) => {
                     style={{ display: 'none' }}
                 />
               </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Dodaj
+              <hr/>
+              <Button variant="primary" type="submit" style={{ marginLeft: '15px', width: '93%' }}>
+                {buttonName}
+              </Button>
+              <Button variant="secondary" type="button" onClick={onClose} style={{ marginLeft: '15px', width: '93%', marginTop:'20px', color: 'white'}}>
+                Zamknij
               </Button>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>
-              Zamknij
-            </Button>
+
+
           </Modal.Footer>
         </Modal>
       </>

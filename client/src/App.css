@@ -20,6 +20,19 @@
 
      border-radius: 5px !important;
  }
+.btn-warning {
+    border-radius: 5px !important;
+    background-image: linear-gradient(120deg, rgba(0, 0, 0, 0) 0%, rgba(153, 153, 153, 1) 100%);
+    box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.3);
+    --bs-btn-color: rgba(0, 0, 0, 1) !important;
+    --bs-btn-bg: rgb(125, 126, 125) !important;
+    --bs-btn-border-color: rgba(144, 68, 220, 0) !important;
+    --bs-btn-hover-bg: rgb(136, 138, 136) !important;
+    --bs-btn-hover-border-color: rgba(144, 68, 220, 0) !important;
+    color: white !important;
+
+
+}
 /* add rounded corners for last button in a button group */
 .btn-group>.btn:last-child:not(:first-child) {
     border-top-right-radius: 50vw !important;
@@ -133,29 +146,48 @@
     transform: scale(1.05);
 }
 .product-card-image {
-    max-width: 100%;
-    height: auto;
+    max-width: 90%;
+    height: 10%;
     margin-bottom: 1rem;
 }
 .page-tile {
     text-align: center;
     font-family:sans-serif;
-    font-size:50px;
-    margin-bottom: 22px;
+    font-size:28px;
+    margin-top: 0px;
+}
+.title-admin {
+    display: flex;
+    align-items: center; /* Centers items vertically */
+    justify-content: start; /* Aligns items to the start of the container */
+    gap: 10px; /* Adds space between the children */
+    margin-bottom: 15px;
 }
 
-/*.product-page-tile {*/
-/*    text-align: center;*/
-/*    font-family:sans-serif;*/
-/*    font-size:50px;*/
-/*    margin-bottom: 22px;*/
-/*}*/
-/*.product-page-image {*/
-/*    max-width: 500px;*/
-/*    height: auto;*/
-/*    margin-bottom: 1rem;*/
-/*}*/
-/*.product-page-description {*/
-/*    text-align: center;*/
-/*    font-family:sans-serif;*/
-/*}*/
+/* Ensure the button does not stretch */
+.btn-success {
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+/* Optional: Control the width of the input to prevent it from taking too much space */
+.form-control {
+    flex-grow: 1; /* Allows the input to grow and fill available space */
+    margin-right: 10px; /* Adds margin to the right of the search input */
+}
+
+/* Ensure that the container does not exceed the width of its parent */
+.title-admin {
+    width: 100%; /* Makes the .title-admin div take full width of its container */
+}
+
+/* Responsive adjustment if needed */
+@media (max-width: 768px) {
+    .title-admin {
+        flex-direction: column;
+        gap: 0; /* Removes gap when stacked */
+    }
+    .form-control, .btn-success {
+        width: 100%; /* Full width on smaller screens */
+        margin: 5px 0; /* Adds vertical margin for spacing */
+    }
+}
