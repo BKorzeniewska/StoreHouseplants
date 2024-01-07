@@ -35,7 +35,7 @@ export const ChapterItemList = () => {
                 <div className="page-tile">Rozdziały</div>
                 <hr/>
 
-                <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+                <Row  xl={3} className="g-4">
                     {chapters.map(chapter => (
                         <Col key={chapter.id}>
                             <Card onClick={() => navigate(`/chapter/${chapter.id}`)}>

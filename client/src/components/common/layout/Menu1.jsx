@@ -22,14 +22,14 @@ export function Menu1() {
                                 <a href="/plants/position/LIGHT">Jasne</a>
                                 <a href="/plants/position/PENUMBRA">Półcień</a>
                                 <a href="/plants/position/DARK">Ciemne</a>
-                                <h3 href="/plants/collectible/true">Rośliny kolekcjonerskie</h3>
+                                <a href="/plants/collectible/true" style={{fontSize:'20px'}}><strong>Rośliny kolekcjonerskie</strong></a>
                             </div>
                             <div className="clm">
                                 <h3>Łatwość uprawy</h3>
                                 <a href="/plants/beginners/true">Rośliny łatwe w hodowli </a>
                                 <a href="/plants/beginners/false">Rośliny wymagające</a>
-                                <h3 href="/species" >Gatunki</h3>
-                                <h3 href="/plants/all">Wszystkie</h3>
+                                <a href="/species" style={{fontSize:'20px'}}><strong>Gatunki</strong></a>
+                                <a href="/plants/all" style={{fontSize:'20px'}}><strong>Wszystkie </strong></a>
                             </div>
                             <div className="clm">
                             </div>
@@ -50,7 +50,7 @@ export function Menu1() {
                                 <a href="/accessories/category/TOOLS">Narzędzia</a>
                                 <a href="/accessories/category/LAMPS">Lampy</a>
                                 <a href="/accessories/category/FERTILIZERS">Nawozy</a>
-                                <h3 href="/accessories">Wszystkie akcesoria</h3>
+                                <a href="/accessories" style={{fontSize:'20px'}}><strong>Wszystkie akcesoria</strong></a>
                             </div>
                             <div className="clm">
                             </div>
@@ -70,8 +70,8 @@ export function Menu1() {
                                 <a href="/grounds/type/PEAT">Torfowe</a>
                                 <a href="/grounds/type/PERMALE">Przepuszczalne</a>
                                 <a href="/grounds/type/UNIVERSAL">Uniwersalne</a>
-                                <h3 href="/grounds">Wszystkie podłoża</h3>
-                                <h3 href="/grounds/type/ADDITION">Dodatki</h3>
+                                <a href="/grounds" style={{fontSize:'20px'}}><strong>Wszystkie podłoża</strong></a>
+                                <a href="/grounds/type/ADDITION" style={{fontSize:'20px'}}><strong>Dodatki</strong></a>
                             </div>
                             <div className="clm">
                             </div>

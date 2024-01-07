@@ -22,7 +22,7 @@ export const AdminSpeciesScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const itemsPerPage = 12;
+  const itemsPerPage = 10;
   const [sortAscending, setSortAscending] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [speciesId, setSpeciesId] =  useState<number>(0);
@@ -123,7 +123,7 @@ export const AdminSpeciesScreen = () => {
             Dodaj gatunek
           </button>
         </div>
-          <Row xs={6}   className="g-4">
+          <Row xs={5}   className="g-4">
             {displaySpecies.map(species => (
                 <Col key={species.id}>
                   <Card>

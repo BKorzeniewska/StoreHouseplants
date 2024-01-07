@@ -9,9 +9,9 @@ export type Article = {
     content: string;
     chapterId: number;
     userId: number;
-
+    visible:boolean;
     date: string;
-    image?: string|null;
+    image: string;
 }
 
 export type ArticleShort = {
@@ -43,7 +43,7 @@ export type ModifyArticleRequest = {
 
 export type ChangeVisibilityRequest = {
     articleId: number;
-    visible: boolean;
+    visible:boolean;
 }
 
 export type ArticleErrors = string;

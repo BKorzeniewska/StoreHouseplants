@@ -39,7 +39,7 @@ public class ArticleAdminController {
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/changeVisible")
     public ResponseEntity<?> changeVisibleArticle(@RequestBody final VisibleChangeRequest request) {
         log.info("changeVisibleArticle() - start: {}", request);

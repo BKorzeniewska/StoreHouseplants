@@ -7,12 +7,10 @@ type Props = {
   isShown: boolean;
   onClose: () => void;
 };
-
 export const AddChapter: React.FC<Props> = ({ isShown, onClose }) => {
   const [chapterName, setChapterName] = useState("");
   const [chapterImage, setChapterImage] = useState('');
   const { setError } = useError();
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const request: CreateChapterRequest = {
@@ -29,12 +27,10 @@ export const AddChapter: React.FC<Props> = ({ isShown, onClose }) => {
     });
     onClose();
   };
-
   const handleImageClick = () => {
     const imageFileInput = document.getElementById('image-file') as HTMLInputElement;
     imageFileInput?.click();
   };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -61,7 +57,7 @@ export const AddChapter: React.FC<Props> = ({ isShown, onClose }) => {
                 <Form.Label>Nazwa rozdziału</Form.Label>
                 <Form.Control
                     type="text"
-                    placeholder="funkcje"
+                    placeholder="Rozdział"
                     autoFocus
                     value={chapterName}
                     onChange={(event) => setChapterName(event.target.value)}
@@ -69,7 +65,9 @@ export const AddChapter: React.FC<Props> = ({ isShown, onClose }) => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Grafika</Form.Label>
-                <img src={`data:image/jpg;base64,${chapterImage}`} alt='Chapter Image' onClick={handleImageClick} style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                <div/>
+                <img src={`data:image/jpg;base64,${chapterImage}`} alt='Grafika' onClick={handleImageClick} style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                <div/>
                 <input
                     type='file'
                     id='image-file'
@@ -79,16 +77,15 @@ export const AddChapter: React.FC<Props> = ({ isShown, onClose }) => {
                     style={{ display: 'none' }}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <hr/>
+              <Button variant="primary" type="submit" style={{ marginLeft: '15px', width: '93%' }}>
                 Dodaj
+              </Button>
+              <Button variant="secondary" onClick={onClose} style={{ marginLeft: '15px', width: '93%', marginTop:'12px', color: 'white'}}>
+                Zamknij
               </Button>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>
-              Zamknij
-            </Button>
-          </Modal.Footer>
         </Modal>
       </>
   );

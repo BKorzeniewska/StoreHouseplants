@@ -32,6 +32,8 @@ import {AdminGroundsScreen} from "./components/admin/ground/AdminGroundScreen";
 import {AdminSpeciesScreen} from "./components/admin/species/AdminSpeciesScreen";
 import {useContext, useEffect, useState} from "react";
 import {Kind, Product} from "./components/cart/apis/product";
+import {GroundScreen} from "./components/ground/GroundScreen";
+import {AdminAccessoriesScreen} from "./components/admin/accessory/AdminAccessoryScreen";
 
 function Cart() {
   const [cartKey, setCartKey] = useState('shopping-cart-guest')
@@ -158,12 +160,18 @@ function App(props: any) {
                                                                   showCartSuccessToast={showCartSuccessToast}/>}></Route>
             <Route path="/plants/species/:speciesId" element={<PlantListBySpecies/>}></Route>
             <Route path="/plants/position/:position" element={<PlantsByPosition/>}></Route>
-            <Route path="/plants/beginners/:isForBegginers" element={<PlantsByBegginers/>}></Route>
+            <Route path="/plants/beginners/:isForBeginners" element={<PlantsByBegginers/>}></Route>
             <Route path="/plants/collectible/:isCollectible" element={<PlantsByCollectible/>}></Route>
             {/*Plant Species*/}
             <Route path="/species" element={<SpeciesItemList/>}></Route>
             {/*Grounds*/}
             <Route path="/grounds" element={<GroundsItemList/>}></Route>
+            <Route path="/ground/:groundId" element={<GroundScreen  productsInCart={productsInCart}
+                                                                     addProductToCart={addProductToCart}
+                                                                     setShowCartWarningToast={setShowCartWarningToast}
+                                                                     setShowCartSuccessToast={setShowCartSuccessToast}
+                                                                     showCartWarningToast={showCartWarningToast}
+                                                                     showCartSuccessToast={showCartSuccessToast}/>}></Route>
             <Route path="/grounds/type/:type" element={<GroundsIByTypeList/>}></Route>
             {/*Blog - Chapters*/}
             <Route path="/blog" element={<ChapterItemList />}></Route>
@@ -184,6 +192,7 @@ function App(props: any) {
             <Route path="/admin/articles" element={<AdminArticlesScreen />}></Route>
             <Route path="/admin/plants" element={<AdminPlantsScreen />}></Route>
             <Route path="/admin/species" element={<AdminSpeciesScreen/>}></Route>
+            <Route path="/admin/accessories" element={<AdminAccessoriesScreen/>}></Route>
             <Route path="/admin/edit/:articleId?" element={<ArticleEditionScreen />}></Route>
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
             <Route path="/admin/grounds" element={<AdminGroundsScreen />}></Route>
@@ -193,5 +202,4 @@ function App(props: any) {
 
   );
 }
-
 export default App;

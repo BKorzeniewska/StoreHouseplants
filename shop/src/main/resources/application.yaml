@@ -32,7 +32,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+
         jdbc:
           lob:
             non_contextual_creation: true  # Required to avoid the use of PostgreSQL's LargeObject API

@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Nav, NavDropdown, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -17,6 +17,7 @@ export const ArticleEditionScreen = () => {
     const [currentText, setCurrentText] = useState<string>("");
     const [article, setArticle] = useState<Article>();
     const { errorMessages, setError } = useError();
+    const [articleImage, setArticleImage] = useState('');
 
     const [isLoading, setIsLoading] = useState(false);
     const lineCount = currentText.split("\n").length;
@@ -45,6 +46,7 @@ export const ArticleEditionScreen = () => {
                         if (art.isOk) {
                             setArticle(art.value);
                             setCurrentText(art.value.content);
+                            setArticleImage(art.value.image);
                         } else {
                             setError("Nie udało się wczytać artykułu");
                             setCurrentText("Coś poszło nie tak...");
@@ -56,8 +58,9 @@ export const ArticleEditionScreen = () => {
                                     content: "Coś poszło nie tak...",
                                     chapterId: 0,
                                     userId: 0,
+                                    visible: true,
                                     date: new Date().toISOString(),
-                                    image: null
+                                    image: ""
 
                                 });
                         }
@@ -74,14 +77,35 @@ export const ArticleEditionScreen = () => {
                         content: "",
                         chapterId: 0,
                         userId: 0,
+                        visible: true,
+                        image: "",
                         date: new Date().toISOString(),
 
                     });
                 setCurrentText(article?.content || "");
+                setArticleImage(article?.image||"");
             }
 
         }, [articleId]
     );
+    const handleImageClick = () => {
+        const imageFileInput = document.getElementById('image-file') as HTMLInputElement;
+        imageFileInput?.click();
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                if (reader.result) {
+                    const base64String = reader.result.toString().split(',')[1];
+                    setArticleImage(base64String);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <AppWrapper hideSidebar>
@@ -90,6 +114,10 @@ export const ArticleEditionScreen = () => {
                 <Row>
                     <Col>
                         <MarkDownRenderer content={currentText} key={currentText}/>
+                        <img src={articleImage ? `data:image/jpg;base64,${articleImage}` : 'placeholder.jpg'}
+                             onClick={handleImageClick}
+                             style={{ maxWidth: '300px', marginLeft:"20%", marginRight:"20%"}} />
+                        <div/>
                     </Col>
                     <Col>
                         <Form onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
@@ -101,6 +129,7 @@ export const ArticleEditionScreen = () => {
                                     title: (event.target as any).elements.formTitle.value,
                                     content: (event.target as any).elements.formContent.value,
                                     chapterId: parseInt((event.target as any).elements.formChapterId.value),
+                                    image: articleImage
                                 };
                                 console.log(request);
                                 createArticle(request).then(
@@ -117,7 +146,7 @@ export const ArticleEditionScreen = () => {
                                 const request: ModifyArticleRequest = {
                                     title: (event.target as any).elements.formTitle.value,
                                     content: (event.target as any).elements.formContent.value,
-                                    image: null,
+                                    image: articleImage,
                                     id: parseInt(articleId),
                                 };
                                 console.log(request);
@@ -159,13 +188,29 @@ export const ArticleEditionScreen = () => {
                                     onChange={(event) => setCurrentText(event.target.value)}
                                 />
                             </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Grafika</Form.Label>
+                                <div/>
+                                <img src={articleImage ? `data:image/jpg;base64,${articleImage}` : 'placeholder.jpg'}
+                                     onClick={handleImageClick}
+                                     style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                                <div/>
+                                <input
+                                    type='file'
+                                    id='image-file'
+                                    accept='image/*'
+                                    onChange={handleImageChange}
+                                    style={{ display: 'none' }}
+                                />
+                            </Form.Group>
                             <Form.Group>
-                                <Button variant="primary" type="submit" className="submit-button" disabled={isLoading}>
-                                    <LoadingSpinner isLoading={isLoading}>Submit</LoadingSpinner>
+                                <Button variant="primary" type="submit" className="submit-button" disabled={isLoading} style={{width: '100%' }}>
+                                    <LoadingSpinner isLoading={isLoading}>Zatwierdź</LoadingSpinner>
                                 </Button>
                             </Form.Group>
                         </Form>
                     </Col>
+
                 </Row>
             </Container>
         </AppWrapper>

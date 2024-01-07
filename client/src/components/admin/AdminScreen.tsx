@@ -38,7 +38,7 @@ export const AdminScreen = () => {
         </Row>
         <Row className="mt-4">
           <Col>
-            <Link to="/admin/users" className="admin-link">
+            <Link to="/admin/accessories" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaSquare className="mr-2" />
                 Akcesoria

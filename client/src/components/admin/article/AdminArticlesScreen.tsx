@@ -1,13 +1,20 @@
-import { ReactNode, useContext, useEffect, useState } from 'react';
-import { Accordion, Container, Nav, NavDropdown } from 'react-bootstrap';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import {Accordion, Button, Container, Nav, NavDropdown} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArticleMenu, deleteArticle, loadArticleMenu} from "../../blog/article/apis/article";
+import {
+  ArticleMenu,
+  changeVisibility,
+  ChangeVisibilityRequest,
+  deleteArticle,
+  loadArticleMenu
+} from "../../blog/article/apis/article";
 import { useError } from '../../common/ErrorContext';
 import { ThemeContext } from '../../themes/ThemeProvider';
 import { AppWrapper } from '../../common/AppWrapper';
 import { AddChapter } from './AddChapter';
 import {deleteChapter} from "../../blog/chapter/chapter";
+import {CreateChapterRequest} from "../../common/apis/chapter";
 
 type ChapterProps = {
   id: number;
@@ -36,6 +43,7 @@ const Chapter = ({ chapter }: { chapter: ChapterProps }) => {
       }
     });
   }
+
   function removeChapter(id: number): void {
     console.log(id)
     deleteChapter(id).then((data) => {
@@ -61,6 +69,7 @@ const Chapter = ({ chapter }: { chapter: ChapterProps }) => {
           {chapter.articles.map((article) => (
               <li key={article.id} className={`border rounded p-2 my-2 `}>
                 {article.title}
+
                 <button className="btn btn-sm btn-primary mx-2" onClick={() => navigate(`/admin/edit/${article.id}`)}>
                   Edytuj
                 </button>
@@ -109,10 +118,10 @@ export const AdminArticlesScreen = () => {
         <Container className="my-5">
           <div className="">
             <div className="d-flex justify-content-end mb-3">
-              <button className="btn btn-success" onClick={() => navigate('/admin/edit')}>
+              <button className="btn btn-success"style={{ marginRight:'15px'}} onClick={() => navigate('/admin/edit')}>
                 Dodaj artykuł
               </button>
-              <button className="btn btn-success" onClick={handleOpenModal}>
+              <button className="btn btn-success"  onClick={handleOpenModal}>
                 Dodaj rozdział
               </button>
             </div>

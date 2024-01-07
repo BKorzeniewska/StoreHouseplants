@@ -34,7 +34,7 @@ export const AdminPlantsScreen = () => {
   const [stockQuantity, setStockQuantity] = useState(0);
   const [plantId, setPlantId] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const itemsPerPage = 7;
+  const itemsPerPage = 12;
   const [sortAscending, setSortAscending] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showModalStock, setShowModalStock] = useState(false);
@@ -61,10 +61,10 @@ export const AdminPlantsScreen = () => {
       if (result.isOk) {
         setAllPlants(result.value);
       } else {
-        setError("Failed to load plants");
+        setError("Nie udało sie załadować roślin");
       }
     } catch (error) {
-      setError("Error loading plants");
+      setError("Nie udało sie załadować roślin");
     }
     setIsLoading(false);
   };
@@ -165,18 +165,21 @@ export const AdminPlantsScreen = () => {
                   <Card>
                     <Card.Img variant="top" src={`data:image/jpeg;base64,${plant.image}`} alt={plant.name} />
                     <Card.Body className="d-flex flex-column justify-content-between">
-                      <Card.Title className="text-center card-title-custom h-25">{plant.name}</Card.Title>
-                      <div>Ilość: {plant.stockQuantity}</div>
-                      <div className="icons">
-                        <FaPen style={{  fontSize: '25px',}} onClick={() =>   handleOpenModalMod(plant.id)}></FaPen>
-                        <FaPlusMinus style={{ fontSize: '25px', marginLeft:'38px', marginRight:'40px'}}onClick={() => handleOpenModalMStock(plant.id,plant.stockQuantity)}></FaPlusMinus>
-                        <FaTrash style={{ fontSize: '25px'}} onClick={() => handleOpenModalDel(plant.id)}></FaTrash>
+                      <div className="title-container" style={{ padding: '10px' }}> {/* Adjust padding as needed */}
+                        <Card.Title className="text-center card-title-custom mb-2">{plant.name}</Card.Title>
                       </div>
-                      </Card.Body>
+                      <div className="mt-auto">Ilość: {plant.stockQuantity}</div>
+                      <div className="icons mt-2">
+                        <FaPen style={{ fontSize: '25px' }} onClick={() => handleOpenModalMod(plant.id)}></FaPen>
+                        <FaPlusMinus style={{ fontSize: '25px', marginLeft: '38px', marginRight: '40px' }} onClick={() => handleOpenModalMStock(plant.id, plant.stockQuantity)}></FaPlusMinus>
+                        <FaTrash style={{ fontSize: '25px' }} onClick={() => handleOpenModalDel(plant.id)}></FaTrash>
+                      </div>
+                    </Card.Body>
                   </Card>
                 </Col>
             ))}
           </Row>
+
 
           <Pagination className='d-flex justify-content-center mt-4'>
             <Pagination.First onClick={() => setPageNumber(1)} disabled={pageNumber === 1} />
@@ -492,6 +495,7 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose, id }) => {
                      alt='Obraz'
                      onClick={handleImageClick}
                      style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                <div/>
                 <input
                     type='file'
                     id='image-file'
@@ -509,10 +513,6 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose, id }) => {
               </Button>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-
-
-          </Modal.Footer>
         </Modal>
       </>
   );

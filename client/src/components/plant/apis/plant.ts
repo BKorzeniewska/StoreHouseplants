@@ -182,7 +182,7 @@ export const loadPlantsForBeginners = async (isForBeginners: boolean): Promise<R
 
 
 export const loadCollectiblePlants = async (isCollectible: boolean): Promise<Result<Plant[], APIError<PlantErrors>>> => {
-    const response = Get<Plant[], APIError<PlantErrors>>(`${baseUrl}/api/v1/plant/collectible/${isCollectible}`);
+    const response = Get<Plant[], APIError<PlantErrors>>(`${baseUrl}/api/v1/plant/collectible/true`);
 
     return response.then((data) => {
         if (data.isOk) {

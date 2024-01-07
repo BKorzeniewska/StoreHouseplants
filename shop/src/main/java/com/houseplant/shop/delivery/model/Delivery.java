@@ -1,4 +1,4 @@
-package com.houseplant.shop.delivery;
+package com.houseplant.shop.delivery.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

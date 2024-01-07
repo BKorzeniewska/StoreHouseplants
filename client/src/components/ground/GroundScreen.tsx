@@ -2,21 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Container, Spinner, Toast} from 'react-bootstrap';
 import {AppWrapper} from "../common/AppWrapper";
-import "./Accessory.css";
-import {Accessory, Category, loadAccessoryById} from "./accesory";
-import {loadPlantById, Plant} from "../plant/apis/plant";
-import {loadSpeciesById} from "../plant/species/apis/species";
+import "./GroundScreen.css";
 import {Kind, Product} from "../cart/apis/product";
-
-
-export function AccessoryScreen(props:any) {
-    const { accessoryId } = useParams();
-    const [accessory, setAccessory] = useState<Accessory | null>(null); // Explicitly define the type as `Plant | null`
+import {Ground, loadGroundById} from "./apis/ground";
+export function GroundScreen(props:any) {
+    const { groundId } = useParams();
+    const [ground, setGround] = useState<Ground | null>(null); // Explicitly define the type as `Plant | null`
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const [category, setCategory] = useState<string>();
-    const [categoryName, setCategoryName] = useState<string>("");
     const [availability, setAvailability] = useState<string>();
     const [quantity, setQuantity] = useState(1); // Stan przechowujący ilość produktów
     const {
@@ -29,32 +24,31 @@ export function AccessoryScreen(props:any) {
     } = props
 
     useEffect(() => {
-        if (accessoryId) {
+        if (groundId) {
             setIsLoading(true);
-            loadAccessoryById(accessoryId)
+            loadGroundById(groundId)
                 .then(result => {
                     if (result.isOk) {
-                        setAccessory(result.value);
-                        setCategory(result.value.category);
+                        setGround(result.value);
 
-
-
-                    }
-                    else {
-                        setError('Nie udało się załadować ');
+                    } else {
+                        setError('Nie udało się załadować rośliny');
+                        setIsLoading(false);
+                        throw new Error('Nie udało się załadować rośliny');
                     }
                 })
+
                 .catch(() => {
-                    setError('Failed to load plant or species details');
+                    setError('Nie udało się załadować gatunku lub rośliny');
                 })
                 .finally(() => {
                     setIsLoading(false);
                 });
         } else {
-            setError('Brak artykułu o takim id');
+            setError('Brak roliny o takim id');
             setIsLoading(false);
         }
-    }, [accessoryId]);
+    }, [groundId]);
 
     if (isLoading) {
         return <Spinner animation="border" />;
@@ -71,63 +65,28 @@ export function AccessoryScreen(props:any) {
 
     const handleAddToCartButton = () => {
         const product: Product = {
-            id: Number(accessoryId),
-            name: accessory?.name!,
-            price: accessory?.price!,
-            kind: Kind.ACCESSORY,
+            id: Number(groundId),
+            name: ground?.name!,
+            price: ground?.price!,
+            kind: Kind.GROUND,
             count: quantity,
-            image: accessory?.image!
+            image: ground?.image!
         };
         addProductToCart(product);
     };
-
-    const setCategoryNameImp = (ca:Category)=> {
-        console.log("N"+ca);
-        const name = ca.toString();
-
-            switch (name) {
-                case "POTS":
-                    setCategoryName("Doniczka");
-                    break;
-                case "FLOWERBEDS":
-                    setCategoryName("Kwietnik");
-                    break;
-                case "SUPPORTS":
-                    setCategoryName("Podpórka do roślin");
-                    break;
-                case "MOISTURE_INDICATORS":
-                    setCategoryName("Wskaźnik wilgotności");
-                    break;
-                case "WATERING_CANS":
-                    setCategoryName("Konweka");
-                    break;
-                case "TOOLS":
-                    setCategoryName("Narzędzia ogrodnicze");
-                    break;
-                case "LAMPS":
-                    setCategoryName("Lampa");
-                    break;
-                case "FERTILIZERS":
-                    setCategoryName("Nawóz");
-                    break;
-                default:
-                    setCategoryName("Akcesoria");
-            }
-
-    }
 
     return (
         <AppWrapper hideSidebar>
             <Container className="my-5">
                 <hr/>
-                <div className="product-page-tile">{accessory?.name}</div>
+                <div className="product-page-tile">{ground?.name}</div>
                 <hr/>
                 <div className="product-page-place">
                     <div className="product-page-image-place">
-                        {accessory?.image ? (
+                        {ground?.image ? (
                             <img className="product-page-image"
-                                 src={`data:image/jpeg;base64,${accessory?.image}`}
-                                 alt={accessory?.name}
+                                src={`data:image/jpeg;base64,${ground?.image}`}
+                                alt={ground?.name}
                             />
                         ) : (
                             <span>zdjęcie</span>
@@ -135,7 +94,7 @@ export function AccessoryScreen(props:any) {
                     </div>
                     <div className="plant-details">
                         <div><strong>Opis :</strong> </div>
-                        <p>{accessory?.description}</p>
+                        <p>CactusVita to starannie wyselekcjonowana mieszanka składników, stworzona specjalnie z myślą o wymaganiach kaktusów i sukulenty. Zawiera ona idealne proporcje torfu, piasku i perlitu, co zapewnia doskonałe odprowadzanie wody i przewiewność, kluczowe dla zdrowia tych roślin.</p>
 
                         <table className="table table-hover">
                             <thead>
@@ -147,17 +106,17 @@ export function AccessoryScreen(props:any) {
                             <tbody>
                             <tr>
                                 <th scope="row">Dostępność</th>
-                                <td>Wysoka</td>
+                                <td>niska</td>
                             </tr>
                             <tr>
-                                <th scope="row">Kategoria:</th>
-                                <td>Donica</td>
+                                <th scope="row">Typ:</th>
+                                <td>Dla sukulentów i kaktusów</td>
                             </tr>
                             </tbody>
                         </table>
-                        <h2><strong>Cena: </strong>{accessory?.price} zł</h2>
+                        <h2><strong>Cena: </strong>{ground?.price} zł</h2>
                         <div className="add-to-cart">
-                            <input
+                           <input
                                 type="number"
                                 className="quantity-selector-input"
                                 value={quantity}
@@ -173,4 +132,3 @@ export function AccessoryScreen(props:any) {
         </AppWrapper>
     );
 }
-

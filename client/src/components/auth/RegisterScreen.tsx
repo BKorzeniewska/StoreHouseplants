@@ -55,7 +55,7 @@ export const RegisterScreen = () => {
                                             password: e.currentTarget.pass.value,
                                             lastname: e.currentTarget.lastname.value,
                                             firstname: e.currentTarget.firstname.value,
-                                            nickname: e.currentTarget.nick.value,
+                                            nickname: e.currentTarget.lastname.value + " " + e.currentTarget.firstname.value,
                                         };
 
                                         handleSubmit(formData);

@@ -8,10 +8,12 @@ import {
     deleteGround,
     Ground,
     GroundType,
-    CreateGroundRequest
+    CreateGroundRequest, ModifyGroundRequest, loadGroundById
 } from "../../ground/apis/ground";
 import { AppWrapper } from "../../common/AppWrapper";
-import { FaSort } from "react-icons/fa";
+import {FaPen, FaSort, FaTrash} from "react-icons/fa";
+import {FaArrowDown91, FaArrowUpAZ, FaPlusMinus} from "react-icons/fa6";
+import {AddAccessory} from "../accessory/AdminAccessoryScreen";
 
 export const AdminGroundsScreen = () => {
     const { setError } = useError();
@@ -25,7 +27,9 @@ export const AdminGroundsScreen = () => {
     const itemsPerPage = 12;
     const [totalPages, setTotalPages] = useState(0);
     const [showModalA, setShowModalA] = useState(false);
-
+    const [oldStockQuantity, setOldStockQuantity] = useState(0);
+    const [stockQuantity, setStockQuantity] = useState(0);
+    const [showModalStock, setShowModalStock] = useState(false);
     const [showModalD, setShowModalD] = useState(false);
 
     useEffect(() => {
@@ -55,6 +59,9 @@ export const AdminGroundsScreen = () => {
         }
         setIsLoading(false);
     };
+    const handleOpenModal = () => {
+        setShowModalA(true);
+    };
 
     const sortGroundsByName = () => {
         setSortAscending(!sortAscending);
@@ -63,11 +70,32 @@ export const AdminGroundsScreen = () => {
         }));
     };
 
-    const handleOpenModalDel = async (groundId: number) => {
-        setShowModalD(true);
-        setGroundId(groundId);
+    const handleOpenModalMStock= async (plantId: number, count: number) => {
+        setShowModalStock(true);
+        setGroundId(plantId);
+        setOldStockQuantity(count);
+    };
+    const handleCloseModal = () => {
+        setShowModalA(false);
+        setGroundId(0);
+        setOldStockQuantity(0);
     };
 
+    const handleOpenModalEdit = (id: number) => {
+        setGroundId(id);
+        setShowModalA(true);
+    };
+
+    const handleOpenModalDelete = async (id: number) => {
+        setShowModalD(true);
+        setGroundId(id);
+    };
+    const handleSubmitStock = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        //TODO
+        setShowModalStock(false);
+        setGroundId(0)
+    };
     const handleDelete = async (groundId: number) => {
         try {
             await deleteGround(groundId);
@@ -87,49 +115,64 @@ export const AdminGroundsScreen = () => {
 
     return (
         <AppWrapper hideSidebar>
-            <AddGround isShown={showModalA} onClose={() => setShowModalA(false)} id={groundId}/>
+            <AddGround isShown={showModalA} onClose={handleCloseModal} id={groundId}/>
             <Container className="my-2 w-200">
-                <div className="page-tile"> Grounds </div>
+                <div className="page-tile"> Podłoża </div>
                 <hr className="h-10" />
                 <div className="title-admin">
                     <input
                         type="text"
-                        placeholder="Search by name"
+                        placeholder="Wyszukaj po nazwie"
                         className="form-control"
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}
                     />
-                    <FaSort onClick={sortGroundsByName}>
-                        <i className={`bi ${sortAscending ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up'}`}></i>
-                    </FaSort>
-                    <button className="btn btn-success" onClick={() => setShowModalA(true)}>
-                        Add Ground
-                    </button>
+                    <FaArrowUpAZ onClick={sortGroundsByName} style={{ fontSize: '30px' }} />
+                    <FaArrowDown91 onClick={sortGroundsByName} style={{ fontSize: '30px' }} />
+                    <button className="btn btn-success" onClick={handleOpenModal}>Dodaj podłoże</button>
                 </div>
-                <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+                <Row xs={6} className="g-4">
                     {displayGrounds.map(ground => (
                         <Col key={ground.id}>
                             <Card>
                                 <Card.Img variant="top" src={`data:image/jpeg;base64,${ground.image}`} alt={ground.name} />
-                                <Card.Body>
-                                    <Card.Title>{ground.name}</Card.Title>
-                                    {/* Add additional ground details */}
-                                    <Button variant="danger" onClick={() => handleOpenModalDel(ground.id)}>Delete</Button>
+                                <Card.Body className="d-flex flex-column justify-content-between">
+                                    <div className="title-container" style={{ padding: '10px' }}> {/* Adjust padding as needed */}
+                                        <Card.Title className="text-center card-title-custom mb-2">{ground.name}</Card.Title>
+                                    </div>
+                                    <div className="mt-auto"><strong>Ilość:</strong> {ground.stockQuantity}</div>
+                                    <div className="icons mt-2">
+                                        <FaPen style={{ fontSize: '25px' }} onClick={() => handleOpenModalEdit(ground.id)}></FaPen>
+                                        <FaPlusMinus style={{ fontSize: '25px', marginLeft: '38px', marginRight: '40px' }} onClick={() => handleOpenModalMStock(ground.id, ground.stockQuantity)}></FaPlusMinus>
+                                        <FaTrash style={{ fontSize: '25px' }} onClick={() => handleOpenModalDelete(ground.id)}></FaTrash>
+                                    </div>
                                 </Card.Body>
                             </Card>
                         </Col>
                     ))}
                 </Row>
                 <Pagination className='d-flex justify-content-center mt-4'>
-                    {/* Pagination logic */}
+                    <Pagination.First onClick={() => setPageNumber(1)} disabled={pageNumber === 1} />
+                    <Pagination.Prev onClick={() => setPageNumber(pageNumber - 1)} disabled={pageNumber === 1} />
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                        <Pagination.Item
+                            key={page}
+                            active={page === pageNumber}
+                            onClick={() => setPageNumber(page)}
+                        >
+                            {page}
+                        </Pagination.Item>
+                    ))}
+                    <Pagination.Next onClick={() => setPageNumber(pageNumber + 1)} disabled={pageNumber === totalPages} />
+                    <Pagination.Last onClick={() => setPageNumber(totalPages)} disabled={pageNumber === totalPages} />
                 </Pagination>
 
                 <Modal show={showModalD} onHide={() => setShowModalD(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Usunąć Roślinę?</Modal.Title>
+                        <Modal.Title>Usunąć podłoże?</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Czy jesteś pewny, że chcesz usunąć roślinę?
+                        Czy jesteś pewny, że chcesz usunąć podłoże?
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => setShowModalD(false)}>
@@ -157,31 +200,76 @@ export const AddGround: React.FC<Props> = ({ isShown, onClose, id}) => {
     const [stockQuantity, setStockQuantity] = useState(0);
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
+    const [title, setTitle] = useState("");
+    const [buttonName, setButtonName] = useState("");
     const [image, setImage] = useState('');
     const { setError } = useError();
+    useEffect(() => {
+        setTitle(id !== 0 ? "Edytuj podłoże" : "Dodaj podłoże");
+        setButtonName(id !== 0 ? "Zapisz zmiany" : "Dodaj");
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        const request: CreateGroundRequest = {
-            name: groundName,
-            type: groundType as GroundType,
-            stockQuantity: stockQuantity,
-            price: price,
-            description: description,
-            image: image,
+        const fetchGroundDetails = async () => {
+            if (id !== 0) {
+                const result = await loadGroundById(id.toString());
+                if (result.isOk) {
+                    const ground = result.value;
+                    setGroundName(ground.name);
+                    setGroundType(ground.type);
+                    setStockQuantity(ground.stockQuantity);
+                    setPrice(ground.price);
+                    setDescription(ground.description);
+                    setImage(ground.image);
+                } else {
+                    setError("Nie udało się wczytać danych podłoża");
+                }
+            }
         };
 
-        try {
-            const response = await createGround(request);
-            if (response.isOk) {
-                window.location.reload(); // Or use a more React-friendly method of updating the state/display
-            } else {
-                setError("Nie udało się dodać podłoża");
-            }
-        } catch (error) {
-            setError("Error creating ground");
+        fetchGroundDetails();
+    }, [id, setError]);
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (id !== 0) {
+            // Modyfikacja istniejącego podłoża
+            const request: ModifyGroundRequest = {
+                id:id,
+                name: groundName,
+                type: groundType as GroundType,
+                stockQuantity: stockQuantity,
+                price: price,
+                description: description,
+                image: image,
+            };
+
+            updateGround(request).then((response) => {
+                if (response.isOk) {
+                    window.location.reload();
+                } else {
+                    setError("Nie udało się zmodyfikować podłoża");
+                }
+            });
+        } else {
+            // Tworzenie nowego podłoża
+            const request: CreateGroundRequest = {
+                name: groundName,
+                type: groundType as GroundType,
+                stockQuantity: stockQuantity,
+                price: price,
+                description: description,
+                image: image,
+            };
+
+            createGround(request).then((response) => {
+                if (response.isOk) {
+                    window.location.reload();
+                } else {
+                    setError("Nie udało się dodać podłoża");
+                }
+            });
         }
+
         onClose();
     };
 
@@ -205,23 +293,23 @@ export const AddGround: React.FC<Props> = ({ isShown, onClose, id}) => {
     };
 
     return (
-        <Modal show={isShown} onHide={onClose}>
+        <Modal show={isShown} onHide={onClose} size="lg">
             <Modal.Header closeButton>
-                <Modal.Title>Add Ground</Modal.Title>
+                <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formGroundName">
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Nazwa podłoża</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter ground name"
+                            placeholder="Wprowadź nazwe"
                             value={groundName}
                             onChange={(e) => setGroundName(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formGroundType">
-                        <Form.Label>Ground Type</Form.Label>
+                        <Form.Label>Typ</Form.Label>
                         <Form.Select
                             value={groundType}
                             onChange={(event) => setGroundType(event.target.value)}>
@@ -232,37 +320,38 @@ export const AddGround: React.FC<Props> = ({ isShown, onClose, id}) => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formStockQuantity">
-                        <Form.Label>Stock Quantity</Form.Label>
+                        <Form.Label>Ilość na stanie</Form.Label>
                         <Form.Control
                             type="number"
-                            placeholder="Enter stock quantity"
+                            placeholder="Wprowadź ilość"
                             value={stockQuantity}
                             onChange={(e) => setStockQuantity(parseInt(e.target.value))} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formPrice">
-                        <Form.Label>Price</Form.Label>
+                        <Form.Label>Cena</Form.Label>
                         <Form.Control
                             type="number"
-                            placeholder="Enter price"
+                            placeholder="Wprowadź cene"
                             value={price}
                             onChange={(e) => setPrice(parseFloat(e.target.value))} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formDescription">
-                        <Form.Label>Description</Form.Label>
+                        <Form.Label>Opis</Form.Label>
                         <Form.Control
-                            type="text"
-                            placeholder="Enter description"
+                            as="textarea"
+                            rows={3}
+                            placeholder="Wprowadź opis"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Image</Form.Label>
+                        <Form.Label>Obraz Rośliny</Form.Label>
                         <div onClick={handleImageClick}>
                             <img src={image ? `data:image/jpeg;base64,${image}` : 'placeholder.jpg'}
-                                 alt='Ground Image'
+                                 alt='Grafika'
                                  style={{ maxWidth: '100px', maxHeight: '100px', cursor: 'pointer' }} />
                         </div>
                         <input
@@ -273,12 +362,16 @@ export const AddGround: React.FC<Props> = ({ isShown, onClose, id}) => {
                             style={{ display: 'none' }} />
                     </Form.Group>
 
-                    <Button variant="primary" type="submit" className="w-100 mt-3">Add</Button>
+                    <hr/>
+                    <Button variant="primary" type="submit" style={{ marginLeft: '10px', width: '97%' }}>
+                        {buttonName}
+                    </Button>
+                    <Button variant="secondary" type="button" onClick={onClose} style={{ marginLeft: '10px', width: '97%', marginTop:'20px', color: 'white'}}>
+                        Zamknij
+                    </Button>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onClose}>Close</Button>
-            </Modal.Footer>
+
         </Modal>
     );
 };

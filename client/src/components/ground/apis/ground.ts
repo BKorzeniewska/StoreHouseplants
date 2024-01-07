@@ -36,6 +36,7 @@ export type CreateGroundRequest = {
 };
 
 export type ModifyGroundRequest = {
+    id: number;
     name: string;
     type: GroundType;
     stockQuantity: number;
@@ -61,7 +62,7 @@ export const loadGrounds = async (): Promise<Result<Ground[], APIError<GroundErr
         }
     });
 };
-export const getGroundById = async (id: number): Promise<Result<Ground, APIError<GroundErrors>>> => {
+export const loadGroundById = async (id: string): Promise<Result<Ground, APIError<GroundErrors>>> => {
     const response =  Get<Ground, APIError<GroundErrors>>(`${baseUrl}/api/v1/grounds/${id}`);
     return response.then((data) => {
         if (data.isOk) {
@@ -87,7 +88,7 @@ export const getGroundById = async (id: number): Promise<Result<Ground, APIError
 
 // Update an existing ground
 export const updateGround = async (request: ModifyGroundRequest): Promise<Result<Ground, APIError<GroundErrors>>> => {
-    const response = Put<ModifyGroundRequest, APIError<GroundErrors>>(`${baseUrl}/api/v1/grounds/update`, request);
+    const response = Put<ModifyGroundRequest, APIError<GroundErrors>>(`${baseUrl}/api/admin/v1/grounds/update`, request);
     return response.then((data) => {
         if (data.isOk) {
             return { isOk: true, value: data.value } as Result<Ground, APIError<GroundErrors>>;
@@ -111,7 +112,7 @@ export const loadGroundsByType = async (type: string): Promise<Result<Ground[], 
 };
 
 export const deleteGround = async (groundId: number): Promise<Result<any, APIError<GroundErrors>>> => {
-    const response = Delete<any, APIError<GroundErrors>>(`${baseUrl}/api/v1/ground/${groundId}`);
+    const response = Delete<any, APIError<GroundErrors>>(`${baseUrl}/api/admin/v1/grounds/${groundId}`);
 
     return response.then((data) => {
         if (data.isOk) {
