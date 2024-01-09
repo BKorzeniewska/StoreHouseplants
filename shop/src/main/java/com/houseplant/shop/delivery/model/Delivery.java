@@ -15,7 +15,7 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DELIVERY_ID")
-    private long id;
+    private Long id;
     @Column(name = "NAME", nullable = false)
     private String name;
     @Column(name = "DESCRIPTION")

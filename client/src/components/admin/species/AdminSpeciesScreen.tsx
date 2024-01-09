@@ -190,9 +190,13 @@ type Props = {
 export const AddSpecies: React.FC<Props> = ({ isShown, onClose, id }) => {
   const [speciesName, setSpeciesName] = useState("");
   const [speciesImage, setSpeciesImage] = useState('');
+  const [title, setTitle] = useState("");
+  const [buttonName, setButtonName] = useState("");
   const { setError } = useError();
 
   useEffect(() => {
+    setTitle(id != 0? "Edytuj gatunek": "Dodaj gatunek");
+    setButtonName(id != 0? "Zapisz zmiany": "Dodaj");
     if (id !== 0) {
       loadSpeciesById(id.toString()).then(speciesResult => {
         if (speciesResult.isOk) {
@@ -262,7 +266,7 @@ export const AddSpecies: React.FC<Props> = ({ isShown, onClose, id }) => {
       <>
         <Modal show={isShown} onHide={onClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Dodaj gatunek</Modal.Title>
+            <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={handleSubmit}>
@@ -293,7 +297,7 @@ export const AddSpecies: React.FC<Props> = ({ isShown, onClose, id }) => {
               </Form.Group>
               <hr/>
               <Button variant="primary" type="submit" style={{ marginLeft: '15px', width: '93%' }}>
-              Dodaj
+                {buttonName}
               </Button>
               <Button variant="secondary" type="button" onClick={onClose} style={{ marginLeft: '15px', width: '93%', marginTop:'17px', color: 'white'}}>
                 Zamknij

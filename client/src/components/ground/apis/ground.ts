@@ -111,6 +111,19 @@ export const loadGroundsByType = async (type: string): Promise<Result<Ground[], 
     });
 };
 
+export const loadTwoGroundsByType = async (type: string): Promise<Result<Ground, APIError<GroundErrors>>> => {
+    const response = Get<Ground, APIError<GroundErrors>>(`${baseUrl}/api/v1/grounds/type/two/${type}`);
+
+
+    return response.then((data) => {
+        if (data.isOk) {
+            return {isOk: true, value: data.value} as Result<Ground, APIError<GroundErrors>>;
+        } else {
+            return {isOk: false, error: data.error.response?.data} as Result<Ground, APIError<GroundErrors>>;
+        }
+    });
+};
+
 export const deleteGround = async (groundId: number): Promise<Result<any, APIError<GroundErrors>>> => {
     const response = Delete<any, APIError<GroundErrors>>(`${baseUrl}/api/admin/v1/grounds/${groundId}`);
 

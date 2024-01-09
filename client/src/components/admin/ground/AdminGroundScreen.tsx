@@ -340,8 +340,7 @@ export const AddGround: React.FC<Props> = ({ isShown, onClose, id}) => {
                     <Form.Group className="mb-3" controlId="formDescription">
                         <Form.Label>Opis</Form.Label>
                         <Form.Control
-                            as="textarea"
-                            rows={3}
+                            type="text"
                             placeholder="Wprowadź opis"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)} />

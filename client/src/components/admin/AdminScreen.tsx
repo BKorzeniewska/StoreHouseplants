@@ -11,11 +11,16 @@ export const AdminScreen = () => {
   return (
     <AppWrapper hideSidebar>
       <Container className="my-5">
+
+        <div className=" justify-content-start mb-3"  style={{marginLeft:'120px'}}>
         <Row>
           <Col>
-            <h2>Panel administratora</h2>
+            <h2  style={{textAlign:'center'}}><strong>Panel administratora</strong></h2>
           </Col>
         </Row>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <div>
+
         <Row className="mt-4">
           <Col>
             <Link to="/admin/plants" className="admin-link">
@@ -78,14 +83,21 @@ export const AdminScreen = () => {
         </Row>
         <Row className="mt-4">
           <Col>
-            <Link to="/admin/users" className="admin-link">
+            <Link to="/admin/delivery" className="admin-link">
               <Button variant="primary" size="lg">
                 <FaTruck className="mr-2" />
-                Dostawa
+                Dostawacy
               </Button>
             </Link>
           </Col>
         </Row>
+          </div>
+          <div>
+            <img style={{maxHeight:'500px',width:'auto' }} src={require("../../assets/adm.png")} />
+          </div>
+        </div>
+
+        </div>
       </Container>
     </AppWrapper>
   );

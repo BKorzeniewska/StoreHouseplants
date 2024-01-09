@@ -14,7 +14,6 @@ import { ThemeContext } from '../../themes/ThemeProvider';
 import { AppWrapper } from '../../common/AppWrapper';
 import { AddChapter } from './AddChapter';
 import {deleteChapter} from "../../blog/chapter/chapter";
-import {CreateChapterRequest} from "../../common/apis/chapter";
 
 type ChapterProps = {
   id: number;
@@ -59,11 +58,13 @@ const Chapter = ({ chapter }: { chapter: ChapterProps }) => {
 
   return (
       <div className={`border rounded p-3 mb-4`}>
-        <button className={`btn btn-link p-0`} onClick={() => setIsOpen(!isOpen)}>
-          <h2>{chapter.name}</h2>
-          <button className="btn btn-sm btn-danger" onClick={() => removeChapter(chapter.id)}>
+        <button className={`btn `} onClick={() => setIsOpen(!isOpen)}>
+          <div style={{display: 'flex', alignItems: 'center'}}>
+          <h2  className={`btn btn-link p-0`}>{chapter.name}</h2>
+          <button className="btn btn-sm btn-danger" onClick={() => removeChapter(chapter.id)} style={{ marginLeft:'20pxs'}}>
             Usuń Rozdział
           </button>
+          </div>
         </button>
         <ul className={`list-unstyled ${isOpen ? '' : 'd-none'}`}>
           {chapter.articles.map((article) => (

@@ -17,15 +17,9 @@ export const PlantItemList = () => {
     const [displayPlants, setDisplayPlants] = useState<Plant[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
-    const [oldStockQuantity, setOldStockQuantity] = useState(0);
-    const [stockQuantity, setStockQuantity] = useState(0);
-    const [plantId, setPlantId] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const itemsPerPage = 12;
     const [sortAscending, setSortAscending] = useState(true);
-    const [showModal, setShowModal] = useState(false);
-    const [showModalStock, setShowModalStock] = useState(false);
-    const [showModalAdd, setShowModalAdd] = useState(false);
     const [totalPages, setTotalPages] = useState(0);
     const {isAuthorized} = useContext(AuthContext);
 

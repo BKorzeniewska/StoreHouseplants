@@ -6,12 +6,15 @@ import {AppWrapper} from "../common/AppWrapper";
 import "./PlantScreen.css";
 import {loadSpeciesById} from "./species/apis/species";
 import {Kind, Product} from "../cart/apis/product";
+import {Ground, loadTwoGroundsByType} from "../ground/apis/ground";
 
 
 export function PlantScreen(props:any) {
     const { plantId } = useParams();
     const [plant, setPlant] = useState<Plant | null>(null); // Explicitly define the type as `Plant | null`
     const [isLoading, setIsLoading] = useState(true);
+    const [ground, setGround] = useState<Ground | null>(null);
+
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const [position, setPosition] = useState<string>();
@@ -30,42 +33,43 @@ export function PlantScreen(props:any) {
     } = props
 
     useEffect(() => {
-        if (plantId) {
-            setIsLoading(true);
-            loadPlantById(plantId)
-                .then(result => {
-                    if (result.isOk) {
-                        setPlant(result.value);
-                        setIsForBeginners(result.value.beginners ? "Łatwa w hodowli" : "Roślina wymagająca");
-                        setIsCollectible(result.value.collectible ? "tak" : "nie");
-                        setPosition(result.value.position === "LIGHT" ? "jasne" : (result.value.position === "DARK" ? "ciemne" : "półcień"));
+        const fetchData = async () => {
+            if (plantId) {
+                try {
+                    setIsLoading(true);
 
-                        // Wywołanie loadSpeciesById wewnątrz bloku then
-                        return loadSpeciesById(result.value.plantSpeciesId.toString());
+                    const plantResult = await loadPlantById(plantId);
+                    if (plantResult.isOk) {
+                        setPlant(plantResult.value);
+                        setIsForBeginners(plantResult.value.beginners ? "Łatwa w hodowli" : "Roślina wymagająca");
+                        setIsCollectible(plantResult.value.collectible ? "tak" : "nie");
+                        setPosition(plantResult.value.position === "LIGHT" ? "jasne" : (plantResult.value.position === "DARK" ? "ciemne" : "półcień"));
+
+                        const groundsResult = await loadTwoGroundsByType(plantResult.value.groundType);
+                        if(groundsResult.isOk){
+                              setGround((groundsResult.value));
+                        }
+                        // Tutaj załaduj gatunki
+                        const speciesResult = await loadSpeciesById(plantResult.value.plantSpeciesId.toString());
+                        if (speciesResult.isOk) {
+                            setSpecies(speciesResult.value.name);
+                        } else {
+                            setError('Nie udało się załadować gatunku');
+                        }
                     } else {
                         setError('Nie udało się załadować rośliny');
-                        setIsLoading(false);
-                        throw new Error('Nie udało się załadować rośliny');
                     }
-                })
-                .then(speciesResult => {
-                    if (speciesResult.isOk) {
-                        setSpecies(speciesResult.value.name);
-                    } else {
-                        setError('Nie udało się załadować gatunku');
-                    }
-                })
-                .catch(() => {
-                    setError('Nie udało się załadować gatunku lub rośliny');
-                })
-                .finally(() => {
+                } catch (error) {
+                    setError('Wystąpił błąd podczas ładowania danych');
+                } finally {
                     setIsLoading(false);
-                });
-        } else {
-            setError('Brak roliny o takim id');
-            setIsLoading(false);
-        }
+                }
+            }
+        };
+
+        fetchData();
     }, [plantId]);
+
 
     if (isLoading) {
         return <Spinner animation="border" />;
@@ -153,8 +157,24 @@ export function PlantScreen(props:any) {
                                 min="1"
                             />
                             <button type="button" className="btn btn-success" onClick={() => handleAddToCartButton()}>dodaj do koszyka</button>
-                        </div>
+                        </div >
+                        <div style={{marginTop: '40px'}}/>
+                        <div><strong>Polecane podłoże:</strong></div>
+                        <div className="add-to-cart" >
 
+                            <img className="product-page-image-small"
+                                 src={`data:image/jpeg;base64,${ground?.image}`}
+                                 alt={ground?.name}
+                                 style={{maxHeight:'70px', width:'auto'}}
+                            />
+                            <div >
+                                <div><strong>{ground?.name}</strong></div>
+                                <div>Cena: {ground?.price} zł</div>
+                            </div>
+
+
+
+                        </div>
                     </div>
                 </div>
             </Container>

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class DeliveryResponse {
+    private Long id;
     private String name;
     private String description;
     private double price;

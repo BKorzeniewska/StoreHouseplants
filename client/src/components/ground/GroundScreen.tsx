@@ -68,7 +68,7 @@ export function GroundScreen(props:any) {
             id: Number(groundId),
             name: ground?.name!,
             price: ground?.price!,
-            kind: Kind.GROUND,
+            kind: Kind.PLANT,
             count: quantity,
             image: ground?.image!
         };
@@ -106,7 +106,7 @@ export function GroundScreen(props:any) {
                             <tbody>
                             <tr>
                                 <th scope="row">Dostępność</th>
-                                <td>niska</td>
+                                <td>Wysoka</td>
                             </tr>
                             <tr>
                                 <th scope="row">Typ:</th>

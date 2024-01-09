@@ -21,6 +21,10 @@ public interface GroundRepository extends JpaRepository<Ground, Long> {
     @Query("SELECT g FROM Ground g where g.type =?1 order by g.id asc")
     List<Ground> findByType(GroundType type);
 
+    @Transactional
+    @Query("SELECT g FROM Ground g where g.type =:type order by g.stockQuantity desc LIMIT 1")
+    Optional<Ground> findTop1ByTypeOrderByStockQuantityDesc(GroundType type);
+
     Optional<Ground> findByName(String name);
 
     @Transactional

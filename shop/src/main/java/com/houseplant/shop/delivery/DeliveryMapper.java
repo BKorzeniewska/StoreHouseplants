@@ -10,6 +10,6 @@ public interface DeliveryMapper {
     Delivery toDelivery(final CreateDeliveryRequest createDeliveryRequest);
 
 
-    DeliveryResponse toGroundResponse(Delivery delivery);
+    DeliveryResponse toDeliveryResponse(Delivery delivery);
 }
 

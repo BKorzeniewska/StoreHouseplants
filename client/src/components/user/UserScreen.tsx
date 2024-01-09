@@ -67,24 +67,23 @@ export const UserScreen = () => {
                         alt="profile-picture"
                         className="rounded-circle mb-3 profile-picture"
                       />
-                      <h5 className="text-center">{result.nickname}</h5>
                       <p className="text-center">{result.email}</p>
                     </div>
                     <hr />
                     <div className="d-flex flex-column">
                       <p>
-                        <strong>Level: </strong>
-                        {result.level}
-                        <ProgressBar now={calculateLevelProgress()} label={`${calculateLevelProgress()}%`} />
+                        <strong>Miasto: </strong>
+                        Wrocław
+
                       </p>
                       
                       <p>
-                        <strong>Punkty doświadczenia: </strong>
-                        {result.exp}
+                        <strong>Ulica: </strong>
+                        Ruminakowa 43A/5
                       </p>
                       <p>
-                        <strong>Rozwiązane zadania: </strong>
-                        {result.challengesSolvedCount}
+                        <strong>Kod pocztowy: </strong>
+                        51-165
                       </p>
                     </div>
                   </Card.Body>

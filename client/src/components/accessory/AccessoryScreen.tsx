@@ -74,7 +74,7 @@ export function AccessoryScreen(props:any) {
             id: Number(accessoryId),
             name: accessory?.name!,
             price: accessory?.price!,
-            kind: Kind.ACCESSORY,
+            kind: Kind.PLANT,
             count: quantity,
             image: accessory?.image!
         };

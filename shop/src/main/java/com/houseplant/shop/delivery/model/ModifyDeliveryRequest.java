@@ -8,7 +8,7 @@ import lombok.Data;
 public class ModifyDeliveryRequest {    private long id;
     private String name;
     private String description;
-    private double price;
+    private Double price;
     private Boolean blocked;
 }
 

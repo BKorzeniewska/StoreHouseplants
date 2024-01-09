@@ -56,6 +56,15 @@ public class GroundServiceImpl implements GroundService {
                 .map(groundMapper::toGroundResponse)
                 .toList();
     }
+    @Override
+    public GroundResponse getTwoGroundByType(GroundType type) {
+        var ground = groundRepository
+                .findTop1ByTypeOrderByStockQuantityDesc(type)
+                .orElseThrow(() -> new GroundNotFoundException(
+                        "Ground with provided ID not found", "GROUND_NOT_FOUND"));
+
+        return groundMapper.toGroundResponse(ground);
+    }
 
     @Override
     public GroundResponse createGround( CreateGroundRequest request) {

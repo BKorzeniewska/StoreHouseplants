@@ -9,6 +9,7 @@ public interface GroundService {
 
     GroundResponse getGroundById(long id);
     List<GroundResponse>  getGroundByType(GroundType type);
+    GroundResponse  getTwoGroundByType(GroundType type);
 
     GroundResponse createGround(final CreateGroundRequest request);
 

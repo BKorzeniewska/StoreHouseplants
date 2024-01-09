@@ -34,6 +34,8 @@ import {useContext, useEffect, useState} from "react";
 import {Kind, Product} from "./components/cart/apis/product";
 import {GroundScreen} from "./components/ground/GroundScreen";
 import {AdminAccessoriesScreen} from "./components/admin/accessory/AdminAccessoryScreen";
+import {AdminDeliveriesScreen} from "./components/admin/delivery/AdminDeliveryScreen";
+import {PaymentScreen} from "./components/cart/PaymentScreen";
 
 function Cart() {
   const [cartKey, setCartKey] = useState('shopping-cart-guest')
@@ -149,7 +151,12 @@ function App(props: any) {
             {/*Accessory*/}
             <Route path="/accessories" element={<AccessoryAllList />}></Route>
             <Route path="/accessories/category/:category" element={<AccessoryByCategoryList />}></Route>
-            <Route path="/accessory/:accessoryId" element={<AccessoryScreen />}></Route>
+            <Route path="/accessory/:accessoryId" element={<AccessoryScreen productsInCart={productsInCart}
+                                                                            addProductToCart={addProductToCart}
+                                                                            setShowCartWarningToast={setShowCartWarningToast}
+                                                                            setShowCartSuccessToast={setShowCartSuccessToast}
+                                                                            showCartWarningToast={showCartWarningToast}
+                                                                            showCartSuccessToast={showCartSuccessToast} />}></Route>
             {/*Plant*/}
             <Route path="/plants/all" element={<PlantItemList/>}></Route>
             <Route path="/plants/:plantId" element={<PlantScreen  productsInCart={productsInCart}
@@ -182,6 +189,9 @@ function App(props: any) {
             <Route path="/login" element={<LoginScreen />}></Route>
             <Route path="/register" element={<RegisterScreen />}></Route>
             {/*Cart*/}
+              <Route path="/payment/:cost"
+                     element={<PaymentScreen productsInCart={productsInCart} onQuantityChange={onQuantityChange}
+                                            onProductRemove={onProductRemove} clearCart={clearCart} />} />
             <Route path="/cart"
                    element={<ShoppingCart productsInCart={productsInCart} onQuantityChange={onQuantityChange}
                                           onProductRemove={onProductRemove} clearCart={clearCart} />} />
@@ -196,6 +206,8 @@ function App(props: any) {
             <Route path="/admin/edit/:articleId?" element={<ArticleEditionScreen />}></Route>
             <Route path="/admin/users" element={<AdminUsersScreen />}></Route>
             <Route path="/admin/grounds" element={<AdminGroundsScreen />}></Route>
+            <Route path="/admin/delivery" element={<AdminDeliveriesScreen />}></Route>
+
             <Route path="/admin" element={<AdminScreen />}></Route>
 
           </Routes>

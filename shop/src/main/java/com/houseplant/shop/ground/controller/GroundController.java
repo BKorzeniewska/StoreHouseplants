@@ -37,5 +37,10 @@ public class GroundController {
         var grounds = groundService.getGroundByType(type);
         return new ResponseEntity<>(grounds, HttpStatus.OK);
     }
+    @GetMapping("/type/two/{type}")
+    public ResponseEntity<GroundResponse> getTwoGroundsByType(@PathVariable GroundType type) {
+
+        return ResponseEntity.ok(groundService.getTwoGroundByType(type));
+    }
 
 }

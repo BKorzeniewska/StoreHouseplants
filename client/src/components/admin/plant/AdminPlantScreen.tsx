@@ -82,6 +82,7 @@ export const AdminPlantsScreen = () => {
     setShowModalAdd(false);
     setPlantId(0);
     setOldStockQuantity(0);
+    setStockQuantity(0);
   };
   const handleOpenModal = () => {
     setShowModalAdd(true);
@@ -89,12 +90,14 @@ export const AdminPlantsScreen = () => {
   };
   const handleOpenModalMod = async (plantId: number) => {
     setShowModalAdd(true);
+    console.log("plnt"+ plantId);
     setPlantId(plantId);
   };
   const handleOpenModalMStock= async (plantId: number, count: number) => {
     setShowModalStock(true);
     setPlantId(plantId);
     setOldStockQuantity(count);
+    setStockQuantity(count);
   };
   const handleOpenModalDel = async (plantId: number) => {
     setShowModal(true);
@@ -199,7 +202,7 @@ export const AdminPlantsScreen = () => {
 
           <Modal show={showModal} onHide={() => setShowModal(false)}>
             <Modal.Header closeButton>
-              <Modal.Title>Usunąć Roślinę?</Modal.Title>
+              <Modal.Title>Usunąć roślinę?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               Czy jesteś pewny, że chcesz usunąć roślinę?
@@ -211,6 +214,7 @@ export const AdminPlantsScreen = () => {
               <Button variant="danger" onClick={() => handleDelete(plantId)}>
                 Tak
               </Button>
+
             </Modal.Footer>
           </Modal>
 
@@ -222,30 +226,24 @@ export const AdminPlantsScreen = () => {
             <Modal.Body>
               <Form onSubmit={handleSubmitStock}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Obecna ilość</Form.Label>
-                  <Form.Label>{oldStockQuantity}</Form.Label>
-                </Form.Group>
-
-                <Form.Group className="mb-3">
+                  <Form.Label>Obecna ilość:     {oldStockQuantity}</Form.Label>
+                  <div/>
                   <Form.Label>Nowa ilość</Form.Label>
                   <Form.Control
                       type="number"
                       placeholder="00"
                       value={stockQuantity}
-                      onChange={(event) => setStockQuantity(parseInt(event.target.value))}
+                      onChange={(event) => setOldStockQuantity(parseInt(event.target.value))}
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit" style={{ width: '200px' }}>
-                  Dodaj
+                <Button variant="primary" type="submit" style={{ marginLeft: '15px', width: '93%' }}>
+                  Zapisz zmiany
+                </Button>
+                <Button variant="secondary" type="button" onClick={() => setShowModalStock(false)} style={{ marginLeft: '15px', width: '93%', marginTop:'20px', color: 'white'}}>
+                  Zamknij
                 </Button>
               </Form>
             </Modal.Body>
-            <Modal.Footer>
-
-              <Button variant="secondary" style={{ width: '200px' }} onClick={() => setShowModalStock(false)}>
-                Zamknij
-              </Button>
-            </Modal.Footer>
           </Modal>
 
         </Container>
@@ -280,8 +278,9 @@ export const AddPlant: React.FC<Props> = ({ isShown, onClose, id }) => {
   const { setError } = useError();
 
   useEffect(() => {
-    setTitle(id != 0? "Edytuj rośline": "Dodaj rośline");
-    setButtonName(id != 0? "Zapisz zmiany": "Dodaj");
+    console.log("pp"+id);
+    setTitle(id != 0 ? "Edytuj roślinę" : "Dodaj roślinę");
+    setButtonName(id != 0 ? "Zapisz zmiany" : "Dodaj");
     const fetchSpecies = async () => {
       const result = await loadSpecies();
       if (result.isOk) {

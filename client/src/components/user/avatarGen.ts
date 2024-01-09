@@ -14,23 +14,19 @@ const cyrb53 = (str: string, seed: number = 0) => {
 
     return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 };
-
 export function generateRandomPixels(str: string): string {
     const width = 4; // width of the image
     const height = 4; // height of the image
     const imageData = new Uint8ClampedArray(width * height * 4); // create an empty buffer for image data
-    var rgb = require('hsv-rgb');
 
-    // fill the buffer with random pixel values
+    // fill the buffer with random pixel values in shades of green
     for (let i = 0; i < imageData.length; i += 4) {
-        let val1 = (cyrb53(str, i) % 100) / 100;
-        let val2 = (cyrb53(str, i + 234) % 100) / 100;
+        let shade = (cyrb53(str, i) % 256); // Generate a random shade between 0 and 255
 
-        let [r, g, b] = rgb(70 * val1 + 240, 75, 30 * val2 + 80);
-        imageData[i] = Math.floor(r); // red
-        imageData[i + 1] = Math.floor(g); // green
-        imageData[i + 2] = Math.floor(b); // blue
-        imageData[i + 3] = 255; // alpha
+        imageData[i] = 0; // red channel set to 0
+        imageData[i + 1] = shade; // green channel varies
+        imageData[i + 2] = 0; // blue channel set to 0
+        imageData[i + 3] = 255; // alpha channel set to 255 (opaque)
     }
 
     // create a canvas element to draw the image
