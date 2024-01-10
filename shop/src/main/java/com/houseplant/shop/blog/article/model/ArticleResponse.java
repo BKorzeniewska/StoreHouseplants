@@ -11,6 +11,9 @@ public class ArticleResponse {
     private Long id;
     private String title;
     private String content;
+    private Long chapterId;
     private Boolean visible;
+    private byte[] image;
+    private Long userId;
     private LocalDate date;
 }

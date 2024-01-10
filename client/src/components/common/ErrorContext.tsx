@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import "./error.css"
 import React from 'react';
+import {APIError} from "./axiosFetch";
 
 type ErrorMessage = {
   message: string;

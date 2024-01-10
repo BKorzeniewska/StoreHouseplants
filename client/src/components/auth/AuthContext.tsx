@@ -82,9 +82,10 @@ export const AuthContext = React.createContext<{
 // create AuthContext Provider
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
-  if (sessionStorage.getItem('token')) {
-    console.log('update')
-    axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
+  if (token) {
+    console.log('update');
+    axios.defaults.headers.common['Authorization'] = token;
   }
 
   return (

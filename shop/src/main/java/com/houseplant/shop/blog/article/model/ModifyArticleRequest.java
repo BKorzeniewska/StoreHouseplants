@@ -9,5 +9,7 @@ public class ModifyArticleRequest {
     private Long id;
     private String title;
     private Boolean visible;
+
+    private byte[] image;
     private String content;
 }

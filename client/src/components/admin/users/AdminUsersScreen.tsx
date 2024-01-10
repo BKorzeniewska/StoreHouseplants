@@ -102,7 +102,7 @@ export const AdminUsersScreen = () => {
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <Button className="rounded-pill" variant="primary" onClick={handleSearch}>
-            Search
+            Szukaj
           </Button>
         </Form>
         {users &&
@@ -123,8 +123,6 @@ export const AdminUsersScreen = () => {
                 >
                   <NavDropdown.Item eventKey="USER">USER</NavDropdown.Item>
                   <NavDropdown.Item eventKey="ADMIN">ADMIN</NavDropdown.Item>
-                  <NavDropdown.Item eventKey="MODERATOR">MODERATOR</NavDropdown.Item>
-                  <NavDropdown.Item eventKey="PRIVILEGED_USER">PRIVILEGED USER</NavDropdown.Item>
                 </NavDropdown>
                 <span className="modify-button">
                   <FaTrash onClick={(event) => { event.preventDefault(); event.stopPropagation(); setUserToDelete(user); setShowModal(true) }} />

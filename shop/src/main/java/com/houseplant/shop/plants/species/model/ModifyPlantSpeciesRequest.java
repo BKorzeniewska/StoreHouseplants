@@ -13,6 +13,6 @@ public class ModifyPlantSpeciesRequest {
     private Long id;
 
     private String name;
-
+    private byte[] image;
     private List<Plant> plant;
 }

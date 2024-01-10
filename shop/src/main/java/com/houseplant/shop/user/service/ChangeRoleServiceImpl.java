@@ -1,14 +1,11 @@
 package com.houseplant.shop.user.service;
 
 
-import com.houseplant.shop.blog.comments.exception.CommentIllegalStateException;
 import com.houseplant.shop.user.exception.UserNotFoundException;
-import com.houseplant.shop.user.exception.UserRequestException;
 import com.houseplant.shop.user.model.dto.ChangeRoleRequest;
 import com.houseplant.shop.user.model.dto.GetUsersRequest;
 import com.houseplant.shop.user.model.dto.UserResponse;
 import com.houseplant.shop.user.model.dto.UsersDTO;
-import com.houseplant.shop.user.model.entity.Role;
 import com.houseplant.shop.user.model.entity.User;
 import com.houseplant.shop.user.repository.UserMapper;
 import com.houseplant.shop.user.repository.UserRepository;
@@ -33,36 +30,34 @@ public class ChangeRoleServiceImpl implements ChangeRoleService {
     public void changeRole(final ChangeRoleRequest changeRoleRequest, final String bearerToken) {
 
 
-        if (bearerToken == null || bearerToken.isBlank()) {
-            throw new CommentIllegalStateException("Bearer token cannot be blank", "BEARER_TOKEN_BLANK");
-        }
+
         final String token = bearerToken.substring(7);
 
         final User currentUser = userRepository.findByToken(token)
                 .orElseThrow(() -> new UserNotFoundException("User with provided token not found", "USER_NOT_FOUND"));
 
-        if (!currentUser.getRole().equals(Role.ADMIN)) {
-            throw new UserRequestException("You can't change role", "ROLE_CHANGE_ERROR");
-        }
+//        if (!currentUser.getRole().equals(Role.ADMIN)) {
+//            throw new UserRequestException("You can't change role", "ROLE_CHANGE_ERROR");
+//        }
 
         final User user = userRepository.findById(changeRoleRequest.userId())
                 .orElseThrow(() -> new UserNotFoundException("User with provided id not found", "USER_NOT_FOUND"));
 
-        if (user.equals(currentUser)) {
-            throw new UserRequestException("You can't change your own role", "ROLE_CHANGE_ERROR");
-        }
-
-        if (user.getRole().equals(Role.ADMIN)) {
-            throw new UserRequestException("You can't change role of admin", "ROLE_CHANGE_ERROR");
-        }
-
-        if (user.getRole().getValue() == changeRoleRequest.role().getValue()) {
-            throw new UserRequestException("User role is already the same", "ROLE_CHANGE_ERROR");
-        }
-
-        if (currentUser.getRole().getValue() < changeRoleRequest.role().getValue()) {
-            throw new UserRequestException("You can't change role to higher than yours", "ROLE_CHANGE_ERROR");
-        }
+//        if (user.equals(currentUser)) {
+//            throw new UserRequestException("You can't change your own role", "ROLE_CHANGE_ERROR");
+//        }
+//
+//        if (user.getRole().equals(Role.ADMIN)) {
+//            throw new UserRequestException("You can't change role of admin", "ROLE_CHANGE_ERROR");
+//        }
+//
+//        if (user.getRole().getValue() == changeRoleRequest.role().getValue()) {
+//            throw new UserRequestException("User role is already the same", "ROLE_CHANGE_ERROR");
+//        }
+//
+//        if (currentUser.getRole().getValue() < changeRoleRequest.role().getValue()) {
+//            throw new UserRequestException("You can't change role to higher than yours", "ROLE_CHANGE_ERROR");
+//        }
 
         user.setRole(changeRoleRequest.role());
         userRepository.updateRoleById(user.getId(), changeRoleRequest.role());

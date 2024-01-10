@@ -1,6 +1,8 @@
 
 .navbar .navbar-brand {
     font-weight: bold;
+    display: flex; /* Ustawienie stylu Flexbox */
+    align-items: center; /* Wyśrodkowanie elementów pionowo */
 }
 
 

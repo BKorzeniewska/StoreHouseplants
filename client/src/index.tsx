@@ -5,6 +5,9 @@ import App from './App';
 import { ThemeProvider } from './components/themes/ThemeProvider';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import {AuthProvider} from "./components/auth/AuthContext";
+import {ErrorProvider} from "./components/common/ErrorContext";
+import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +16,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+        <AuthProvider>
+            <ErrorProvider>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </ErrorProvider>
+        </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

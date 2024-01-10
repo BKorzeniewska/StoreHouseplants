@@ -2,13 +2,16 @@ package com.houseplant.shop.blog.article.service;
 
 
 
-import com.houseplant.shop.blog.article.model.ArticleResponse;
-import com.houseplant.shop.blog.article.model.MenuArticleResponse;
+import com.houseplant.shop.blog.article.model.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface ArticleService {
+
+    ArticleDTO getArticlePageByChapter(final Long articleId);
+
+    List<ArticleResponse> getArticlesByChapter(final Long chapterId);
 
     ArticleResponse getArticleById(Long articleId);
 

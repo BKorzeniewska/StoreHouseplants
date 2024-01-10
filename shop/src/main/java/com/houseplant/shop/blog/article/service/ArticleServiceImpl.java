@@ -4,10 +4,9 @@ package com.houseplant.shop.blog.article.service;
 import com.houseplant.shop.blog.article.ArticleMapper;
 import com.houseplant.shop.blog.article.exception.ArticleNotFoundException;
 import com.houseplant.shop.blog.article.exception.InvalidDateException;
-import com.houseplant.shop.blog.article.model.Article;
-import com.houseplant.shop.blog.article.model.ArticleResponse;
-import com.houseplant.shop.blog.article.model.MenuArticleResponse;
 import com.houseplant.shop.blog.article.repository.ArticleRepository;
+
+import com.houseplant.shop.blog.article.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,49 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
 
+    @Override
+    public ArticleDTO getArticlePageByChapter(final Long articleId) {
+
+        log.info("getArticlePageByChapter - start, articleId: {}", articleId);
+
+        final Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException("Article with provided ID not found", "ARTICLE_NOT_FOUND"));
+
+        final List<Article> articles = articleRepository.findAllByChapterId(article.getChapter().getId())
+                .orElseThrow(() -> new ArticleNotFoundException("Articles with provided ChapterID not found", "ARTICLES_NOT_FOUND"));
+
+        final int articleListIndex = articles.stream()
+                .filter(a -> a.getId() == articleId)
+                .findFirst()
+                .map(articles::indexOf)
+                .orElse(-1);
+
+        log.info("getArticlePageByChapter - articleListIndex: {}", articleListIndex);
+
+        final Long previousArticleIndex = articleListIndex > 0 ? articles.get(articleListIndex - 1).getId() : null;
+        final Long nextArticleIndex = articleListIndex < articles.size() - 1 ? articles.get(articleListIndex + 1).getId() : null;
+        final Long totalElements = (long) articles.size();
+        final Long currentPage = (long) (articleListIndex + 1);
+        final ArticleResponse articleResponse = articleMapper.toCreateArticleResponse(article);
+
+        return new ArticleDTO(articleResponse, previousArticleIndex, nextArticleIndex, totalElements, currentPage);
+    }
+
+    @Override
+    public List<ArticleResponse> getArticlesByChapter(final Long chapterId) {
+        List<Article> articles = articleRepository
+                .findAllByChapterId(chapterId)
+                .orElseThrow(() -> new ArticleNotFoundException(
+                        "Articles with provided ChapterID not found", "ARTICLES_NOT_FOUND"))
+                .stream().filter(article -> {
+                    return article.getVisible();
+                }).toList();
 
 
+        return articles.stream()
+                .map(articleMapper::toCreateArticleResponse)
+                .toList();
+    }
 
     @Override
     public ArticleResponse getArticleById(Long articleId) {
@@ -32,7 +72,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(
                         "Article with provided ID not found", "ARTICLE_NOT_FOUND"));
-        return articleMapper.toArticleResponse(article);
+        return articleMapper.toCreateArticleResponse(article);
     }
 
     @Override
@@ -43,7 +83,7 @@ public class ArticleServiceImpl implements ArticleService {
                         "Articles with provided title's fragment not found", "ARTICLES_NOT_FOUND"));
 
         return articles.stream()
-                .map(articleMapper::toArticleResponse)
+                .map(articleMapper::toCreateArticleResponse)
                 .toList();
     }
 
@@ -57,7 +97,7 @@ public class ArticleServiceImpl implements ArticleService {
                         "Articles with provided timestamp between" + startDate + " and " + endDate + "  not found", "ARTICLES_NOT_FOUND"));
 
         return articles.stream()
-                .map(articleMapper::toArticleResponse)
+                .map(articleMapper::toCreateArticleResponse)
                 .toList();
     }
 
@@ -69,7 +109,7 @@ public class ArticleServiceImpl implements ArticleService {
                         "Articles with provided date not found", "ARTICLES_NOT_FOUND"));
 
         return articles.stream()
-                .map(articleMapper::toArticleResponse)
+                .map(articleMapper::toCreateArticleResponse)
                 .toList();
     }
 

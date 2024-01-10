@@ -13,6 +13,9 @@ export const UserEditScreen = () => {
     const navigate = useNavigate();
     const { errorMessages, setError } = useError();
     const location = useLocation();
+    const [plantDescription1, setPlantDescription1] = useState("Wrocław");
+    const [plantDescription2, setPlantDescription2] = useState("Rumiankowa 43A/5");
+    const [plantDescription3, setPlantDescription3] = useState("51-165");
     const user: UserInfo | undefined = location.state?.result;
     const { setUser, getUser } = useContext(AuthContext);
 
@@ -74,11 +77,29 @@ export const UserEditScreen = () => {
                                 />
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label>Nickname</Form.Label>
+                                <Form.Label>Miasto</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="nickname"
-                                    value={formData.nickname}
+                                    value={plantDescription1}
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Ulica</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="nickname"
+                                    value={plantDescription2}
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Kod pocztowy</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="nickname"
+                                    value={plantDescription3}
                                     onChange={handleInputChange}
                                 />
                             </Form.Group>

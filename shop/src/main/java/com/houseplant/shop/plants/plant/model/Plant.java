@@ -1,7 +1,9 @@
 package com.houseplant.shop.plants.plant.model;
 
+import com.houseplant.shop.ground.model.GroundType;
 import com.houseplant.shop.plants.species.model.PlantSpecies;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,23 +19,41 @@ public class Plant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PLANT_ID")
     private long id;
+
     @ManyToOne
-    @JoinColumn(name="PLANT_SPECIES_ID", nullable = false)
+    @JoinColumn(name = "PLANT_SPECIES_ID", nullable = false)
     private PlantSpecies plantSpecies;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name; // Nazwa rośliny
 
-    @Column(name = "description", length = 1000)
-    private String description; // Opis rośliny
+    @Column(name = "DESCRIPTION", length = 1000)
+    private String description;
 
-    @Column(name = "price", nullable = false)
-    private double price; // Cena rośliny
+    @Column(name = "PRICE", nullable = false)
+    private double price;
 
-    @Column(name = "stock_quantity", nullable = false)
-    private int stockQuantity; // Ilość roślin dostępnych w magazynie
+    @Column(name = "STOCK_QUANTITY", nullable = false)
+    private int stockQuantity;
 
-    @Column(name = "image_url")
-    private String imageUrl; // URL obrazu rośliny
+    @Column(name = "GROUND_TYPE")
+    private GroundType groundType;
 
+    @Column(name = "POSITION")
+    private Position position;
+
+    @Column(name = "COLLECTIBLE")
+    private Boolean collectible;
+
+    @Column(name = "BEGINNERS")
+    private Boolean beginners;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "IMAGE")
+    private byte[] image;
+
+    @Transactional
+    public byte[] getImageData(Long id) {
+        return this.image;
+    }
 }

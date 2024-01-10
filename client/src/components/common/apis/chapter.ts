@@ -1,21 +1,28 @@
-import { Post } from "../axiosFetch";
+import {APIError, Post} from "../axiosFetch";
 import { Result } from "../poliTypes";
 import { baseUrl } from "./common";
+import {Article, ArticleErrors, CreateArticleRequest} from "../../blog/article/apis/article";
 
 
-export type ChapterResponse = {
+export type Chapter = {
     id: number;
     name: string;
+    image: string;
 }
 
-export const createChapter = async (name: string): Promise<Result<ChapterResponse, "CHAPTER_NAME_CANNOT_BE_BLANK">> => {
-    const response = Post<ChapterResponse>(`${baseUrl}/api/admin/v1/chapters/create/${name}`, null);
+export type CreateChapterRequest = {
+    name: string;
+    image: string;
+}
+export type ChapterErrors = string;
+export const createChapter = async (chapter: CreateChapterRequest): Promise<Result<Chapter, APIError<ChapterErrors>>> => {
+    const response = Post<Chapter, APIError<ChapterErrors>>(`${baseUrl}/api/admin/v1/chapters/create`, chapter);
 
     return response.then((data) => {
         if (data.isOk) {
-            return { isOk: true, value: data.value } as Result<ChapterResponse, "CHAPTER_NAME_CANNOT_BE_BLANK">;
+            return { isOk: true, value: data.value } as Result<Chapter, APIError<ChapterErrors>>;
         } else {
-            return { isOk: false, error: "CHAPTER_NAME_CANNOT_BE_BLANK" } as Result<ChapterResponse, "CHAPTER_NAME_CANNOT_BE_BLANK">;
+            return { isOk: false, error: data.error.response?.data } as Result<Chapter, APIError<ChapterErrors>>;
         }
     });
 }

@@ -1,6 +1,14 @@
 package com.houseplant.shop.ground.model;
 
 public enum GroundType {
+    DESERT,
+    CITRUS,
+    ORCHID,
+    BONSAI,
+    PEAT,
+    ADDITION,
 
-    ORCHID, PEAT, ADDITION, BONSAI, TROPIC, DESERT, CITRUS;
+    PERMEABLE,
+    UNIVERSAL,
+    OTHER;
 }

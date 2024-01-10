@@ -10,9 +10,8 @@ import java.util.List;
 @Builder
 public class CreatePlantSpeciesRequest {
 
-    private Long id;
 
     private String name;
-
+    private byte[] image;
     private List<Plant> plant;
 }

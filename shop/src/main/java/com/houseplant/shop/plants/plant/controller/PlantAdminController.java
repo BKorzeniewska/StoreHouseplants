@@ -1,44 +1,45 @@
 package com.houseplant.shop.plants.plant.controller;
 
-
-import com.houseplant.shop.blog.article.model.ArticleResponse;
-import com.houseplant.shop.blog.article.model.CreateArticleRequest;
-import com.houseplant.shop.blog.article.model.ModifyArticleRequest;
 import com.houseplant.shop.plants.plant.model.CreatePlantRequest;
+import com.houseplant.shop.plants.plant.model.DeliveryPlantRequest;
 import com.houseplant.shop.plants.plant.model.ModifyPlantRequest;
 import com.houseplant.shop.plants.plant.model.PlantResponse;
 import com.houseplant.shop.plants.plant.service.PlantAdminService;
-import com.houseplant.shop.plants.species.model.PlantSpecies;
-import com.houseplant.shop.plants.species.service.PlantSpeciesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-
 
 @RequiredArgsConstructor
 @Log4j2
 @RestController
-@RequestMapping("/api/admin/v1//plant")
+@RequestMapping("/api/admin/v1/plant")
 public class PlantAdminController {
 
     private final PlantAdminService plantAdminService;
 
     @PostMapping("/create")
-    public PlantResponse createPlant(@RequestBody CreatePlantRequest request) {
-        return plantAdminService.createPlant(request);
+    public ResponseEntity<PlantResponse> createPlant(@RequestBody CreatePlantRequest request) {
+        PlantResponse plantResponse = plantAdminService.createPlant(request);
+        return new ResponseEntity<>(plantResponse, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/modify")
-    public PlantResponse  modifyPlant(@RequestBody ModifyPlantRequest request) {
-        return plantAdminService.modifyPlant(request);
+    @PutMapping("/modify")
+    public ResponseEntity<PlantResponse> modifyPlant(@RequestBody ModifyPlantRequest request) {
+        PlantResponse plantResponse = plantAdminService.modifyPlant(request);
+        return new ResponseEntity<>(plantResponse, HttpStatus.OK);
+    }
+    @PutMapping("/delivery")
+    public ResponseEntity<PlantResponse> deliveryPlant(@RequestBody DeliveryPlantRequest request) {
+        PlantResponse plantResponse = plantAdminService.deliveryPlant(request);
+        return new ResponseEntity<>(plantResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePlant(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePlant(@PathVariable Long id) {
         plantAdminService.deletePlant(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

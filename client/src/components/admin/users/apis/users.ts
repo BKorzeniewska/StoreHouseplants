@@ -8,13 +8,11 @@ export type GetUsersRequest = {
     pageNumber: number,
     query: string,
 }
-export type UserRole  = "USER" |"ADMIN" | "MODERATOR" | "PRIVILEGED_USER";
+export type UserRole  = "USER" |"ADMIN" ;
 
 
 export const roleRank: Record<UserRole, number> = {
     USER: 1,
-    PRIVILEGED_USER: 10,
-    MODERATOR: 90,
     ADMIN: 100,
   };
 

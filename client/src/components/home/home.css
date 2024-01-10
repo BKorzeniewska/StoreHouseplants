@@ -6,21 +6,21 @@
 .banner-img {
     width: 100%;
     height: 50vh;
-    min-height: 500px;
-    object-fit: cover;
+    min-height: 200px;
+    object-fit: scale-down;
 }
 
 .article-tile {
-    background-color: #9868cf;
+    background-color: #8db58a;
     border: 0px;
     border-radius: 7px;
     padding: 20px;
     margin-bottom: 20px;
     height: 7.5rem;
-    color:azure;
+    color:black;
 }
 .article-tile:hover {
-    background-color: #824ebd;
+    background-color: #699e65;
 
 }
 

@@ -1,42 +1,40 @@
 package com.houseplant.shop.plants.species.controller;
 
-
-import com.houseplant.shop.plants.species.model.PlantSpecies;
-import com.houseplant.shop.plants.species.service.PlantSpeciesService;
+import com.houseplant.shop.plants.species.model.CreatePlantSpeciesRequest;
+import com.houseplant.shop.plants.species.model.ModifyPlantSpeciesRequest;
+import com.houseplant.shop.plants.species.model.PlantSpeciesResponse;
+import com.houseplant.shop.plants.species.service.PlantSpeciesAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
-
+@RestController
+@RequestMapping("/api/admin/v1/species")
 @RequiredArgsConstructor
 @Log4j2
-@RestController
-@RequestMapping("/api/admin/v1//plant-species")
 public class PlantSpeciesAdminController {
 
-    private final PlantSpeciesService plantSpeciesService;
+    private final PlantSpeciesAdminService plantSpeciesAdminService;
 
-    @GetMapping("/{id}")
-    public Optional<PlantSpecies> getPlantSpeciesById(@PathVariable long id) {
-        return plantSpeciesService.getPlantSpeciesById(id);
+    @PostMapping("/create")
+    public ResponseEntity<PlantSpeciesResponse> createPlantSpecies(@RequestBody CreatePlantSpeciesRequest request) {
+        var plantSpeciesResponse = plantSpeciesAdminService.createPlantSpecies(request);
+        return new ResponseEntity<>(plantSpeciesResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
-    public List<PlantSpecies> getAllPlantSpecies() {
-        return plantSpeciesService.getAllPlantSpecies();
+    @PutMapping("/update")
+    public ResponseEntity<PlantSpeciesResponse> modifyPlantSpecies(@RequestBody ModifyPlantSpeciesRequest request) {
+        var plantSpeciesResponse = plantSpeciesAdminService.modifyPlantSpecies(request);
+        return new ResponseEntity<>(plantSpeciesResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/name/{name}")
-    public List<PlantSpecies> getPlantSpeciesByName(@PathVariable String name) {
-        return plantSpeciesService.getPlantSpeciesByName(name);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deletePlantSpecies(@PathVariable Long id) {
+        plantSpeciesAdminService.deletePlantSpecies(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // Możesz dodać inne metody obsługi żądań HTTP w zależności od potrzeb
-
+    // Możesz dodać więcej endpointów, jeśli potrzebujesz obsługiwać inne operacje
 }

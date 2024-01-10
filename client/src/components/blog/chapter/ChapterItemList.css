@@ -1,0 +1,49 @@
+.chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 1rem;
+}
+
+.chapter-tile {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 350px; /* Ustawienie stałej wysokości dla karty */
+}
+
+.chapter-tile:hover {
+    transform: scale(1.05);
+}
+
+.chapter-img {
+    height: 200px; /* Stała wysokość dla obrazków */
+    width: 100%; /* Szerokość obrazka dopasowana do szerokości karty */
+    object-fit: cover; /* Obrazek pokryje cały przypisany obszar, zachowując centralną część obrazka */
+    overflow: hidden; /* Ukrywa nadmiar obrazka poza zdefiniowanym obszarem */
+}
+
+.card {
+    height: 100%; /* Ustawienie wysokości karty na 100% jej kontenera */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-top {
+    object-fit: cover; /* Obrazek pokrywa cały obszar, zachowując proporcje */
+    height: 200px; /* Stała wysokość dla obrazka */
+}
+
+.card-body {
+    flex-grow: 1; /* Pozwala treści karty na zajęcie dostępnego miejsca */
+}
+.page-tile {
+    text-align: center;
+    font-family:sans-serif;
+    font-size:50px;
+    margin-bottom: 22px;
+}
