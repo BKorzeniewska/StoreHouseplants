@@ -277,6 +277,7 @@ export const AddSpecies: React.FC<Props> = ({ isShown, onClose, id }) => {
                     placeholder="Nazwa gatunku"
                     autoFocus
                     value={speciesName}
+                    required
                     onChange={(event) => setSpeciesName(event.target.value)}
                 />
               </Form.Group>

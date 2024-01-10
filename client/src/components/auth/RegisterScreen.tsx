@@ -67,14 +67,14 @@ export const RegisterScreen = () => {
                                         controlId="firstname"
                                     >
                                         <Form.Label>Imię</Form.Label>
-                                        <Form.Control type="text" placeholder="Twoje imie" />
+                                        <Form.Control type="text" placeholder="Twoje imie" required />
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-4"
                                         controlId="lastname"
                                     >
                                         <Form.Label>Nazwisko</Form.Label>
-                                        <Form.Control type="text" placeholder="Twoje nazwisko" />
+                                        <Form.Control type="text" placeholder="Twoje nazwisko"  required/>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-4"
@@ -88,7 +88,7 @@ export const RegisterScreen = () => {
                                         controlId="pass"
                                     >
                                         <Form.Label>Hasło</Form.Label>
-                                        <Form.Control type="password" />
+                                        <Form.Control type="password"  required />
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-4"
